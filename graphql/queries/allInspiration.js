@@ -1,5 +1,7 @@
-query allInspirations {
-  inspirations: entries(section: "inspiration") {
+import { gql } from 'nuxt-graphql-request';
+
+const query = gql`query allInspirations {
+  entries(section: "inspiration") {
     id
     title
     uid
@@ -16,4 +18,6 @@ query allInspirations {
       }
     }
   }
-}
+}`
+
+export default query

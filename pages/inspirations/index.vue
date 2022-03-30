@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import allInspiration from '~/graphql/queries/allInspiration'
+import query from '~/graphql/queries/allInspiration'
 
 export default {
   data() {
@@ -35,12 +35,13 @@ export default {
   },
 
   async fetch() {
-    const { data } = await this.$apollo.query({
-      query: allInspiration,
-      prefetch: true,
-    })
+    const { entries } = await this.$graphql.default.request(query);
 
-    this.inspirations = data.inspirations
+    if (entries) {
+      this.inspirations = entries
+    } else {
+      this.$nuxt.error({ statusCode: 404 });
+    }
   },
 
 }

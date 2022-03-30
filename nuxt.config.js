@@ -26,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/craft.js',
     '~/plugins/preview.client.js',
   ],
 
@@ -36,29 +37,26 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    'nuxt-graphql-request',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/apollo',
-    // 'nuxt-graphql-request',
+    // '@nuxt/http',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
   },
 
-  apollo: {
-    clientConfigs: {
-      default: '~/graphql/config/craft-cms.js'
-    }
+  graphql: {
+    clients: {
+      default: {
+        endpoint: process.env.BASE_API,
+        mode: 'cors',
+      },
+    },
   },
-
-  // graphql: {
-  //   clients: {
-  //     default: require('~/graphql/config/craft-cms.js'),
-  //   },
-  // },
 
   privateRuntimeConfig: {
     craftApiUrl: process.env.BASE_API,

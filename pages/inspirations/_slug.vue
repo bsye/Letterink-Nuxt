@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import singleInspirtion from '~/graphql/queries/singleInspirtion'
+import query from '~/graphql/queries/singleInspirtion'
 
 export default {
   data() {
@@ -28,15 +28,15 @@ export default {
   },
 
   async fetch() {
-    const { data } = await this.$apollo.query({
-      query: singleInspirtion,
-      prefetch: true,
-      variables: {
-        slug: this.$route.params.slug
-      }
-    })
-
-    this.inspiration = data.inspiration
+    const { entry } = await this.$graphql.default.request(query, {
+      slug: this.$route.params.slug,
+    });
+    
+    if (entry) {
+      this.inspiration = entry
+    } else {
+      this.$nuxt.error({ statusCode: 404 });
+    }
   },
 }
 </script>
