@@ -3,6 +3,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        "gray-primary": "#C4C4C4",
+      },
+
       height: {
         54: "3.375rem",
       },
