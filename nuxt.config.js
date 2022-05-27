@@ -27,7 +27,6 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '~/plugins/craft.js',
-    '~/plugins/preview.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
