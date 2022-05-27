@@ -4,14 +4,28 @@
       :to="localePath({ name: 'work', params: { work: work.slug } })"
       v-for="work of works"
       :key="work.id"
+      @mouseenter.native="showPreview"
+      @mouseleave.native="hidePreview"
     >
-      {{ work.title }}
+      <div class="work-title">
+        {{ work.title }}
+        <span class="date">{{ work.date }} </span>
+      </div>
     </NuxtLink>
 
-    <!-- <div class="images">
-      <img src="https://picsum.photos/id/1019/200/" />
-      <img src="https://picsum.photos/id/102/200/" />
-    </div> -->
+    <div class="images work-1 work-2">
+      <figure>
+        <img src="https://picsum.photos/600?random=1" />
+      </figure>
+
+      <figure>
+        <img src="https://picsum.photos/600?random=2" />
+      </figure>
+
+      <figure>
+        <img src="https://picsum.photos/600?random=3" />
+      </figure>
+    </div>
   </div>
 </template>
 
@@ -23,29 +37,45 @@ export default {
         {
           title: "TITLE",
           slug: "slug",
+          date: "2020",
         },
         {
           title: "TITLE",
           slug: "slug",
+          date: "2020",
         },
         {
           title: "TITLE",
           slug: "slug",
+          date: "2020",
         },
         {
           title: "TITLE",
           slug: "slug",
+          date: "2020",
         },
         {
           title: "TITLE",
           slug: "slug",
+          date: "2020",
         },
         {
           title: "TITLE",
           slug: "slug",
+          date: "2020",
         },
       ],
     };
+  },
+
+  methods: {
+    showPreview(e) {
+      console.log("SHOW: ", e);
+    },
+
+    hidePreview(e) {
+      console.log("HIDE: ", e);
+    },
   },
 };
 </script>
@@ -54,31 +84,47 @@ export default {
 .highlights {
   @apply w-full
     h-full
-    bg-green-800
     flex
     overflow-auto
     relative
     
     md:flex-col;
 
+  &::-webkit-scrollbar {
+    @apply hidden;
+  }
+
   a {
     @apply h-full
         flex
         justify-center
         items-center
-        text-white
+        text-black
         uppercase
         font-cabinet-grotesk
         text-54
         border-r
-        border-white
+        border-black
         
+        md:text-100
         md:border-b
         md:border-r-0;
     writing-mode: vertical-rl;
+    line-height: 5rem;
 
     @screen md {
       writing-mode: horizontal-tb;
+    }
+
+    .work-title {
+      @apply flex
+        gap-x-2;
+
+      .date {
+        @apply text-sm
+          font-cabinet-grotesk
+          font-normal;
+      }
     }
 
     &:last-child {
@@ -95,25 +141,95 @@ export default {
   }
 
   .images {
-    @apply absolute
-        inset-0
-        w-screen
-        h-full
-        pointer-events-none;
+    @apply fixed
+      pointer-events-none
+      w-full
+      left-1/2
+      transform
+      -translate-x-1/2;
+    height: calc(100vh - 6.75rem);
+    top: 3.375;
+    max-width: 72rem;
 
-    img {
+    @screen md {
+      height: calc(100vh - 3.375rem);
+    }
+
+    figure {
       @apply absolute;
 
-      &:nth-child(1) {
-        @apply top-0
-            left-0;
+      img {
+        @apply w-full
+          h-full
+          object-cover
+          absolute;
       }
+    }
 
-      &:nth-child(2) {
-        @apply bottom-0
-            right-0;
+    &.work-1 {
+      figure {
+        &:nth-child(1) {
+          padding-bottom: 64.5%;
+          width: 90%;
+
+          @screen md {
+            width: 70%;
+            padding-bottom: 45%;
+          }
+        }
+
+        &:nth-child(2) {
+          @apply bottom-0
+          right-0;
+          padding-bottom: 67%;
+          width: 50%;
+
+          @screen md {
+            right: 7.5rem;
+            width: 29%;
+            padding-bottom: 40%;
+          }
+        }
       }
     }
   }
+
+  // .images {
+  //   @apply absolute
+  //       inset-0
+  //       w-screen
+  //       h-full
+  //       pointer-events-none;
+
+  //   .preview-image {
+  //     @apply absolute;
+
+  //     &:nth-child(1) {
+  //       @apply top-0
+  //           left-0;
+  //     }
+
+  //     &:nth-child(2) {
+  //       @apply bottom-0
+  //           right-0;
+  //     }
+
+  //     .img-container {
+  //       @apply relative;
+  //       padding-bottom: 64.76%;
+  //     }
+
+  //     figure {
+  //       @apply w-full
+  //       absolute;
+
+  //       img {
+  //         @apply relative
+  //           w-full
+  //           h-full;
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>

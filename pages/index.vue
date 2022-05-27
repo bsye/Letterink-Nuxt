@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import homepageQuery from "~/graphql/queries/homepage.js";
+import query from "~/graphql/queries/homepage.js";
 
 export default {
   data() {
@@ -16,13 +16,12 @@ export default {
 
   mounted() {
     console.log("HOMEPAGE: ", this.homepage);
-    // console.log("BASE API: ", process.env.BASE_API);
   },
 
   async asyncData({ $graphql }) {
     console.log("GRAPHQL: ", $graphql);
     try {
-      const { homepage } = await $graphql.default.request(homepageQuery);
+      const { homepage } = await $graphql.default.request(query);
 
       return { homepage };
     } catch (err) {
@@ -34,6 +33,10 @@ export default {
 
 <style lang="scss" scoped>
 .homepage {
-  height: calc(100% - 6.48rem);
+  height: calc(100vh - 3.375rem);
+
+  @screen md {
+    height: calc(100vh - 6.75rem);
+  }
 }
 </style>

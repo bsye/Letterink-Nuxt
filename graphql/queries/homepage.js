@@ -5,11 +5,14 @@ const query = gql`
     entry(section: "Homepage") {
       ... on homepage_homepage_Entry {
         works {
+          title
+          slug
           ... on works_default_Entry {
-            id
-            title
-            slug
-            description
+            text
+            imagesLimited {
+              id
+              url
+            }
           }
         }
       }
