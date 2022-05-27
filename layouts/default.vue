@@ -1,5 +1,9 @@
 <template>
-  <Nuxt />
+  <div class="layout">
+    <Header />
+    <Nuxt />
+    <Footer />
+  </div>
 </template>
 
 <script>
@@ -10,13 +14,13 @@ export default {
       ticking: false,
     };
   },
-  
+
   mounted() {
     if (this.$route.hash) {
       const el = document.querySelector(this.$route.hash);
       el &&
         el.scrollIntoView({
-          behavior: 'smooth',
+          behavior: "smooth",
         });
     } else if (this.$config.livePreview) {
       const storageKey = `scrollPosition:${this.$route.path}`;
@@ -28,7 +32,7 @@ export default {
 
       // Record scroll position in session storage to retain scroll position in Live Preview
       setTimeout(() => {
-        window.addEventListener('scroll', () => {
+        window.addEventListener("scroll", () => {
           this.scrollPosition = window.scrollY;
 
           if (!this.ticking) {
@@ -43,5 +47,11 @@ export default {
       }, 1000);
     }
   },
-}
+};
 </script>
+
+<style lang="scss" scoped>
+.layout {
+  @apply h-screen;
+}
+</style>
