@@ -1,42 +1,105 @@
 <template>
-  <div class="p-8">
-    <nuxt-link to="/inspirations" class="border rounded px-2 py-1 text-gray-800 border-gray-800 text-sm mt-2 mb-10">Back</nuxt-link>
-    <div class="grid grid-cols-3 gap-8" v-if="inspiration">
+  <div class="single-moodboard">
+    <div class="single-moodboard-header">
+      <div class="single-moodboard-header-label">Inspirational moodbaord</div>
 
-      <h1 class="font-bold">{{ inspiration.title }}</h1>
+      <div class="single-moodboard-header-title" v-if="moodboard.title">
+        {{ moodboard.title }}
+      </div>
 
-      <figure v-for="image in inspiration.image" :key="image.id">
-        <img :src="image.url" />
-      </figure>
-      <hr />
+      <div class="single-moodboard-header-footer">
+        <div class="inspirations-counter" v-if="moodboard.inspirationItems">
+          {{ moodboard.inspirationItems.length }} Images
+        </div>
 
-      <div v-html="inspiration.description"></div>
+        <div class="single-moodboard-header-actions"></div>
+      </div>
     </div>
 
-
+    <div class="single-moodboard-content">
+      <SectionInspirationsMasonry
+        v-if="moodboard.inspirationItems"
+        :inspirations="moodboard.inspirationItems"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import query from '~/graphql/queries/singleInspirtion'
+import query from "~/graphql/queries/singleMoodboard";
 
 export default {
   data() {
     return {
-      inspiration: null,
+      moodboard: null,
+    };
+  },
+
+  mounted() {
+    console.log("MOODBOARD: ", this.moodboard);
+  },
+
+  async asyncData({ $graphql, params }) {
+    try {
+      const { moodboard } = await $graphql.default.request(query, {
+        slug: params.slug,
+      });
+
+      console.log("OK: ", moodboard);
+
+      return { moodboard };
+      // if (moodboard) {
+      //   return { moodboard };
+      // } else {
+      //   this.$nuxt.error({ statusCode: 404 });
+      // }
+    } catch (error) {
+      console.log("ERROR: ", error);
     }
   },
 
-  async fetch() {
-    const { entry } = await this.$graphql.default.request(query, {
-      slug: this.$route.params.slug,
-    });
-    
-    if (entry) {
-      this.inspiration = entry
-    } else {
-      this.$nuxt.error({ statusCode: 404 });
-    }
-  },
-}
+  // async fetch() {
+  //   const { moodboard } = await this.$graphql.default.request(query, {
+  //     slug: this.$route.params.slug,
+  //   });
+
+  //   if (entry) {
+  //     this.inspiration = entry;
+  //   } else {
+  //     this.$nuxt.error({ statusCode: 404 });
+  //   }
+  // },
+};
 </script>
+
+<style lang="scss" scoped>
+.single-moodboard {
+  .single-moodboard-header {
+    @apply font-cabinet-grotesk
+      uppercase
+      flex
+      flex-col
+      items-center
+      px-4
+      
+      md:px-5;
+
+    .single-moodboard-label {
+      @apply py-5
+        text-sm;
+    }
+
+    .single-moodboard-header-title {
+      @apply text-100;
+    }
+
+    .single-moodboard-header-footer {
+      @apply py-5
+        text-sm
+        w-full
+        flex
+        justify-between;
+    }
+  }
+}
+</style>

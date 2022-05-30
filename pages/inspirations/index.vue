@@ -1,6 +1,42 @@
 <template>
   <div class="inspirations">
-    <div class="inspirations-moodboards"></div>
+    <div class="inspirations-moodboards" v-if="moodboards">
+      <div class="inspirations-moodboards-label">Inspirational Moodboard</div>
+
+      <div class="inspirations-moodboards-content">
+        <NuxtLink
+          :to="
+            localePath({
+              name: 'inspirations-slug',
+              params: { slug: moodboard.slug },
+            })
+          "
+          class="moodboard"
+          v-for="moodboard of moodboards"
+          :key="moodboard.id"
+        >
+          <div class="moodboard-items" v-if="moodboard.inspirationItems">
+            <figure
+              class="moodboard-item"
+              v-for="item of moodboard.inspirationItems"
+              :key="item.id"
+            >
+              <img v-if="item.image.length" :src="item.image[0].url" />
+            </figure>
+          </div>
+
+          <div class="moodboard-info">
+            <div class="moodboard-title" v-if="moodboard.title">
+              {{ moodboard.title }}
+            </div>
+
+            <div class="moodboard-counter">
+              {{ moodboard.inspirationItems.length }} Images
+            </div>
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
 
     <div class="inspirations-container">
       <div class="inspirations-filters">
@@ -24,25 +60,41 @@
                 class="inspirations-categories"
                 v-if="openFilter === 'categories' && inspirationsCategories"
               >
-                <button
+                <NuxtLink
+                  :to="
+                    localePath({
+                      name: 'inspirations',
+                      query: {
+                        color: $route.query.color,
+                      },
+                    })
+                  "
                   class="inspirations-category"
-                  :class="selectedCategory == null && 'selected-category'"
-                  @click="selectedCategory = null"
+                  :class="$route.query.category == null && 'selected-category'"
                 >
                   ALL
-                </button>
+                </NuxtLink>
 
-                <button
+                <NuxtLink
+                  :to="
+                    localePath({
+                      name: 'inspirations',
+                      query: {
+                        category: category.slug,
+                        color: $route.query.color,
+                      },
+                    })
+                  "
                   class="inspirations-category"
                   :class="
-                    selectedCategory == category.slug && 'selected-category'
+                    $route.query.category == category.slug &&
+                    'selected-category'
                   "
                   v-for="category of inspirationsCategories"
                   :key="category.id"
-                  @click="selectedCategory = category.slug"
                 >
                   {{ category.title }}
-                </button>
+                </NuxtLink>
               </div>
             </transition>
           </div>
@@ -64,76 +116,104 @@
                 class="inspirations-categories"
                 v-if="openFilter === 'colors' && inspirationsColors"
               >
-                <button
+                <NuxtLink
+                  :to="
+                    localePath({
+                      name: 'inspirations',
+                      query: {
+                        category: $route.query.category,
+                      },
+                    })
+                  "
                   class="inspirations-category"
-                  :class="selectedColor == null && 'selected-category'"
-                  @click="selectedColor = null"
+                  :class="$route.query.color == null && 'selected-category'"
                 >
                   ALL
-                </button>
+                </NuxtLink>
 
-                <button
+                <NuxtLink
+                  :to="
+                    localePath({
+                      name: 'inspirations',
+                      query: {
+                        color: color.slug,
+                        category: $route.query.category,
+                      },
+                    })
+                  "
                   class="inspirations-category"
-                  :class="selectedColor == color.slug && 'selected-category'"
+                  :class="
+                    $route.query.color == color.slug && 'selected-category'
+                  "
                   v-for="color of inspirationsColors"
                   :key="color.id"
-                  @click="selectedColor = color.slug"
                 >
                   {{ color.title }}
-                </button>
+                </NuxtLink>
               </div>
             </transition>
           </div>
         </div>
       </div>
 
-      <div
-        class="inspirations-content"
-        v-if="inspirations && inspirations.length"
-      >
+      <SectionInspirationsMasonry
+        v-if="inspirations"
+        :inspirations="inspirations"
+      />
+
+      <!-- <transition name="inspirations-content" mode="out-in">
         <div
-          class="inspiration"
-          v-for="inspiration of inspirations"
-          :key="inspiration.id"
+          class="inspirations-content"
+          v-if="inspirations && inspirations.length"
+          key="inspirations"
         >
-          <figure>
-            <img
-              v-if="inspiration.image.length"
-              :src="inspiration.image[0].url"
-            />
+          <div
+            class="inspiration"
+            v-for="inspiration of inspirations"
+            :key="inspiration.id"
+          >
+            <figure>
+              <img
+                v-if="inspiration.image.length"
+                :src="inspiration.image[0].url"
+              />
 
-            <div class="add-inspiration-btn">
-              <img class="cross" src="~/assets/icons/cross.svg" />
+              <div class="add-inspiration-btn">
+                <img class="cross" src="~/assets/icons/cross.svg" />
+              </div>
+
+              <div class="inspiration-veil">
+                <img class="cross" src="~/assets/icons/cross.svg" />
+              </div>
+            </figure>
+
+            <div class="inspiration-info">
+              <div class="inspiration-title" v-if="inspiration.title">
+                {{ inspiration.title }}
+              </div>
+
+              <a
+                :href="inspiration.buttonLink.url"
+                :target="inspiration.buttonLink.target"
+                class="inspiration-url"
+                v-if="inspiration.buttonLink"
+              >
+                {{ inspiration.buttonLink.url }}
+              </a>
             </div>
-
-            <div class="inspiration-veil">
-              <img class="cross" src="~/assets/icons/cross.svg" />
-            </div>
-          </figure>
-
-          <div class="inspiration-info">
-            <div class="inspiration-title" v-if="inspiration.title">
-              {{ inspiration.title }}
-            </div>
-
-            <a
-              :href="inspiration.buttonLink.url"
-              :target="inspiration.buttonLink.target"
-              class="inspiration-url"
-              v-if="inspiration.buttonLink"
-            >
-              {{ inspiration.buttonLink.url }}
-            </a>
           </div>
         </div>
-      </div>
+
+        <div v-else key="no-inspirations" class="inspirations-not-found">
+          No inspirations found
+        </div>
+      </transition> -->
     </div>
   </div>
 </template>
 
 <script>
-import query from "~/graphql/queries/inspirations/all";
-import inspirationByCategoriesQuery from "~/graphql/queries/inspirations/byCategories";
+import query from "~/graphql/queries/inspirations";
 
 export default {
   data() {
@@ -142,16 +222,48 @@ export default {
       inspirationsCategories: null,
       inspirationsColors: null,
       openFilter: null,
-      selectedCategory: null,
-      selectedColor: null,
+      moodboards: null,
     };
   },
 
-  async asyncData({ $graphql }) {
+  async asyncData({ $graphql, route }) {
     try {
-      const { inspirations, inspirationsCategories, inspirationsColors } =
-        await $graphql.default.request(query);
-      return { inspirations, inspirationsCategories, inspirationsColors };
+      // If with any filter
+      if (route.query.category || route.query.color) {
+        const {
+          inspirationsByCategories,
+          inspirationsCategories,
+          inspirationsColors,
+          moodboards,
+        } = await $graphql.default.request(query, {
+          category: route.query.category,
+          color: route.query.color,
+        });
+
+        const inspirations = inspirationsByCategories;
+
+        return {
+          inspirations,
+          inspirationsCategories,
+          inspirationsColors,
+          moodboards,
+        };
+      }
+
+      // Without filters
+      const {
+        inspirations,
+        inspirationsCategories,
+        inspirationsColors,
+        moodboards,
+      } = await $graphql.default.request(query);
+
+      return {
+        inspirations,
+        inspirationsCategories,
+        inspirationsColors,
+        moodboards,
+      };
     } catch (error) {
       console.log("ERROR: ", error);
     }
@@ -167,38 +279,102 @@ export default {
     },
 
     async fetchInspirations() {
-      const { inspirations } = await this.$graphql.default.request(
-        inspirationByCategoriesQuery,
+      const { inspirationsByCategories } = await this.$graphql.default.request(
+        query,
         {
-          category: this.selectedCategory,
+          category: this.$route.query.category,
+          color: this.$route.query.color,
         }
       );
 
-      if (inspirations) {
-        this.inspirations = inspirations;
+      if (inspirationsByCategories) {
+        this.inspirations = inspirationsByCategories;
       } else {
         this.$nuxt.error({ statusCode: 404 });
       }
     },
   },
 
-  // async fetch() {
-  //   const { inspirations } = await this.$graphql.default.request(query);
-
-  //   if (inspirations) {
-  //     this.inspirations = inspirations;
-  //   } else {
-  //     this.$nuxt.error({ statusCode: 404 });
-  //   }
-  // },
+  watch: {
+    "$route.query": {
+      deep: true,
+      handler() {
+        this.fetchInspirations();
+      },
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .inspirations {
-  @apply h-screen;
+  .inspirations-moodboards {
+    @apply pb-16;
+
+    .inspirations-moodboards-label {
+      @apply uppercase
+        text-sm
+        font-cabinet-grotesk
+        w-full
+        text-center
+        py-5;
+    }
+
+    .inspirations-moodboards-content {
+      @apply flex
+        justify-center
+        gap-x-5;
+
+      .moodboard {
+        @apply flex
+          flex-col
+          gap-y-5;
+
+        .moodboard-items {
+          @apply grid
+            grid-cols-2
+            grid-rows-2
+            gap-1;
+          height: 13.5rem;
+          width: 13.5rem;
+
+          .moodboard-item {
+            @apply w-full;
+
+            img {
+              @apply w-full
+                h-full
+                object-cover;
+            }
+
+            &:nth-child(n + 5) {
+              @apply hidden;
+            }
+          }
+        }
+
+        .moodboard-info {
+          @apply flex
+            flex-col
+            justify-center
+            items-center
+            gap-y-1
+            uppercase
+            text-sm
+            font-cabinet-grotesk;
+
+          .moodboard-counter {
+            @apply text-gray-primary;
+          }
+        }
+      }
+    }
+  }
 
   .inspirations-container {
+    @apply border-t
+      border-black;
+
     .inspirations-filters {
       @apply flex
         justify-between
@@ -265,100 +441,111 @@ export default {
       }
     }
 
-    .inspirations-content {
-      @apply flex
-        flex-col
-        px-4
-      
-        md:block
-        md:px-5;
+    // .inspirations-content {
+    //   @apply flex
+    //     flex-col
+    //     px-4
 
-      @screen md {
-        column-count: auto;
-        column-gap: 1.25rem;
-        column-width: 18.75rem;
-      }
+    //     md:block
+    //     md:px-5;
 
-      @screen xl {
-        column-width: 25rem;
-      }
+    //   @screen md {
+    //     column-count: auto;
+    //     column-gap: 1.25rem;
+    //     column-width: 18.75rem;
+    //   }
 
-      .inspiration {
-        @apply mb-10
-          w-full;
+    //   @screen xl {
+    //     column-width: 25rem;
+    //   }
 
-        break-inside: avoid;
+    //   .inspiration {
+    //     @apply mb-10
+    //       w-full;
 
-        figure {
-          @apply w-full
-            relative
-            cursor-pointer;
+    //     break-inside: avoid;
 
-          &:hover {
-            .add-inspiration-btn {
-              @apply opacity-0;
-            }
+    //     figure {
+    //       @apply w-full
+    //         relative
+    //         cursor-pointer;
 
-            .inspiration-veil {
-              @apply opacity-100;
-            }
-          }
+    //       &:hover {
+    //         .add-inspiration-btn {
+    //           @apply opacity-0;
+    //         }
 
-          img {
-            @apply w-full
-              object-cover;
-          }
+    //         .inspiration-veil {
+    //           @apply opacity-100;
+    //         }
+    //       }
 
-          .add-inspiration-btn {
-            @apply rounded-full
-              bg-black
-              w-6
-              h-6
-              absolute
-              top-2
-              right-2
-              p-1
-              transition-opacity;
-          }
+    //       img {
+    //         @apply w-full
+    //           object-cover;
+    //       }
 
-          .inspiration-veil {
-            @apply absolute
-              inset-0
-              w-full
-              h-full
-              bg-black
-              bg-opacity-70
-              flex
-              justify-center
-              items-center
-              opacity-0
-              pointer-events-none
-              transition-opacity;
+    //       .add-inspiration-btn {
+    //         @apply rounded-full
+    //           bg-black
+    //           w-6
+    //           h-6
+    //           absolute
+    //           top-2
+    //           right-2
+    //           p-1
+    //           transition-opacity;
+    //       }
 
-            .cross {
-              @apply w-1/3;
-            }
-          }
-        }
+    //       .inspiration-veil {
+    //         @apply absolute
+    //           inset-0
+    //           w-full
+    //           h-full
+    //           bg-black
+    //           bg-opacity-70
+    //           flex
+    //           justify-center
+    //           items-center
+    //           opacity-0
+    //           pointer-events-none
+    //           transition-opacity;
 
-        .inspiration-info {
-          @apply flex
-            flex-col
-            justify-center
-            items-center
-            w-full
-            uppercase
-            font-cabinet-grotesk
-            text-sm
-            py-5
-            gap-y-2;
+    //         .cross {
+    //           @apply w-1/3;
+    //         }
+    //       }
+    //     }
 
-          .inspiration-url {
-            @apply text-gray-primary;
-          }
-        }
-      }
-    }
+    //     .inspiration-info {
+    //       @apply flex
+    //         flex-col
+    //         justify-center
+    //         items-center
+    //         w-full
+    //         uppercase
+    //         font-cabinet-grotesk
+    //         text-sm
+    //         py-5
+    //         gap-y-2;
+
+    //       .inspiration-url {
+    //         @apply text-gray-primary;
+    //       }
+    //     }
+    //   }
+    // }
+
+    // .inspirations-not-found {
+    //   @apply w-full
+    //     flex
+    //     justify-center
+    //     items-center
+    //     font-cabinet-grotesk
+    //     uppercase
+    //     text-2xl;
+    //   min-height: 80vh;
+    // }
   }
 }
 
@@ -371,4 +558,13 @@ export default {
   opacity: 0;
   transform: translateY(-10%);
 }
+
+// .inspirations-content-enter-active,
+// .inspirations-content-leave-active {
+//   transition: opacity 0.3s;
+// }
+// .inspirations-content-enter,
+// .inspirations-content-leave-to {
+//   opacity: 0;
+// }
 </style>
