@@ -7,17 +7,28 @@
     <div class="links"></div>
 
     <div class="header-right">
-      <NuxtLink
-        :to="localePath({ name: 'index' })"
-        class="inspirations-counter"
-      >
-        <span>ispirations</span>
-        <div class="counter">0</div>
-      </NuxtLink>
+      <div class="inspirations-counter">
+        <NuxtLink
+          class="inspiration"
+          :to="localePath({ name: 'inspirations' })"
+        >
+          ispirations
+        </NuxtLink>
+
+        <NuxtLink :to="localePath({ name: 'index' })" class="counter">
+          0
+        </NuxtLink>
+      </div>
 
       <div class="languages">
-        <NuxtLink to="#">it</NuxtLink>
-        <NuxtLink to="#">en</NuxtLink>
+        <NuxtLink
+          to="#"
+          :class="locale.code === $i18n.locale && 'current-locale'"
+          v-for="locale of $i18n.locales"
+          :key="locale.id"
+        >
+          {{ locale.code }}
+        </NuxtLink>
       </div>
 
       <button class="menu-open">Menu</button>
@@ -55,11 +66,15 @@
         items-center
         gap-x-2;
 
-      span {
+      .inspiration {
         @apply hidden
           underline
         
           md:flex;
+
+        &:hover {
+          @apply no-underline;
+        }
 
         @screen md {
           text-underline-position: under;
@@ -86,6 +101,20 @@
         md:flex;
 
       a {
+        text-underline-position: under;
+
+        &:hover {
+          @apply underline;
+        }
+
+        &.current-locale {
+          @apply underline;
+
+          &:hover {
+            @apply no-underline;
+          }
+        }
+
         &:not(:last-child)::after {
           @apply ml-1
           inline-block;
