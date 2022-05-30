@@ -1,6 +1,6 @@
 <template>
   <div class="homepage">
-    <SectionHighlights />
+    <SectionHighlights v-if="homepage" :highlights="homepage" />
   </div>
 </template>
 
@@ -10,16 +10,11 @@ import query from "~/graphql/queries/homepage.js";
 export default {
   data() {
     return {
-      homepage: {},
+      homepage: null,
     };
   },
 
-  mounted() {
-    console.log("HOMEPAGE: ", this.homepage);
-  },
-
   async asyncData({ $graphql }) {
-    console.log("GRAPHQL: ", $graphql);
     try {
       const { homepage } = await $graphql.default.request(query);
 

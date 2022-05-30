@@ -1,80 +1,59 @@
 <template>
   <div class="highlights" v-if="works">
     <NuxtLink
-      :to="localePath({ name: 'work', params: { work: work.slug } })"
+      :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
       v-for="work of works"
       :key="work.id"
-      @mouseenter.native="showPreview"
-      @mouseleave.native="hidePreview"
+      @mouseenter.native="currentWorkId = work.id"
+      @mouseleave.native="currentWorkId = null"
     >
-      <div class="work-title">
+      <div
+        class="work-title"
+        :class="currentWorkId === work.id && 'active-work'"
+      >
         {{ work.title }}
         <span class="date">{{ work.date }} </span>
       </div>
     </NuxtLink>
 
-    <div class="images work-1 work-2">
-      <figure>
-        <img src="https://picsum.photos/600?random=1" />
-      </figure>
-
-      <figure>
-        <img src="https://picsum.photos/600?random=2" />
-      </figure>
-
-      <figure>
-        <img src="https://picsum.photos/600?random=3" />
-      </figure>
-    </div>
+    <transition name="preview-images">
+      <div
+        class="images work-1 work-2"
+        v-if="currentWork && currentWork.length"
+      >
+        <figure v-for="preview of currentWork" :key="preview.id">
+          <img :src="preview.url" />
+        </figure>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    highlights: Object,
+  },
+
   data() {
     return {
-      works: [
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-      ],
+      currentWorkId: null,
     };
   },
 
-  methods: {
-    showPreview(e) {
-      console.log("SHOW: ", e);
+  computed: {
+    works() {
+      if (this.highlights.works && this.highlights.works.length)
+        return this.highlights.works;
+
+      return null;
     },
 
-    hidePreview(e) {
-      console.log("HIDE: ", e);
+    currentWork() {
+      const currentWork = this.works.filter(
+        (work) => work.id === this.currentWorkId
+      )[0];
+      return currentWork ? currentWork.previewImages : null;
     },
   },
 };
@@ -125,9 +104,14 @@ export default {
           font-cabinet-grotesk
           font-normal;
       }
+
+      &.active-work {
+        @apply relative
+          z-10;
+      }
     }
 
-    &:last-child {
+    &:last-of-type {
       @apply border-none;
     }
 
@@ -194,42 +178,13 @@ export default {
     }
   }
 
-  // .images {
-  //   @apply absolute
-  //       inset-0
-  //       w-screen
-  //       h-full
-  //       pointer-events-none;
-
-  //   .preview-image {
-  //     @apply absolute;
-
-  //     &:nth-child(1) {
-  //       @apply top-0
-  //           left-0;
-  //     }
-
-  //     &:nth-child(2) {
-  //       @apply bottom-0
-  //           right-0;
-  //     }
-
-  //     .img-container {
-  //       @apply relative;
-  //       padding-bottom: 64.76%;
-  //     }
-
-  //     figure {
-  //       @apply w-full
-  //       absolute;
-
-  //       img {
-  //         @apply relative
-  //           w-full
-  //           h-full;
-  //       }
-  //     }
-  //   }
-  // }
+  .preview-images-enter-active,
+  .preview-images-leave-active {
+    transition: opacity 0.3s;
+  }
+  .preview-images-enter,
+  .preview-images-leave-to {
+    opacity: 0;
+  }
 }
 </style>

@@ -1,15 +1,16 @@
 import { gql } from "nuxt-graphql-request";
 
 const query = gql`
-  query works {
-    entry(section: "Homepage") {
+  query homepage {
+    homepage:entry(section: "Homepage") {
       ... on homepage_homepage_Entry {
         works {
+          id
           title
           slug
           ... on works_default_Entry {
-            text
-            imagesLimited {
+            date: text
+            previewImages: imagesLimited {
               id
               url
             }
