@@ -34,6 +34,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     "@nuxtjs/tailwindcss",
     "nuxt-graphql-request",
+    "@nuxtjs/google-fonts",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -78,6 +79,13 @@ export default {
         endpoint: process.env.BASE_API,
         mode: "cors",
       },
+    },
+  },
+
+  googleFonts: {
+    families: {
+      "Roboto": [400, 700],
+      "Cormorant+Upright": true,
     },
   },
 
