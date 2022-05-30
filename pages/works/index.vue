@@ -1,6 +1,6 @@
 <template>
   <div class="works">
-    <div class="works-categories" v-if="filters">
+    <div class="works-categories" v-if="categories">
       <NuxtLink class="works-category" :to="localePath({ name: 'works' })">
         All
       </NuxtLink>
@@ -8,7 +8,7 @@
       <NuxtLink
         class="works-category"
         :to="localePath({ name: 'works', query: { category: filter.slug } })"
-        v-for="filter of filters"
+        v-for="filter of categories"
         :key="filter.id"
       >
         {{ filter.title }}
@@ -51,209 +51,56 @@ import query from "~/graphql/queries/works.js";
 export default {
   data() {
     return {
-      works: {
-        data: {
-          entries: [
-            {
-              title: "Cordenons",
-              slug: "cordenons",
-              image: [
-                {
-                  id: "586",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-46.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "162",
-                  title: "Wedding",
-                },
-                {
-                  id: "163",
-                  title: "Letterpress",
-                },
-              ],
-            },
-            {
-              title: "Alèm do horizonte",
-              slug: "alèm-do-horizonte",
-              image: [
-                {
-                  id: "589",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-47.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "606",
-                  title: "Graphic design",
-                },
-              ],
-            },
-            {
-              title: "Rsvp",
-              slug: "rsvp",
-              image: [
-                {
-                  id: "592",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-48.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "162",
-                  title: "Wedding",
-                },
-              ],
-            },
-            {
-              title: "Cordenons 2",
-              slug: "cordenons-2",
-              image: [
-                {
-                  id: "594",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-49.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "162",
-                  title: "Wedding",
-                },
-                {
-                  id: "163",
-                  title: "Letterpress",
-                },
-              ],
-            },
-            {
-              title: "Alèm do horizonte 2",
-              slug: "alèm-do-horizonte-2",
-              image: [
-                {
-                  id: "596",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-50.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "606",
-                  title: "Graphic design",
-                },
-              ],
-            },
-            {
-              title: "Rsvp 2",
-              slug: "rsvp-2",
-              image: [
-                {
-                  id: "598",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-51.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "162",
-                  title: "Wedding",
-                },
-              ],
-            },
-            {
-              title: "Cordenons 3",
-              slug: "cordenons-3",
-              image: [
-                {
-                  id: "600",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-52.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "162",
-                  title: "Wedding",
-                },
-                {
-                  id: "163",
-                  title: "Letterpress",
-                },
-              ],
-            },
-            {
-              title: "Cordenons 4",
-              slug: "cordenons-4",
-              image: [
-                {
-                  id: "602",
-                  url: "http://letterink:8888/uploads/images/inspiration/Rectangle-53.png",
-                },
-              ],
-              workCategories: [
-                {
-                  id: "162",
-                  title: "Wedding",
-                },
-                {
-                  id: "163",
-                  title: "Letterpress",
-                },
-              ],
-            },
-          ],
-        },
-      },
-      categories: {
-        data: {
-          categories: [
-            {
-              id: "162",
-              title: "Wedding",
-              slug: "wedding",
-            },
-            {
-              id: "163",
-              title: "Letterpress",
-              slug: "letterpress",
-            },
-            {
-              id: "606",
-              title: "Graphic design",
-              slug: "graphic-design",
-            },
-          ],
-        },
-      },
+      works: null,
+      categories: null,
+      selectedCategory: null,
     };
   },
 
   async asyncData({ $graphql }) {
     try {
-      const { works } = await $graphql.default.request(query);
+      const { works, categories } = await $graphql.default.request(query);
 
-      console.log("WORKS: ", works);
-
-      return { works };
+      return { works, categories };
     } catch (err) {
       console.log("ERROR: ", err);
     }
   },
 
-  computed: {
-    filters() {
-      if (this.categories.data && this.categories.data.categories)
-        return this.categories.data.categories;
-      return null;
-    },
+  methods: {
+    async fetchWorks() {
+      try {
+        const { worksByCategory } = await this.$graphql.default.request(query, {
+          category: this.$route.query.category,
+        });
 
+        this.works = worksByCategory;
+      } catch (err) {
+        console.log("ERROR: ", err);
+      }
+    },
+  },
+
+  computed: {
     worksBlock() {
       const blockSize = 8;
       let blocks = [];
 
-      for (let i = 0; i < this.works.data.entries.length; i += blockSize) {
-        const block = this.works.data.entries.slice(i, i + blockSize);
+      for (let i = 0; i < this.works.length; i += blockSize) {
+        const block = this.works.slice(i, i + blockSize);
 
         blocks.push(block);
       }
       return blocks;
+    },
+  },
+
+  watch: {
+    "$route.query": {
+      deep: true,
+      handler(query) {
+        this.fetchWorks();
+      },
     },
   },
 };
