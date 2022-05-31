@@ -21,14 +21,15 @@
       </div>
 
       <div class="languages">
-        <NuxtLink
-          to="#"
+        <a
+          :href="switchLocalePath(locale.code)"
           :class="locale.code === $i18n.locale && 'current-locale'"
           v-for="locale of $i18n.locales"
-          :key="locale.id"
+          :key="locale.code"
+          @click.prevent.stop="$i18n.setLocale(locale.code)"
         >
           {{ locale.code }}
-        </NuxtLink>
+        </a>
       </div>
 
       <button class="menu-open">Menu</button>
