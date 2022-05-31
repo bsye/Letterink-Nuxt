@@ -1,43 +1,43 @@
 <template>
-  <div class="single-work" v-if="singleWork">
+  <div class="single-work" v-if="work">
     <div class="single-work-hero">
       <div class="single-work-cover">
         <figure>
           <img :src="workCoverImage || 'https://picsum.photos/id/1022/500/'" />
         </figure>
-        <div class="single-work-title">{{ singleWork.title }}</div>
+        <div class="single-work-title">{{ work.title }}</div>
       </div>
 
       <div class="single-work-hero-content">
         <div class="single-work-about">
           <div class="single-work-about-label">About</div>
-          <div
-            v-if="singleWork.description"
-            v-html="singleWork.description"
-          ></div>
+          <div v-if="work.description" v-html="work.description"></div>
         </div>
 
         <div class="single-work-info">
-          <div
-            class="single-work-more-info"
-            v-if="workCategories || singleWork.text"
-          >
+          <div class="single-work-more-info" v-if="workCategories || work.text">
             <div class="single-work-categories" v-if="workCategories">
               <div class="single-work-categories-label">Categories:</div>
               <div class="single-work-categories-container">
-                <div
+                <NuxtLink
+                  :to="
+                    localePath({
+                      name: 'inspirations',
+                      query: { category: category.slug },
+                    })
+                  "
                   class="single-work-category"
                   v-for="category of workCategories"
                   :key="category.id"
                 >
                   {{ category.title }}
-                </div>
+                </NuxtLink>
               </div>
             </div>
 
-            <div class="single-work-date" v-if="singleWork.text">
+            <div class="single-work-date" v-if="work.text">
               <div class="single-work-date-label">Year:</div>
-              <div class="single-work-year">{{ singleWork.text }}</div>
+              <div class="single-work-year">{{ work.text }}</div>
             </div>
           </div>
 
@@ -74,304 +74,50 @@
 </template>
 
 <script>
+import query from "~/graphql/queries/singleWork";
+
 export default {
   data() {
     return {
-      work: {
-        data: {
-          entry: {
-            title: "PHIL & NICOLE",
-            slug: "phil-nicole",
-            description:
-              "<p>RUSSELL WESTBROOK AND JORDAN FUNDED AND PRODUCED A FILM TO SHOW HOW YOUNG BALLERS IN CRENSHAW DECIDED TO LEAVE THE HOOD THROUGH TECH SCHOLARSHIPS. WE HELPED CREATED THE DESIGN AESTHETIC FOR THIS EXCITING PROJECT AND EVEN DEVELOPED A CLOTHING LINE.</p>",
-            text: "2022",
-            image: [],
-            imagesLimited: [],
-            workCategories: [
-              {
-                id: "162",
-                title: "Wedding",
-              },
-              {
-                id: "163",
-                title: "Letterpress",
-              },
-            ],
-            table: [
-              {
-                id: "52",
-                label: "Photo",
-                collaboratorName: "LOREM IPSUM DOLOR DESING BY: LETTERINK",
-                urlCollaborator: null,
-              },
-              {
-                id: "53",
-                label: "Design by",
-                collaboratorName: "Letterink",
-                urlCollaborator: null,
-              },
-            ],
-            projectBlocks: [
-              {
-                __typename: "projectBlocks_text_BlockType",
-                textContent: null,
-                maxWidth: "medium",
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "84",
-                    image: [
-                      {
-                        id: "99",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-54.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                  {
-                    id: "133",
-                    image: [
-                      {
-                        id: "103",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-55.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "top",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "136",
-                    image: [
-                      {
-                        id: "113",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-56.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                  {
-                    id: "137",
-                    image: [
-                      {
-                        id: "118",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-57.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "140",
-                    image: [
-                      {
-                        id: "125",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-58.png",
-                      },
-                    ],
-                    width: "small",
-                    horizontalAlignment: "left",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "293",
-                    image: [
-                      {
-                        id: "272",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-59.png",
-                      },
-                    ],
-                    width: "small",
-                    horizontalAlignment: "right",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "540",
-                    image: [
-                      {
-                        id: "312",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-60.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "543",
-                    image: [
-                      {
-                        id: "314",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-62.png",
-                      },
-                    ],
-                    width: "small",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                  {
-                    id: "544",
-                    image: [
-                      {
-                        id: "313",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-61.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "547",
-                    image: [
-                      {
-                        id: "315",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-63.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-              {
-                __typename: "projectBlocks_spacer_BlockType",
-                spacer: "medium",
-              },
-              {
-                __typename: "projectBlocks_imageColumns_BlockType",
-                images: [
-                  {
-                    id: "550",
-                    image: [
-                      {
-                        id: "316",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-64.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                  {
-                    id: "551",
-                    image: [
-                      {
-                        id: "317",
-                        url: "http://letterink:8888/uploads/images/inspiration/Rectangle-65.png",
-                      },
-                    ],
-                    width: "full",
-                    horizontalAlignment: "center",
-                    verticalAlignment: "center",
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      },
+      work: null,
     };
   },
 
-  computed: {
-    singleWork() {
-      if (this.work && this.work.data) return this.work.data.entry;
-      return null;
-    },
+  async asyncData({ $graphql, params }) {
+    try {
+      const { work } = await $graphql.default.request(query, {
+        slug: params.slug,
+      });
 
+      return { work };
+    } catch (error) {
+      console.log("ERROR: ", error);
+    }
+  },
+
+  computed: {
     workCoverImage() {
-      if (this.singleWork && this.singleWork.image.length) {
-        return this.singleWork.image[0].url;
+      if (this.work && this.work.image.length) {
+        return this.work.image[0].url;
       }
       return null;
     },
 
     workCategories() {
       if (
-        this.singleWork &&
-        this.singleWork.workCategories &&
-        this.singleWork.workCategories.length
+        this.work &&
+        this.work.workCategories &&
+        this.work.workCategories.length
       ) {
-        return this.singleWork.workCategories;
+        return this.work.workCategories;
       }
 
       return null;
     },
 
     workCollaborators() {
-      if (
-        this.singleWork &&
-        this.singleWork.table &&
-        this.singleWork.table.length
-      ) {
-        return this.singleWork.table;
+      if (this.work && this.work.table && this.work.table.length) {
+        return this.work.table;
       }
 
       return null;
@@ -379,11 +125,11 @@ export default {
 
     workContents() {
       if (
-        this.singleWork &&
-        this.singleWork.projectBlocks &&
-        this.singleWork.projectBlocks.length
+        this.work &&
+        this.work.projectBlocks &&
+        this.work.projectBlocks.length
       ) {
-        return this.singleWork.projectBlocks;
+        return this.work.projectBlocks;
       }
 
       return null;
