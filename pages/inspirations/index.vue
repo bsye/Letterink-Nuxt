@@ -279,19 +279,25 @@ export default {
     },
 
     async fetchInspirations() {
+      const category = this.$route.query.category;
+      const color = this.$route.query.color;
+
+      if (!category && !color) {
+        const { inspirations } = await this.$graphql.default.request(query);
+
+        this.inspirations = inspirations;
+        return;
+      }
+
       const { inspirationsByCategories } = await this.$graphql.default.request(
         query,
         {
-          category: this.$route.query.category,
-          color: this.$route.query.color,
+          category: category,
+          color: color,
         }
       );
 
-      if (inspirationsByCategories) {
-        this.inspirations = inspirationsByCategories;
-      } else {
-        this.$nuxt.error({ statusCode: 404 });
-      }
+      this.inspirations = inspirationsByCategories;
     },
   },
 
