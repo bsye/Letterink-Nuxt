@@ -3,62 +3,14 @@ import { gql } from "nuxt-graphql-request";
 const query = gql`
   query inspirations($category: [String], $color: [String]) {
     inspirations: entries(section: "inspirationItems") {
-      ... on inspirationItems_default_Entry {
-        id
-        title
-        slug
-        image {
-          url
-        }
-        buttonLink {
-          url
-          target
-        }
-        inspirationTags {
-          title
-          slug
-        }
-        inspirationColor {
-          id
-          title
-          ... on colors_Category {
-            title
-            slug
-            color
-          }
-        }
-      }
+      ...inspirations
     }
 
     inspirationsByCategories: entries(
       section: "inspirationItems"
       relatedToCategories: [{ slug: $category }, { slug: $color }]
     ) {
-      ... on inspirationItems_default_Entry {
-        id
-        title
-        slug
-        image {
-          url
-        }
-        buttonLink {
-          url
-          target
-        }
-        inspirationTags {
-          title
-          slug
-        }
-        inspirationColor {
-          id
-          title
-          ... on colors_Category {
-            title
-            slug
-            color
-          }
-        }
-      }
+      ...inspirations
     }
 
     inspirationsCategories: categories(group: "inspirationTags") {
@@ -95,6 +47,26 @@ const query = gql`
       ... on editorialMoodboard_default_Entry {
         id
       }
+    }
+  }
+
+  fragment inspirations on inspirationItems_default_Entry {
+    id
+    title
+    slug
+    image {
+      url
+    }
+    buttonLink {
+      url
+      target
+    }
+    inspirationTags {
+      title
+      slug
+    }
+    inspirationColor {
+      slug
     }
   }
 `;
