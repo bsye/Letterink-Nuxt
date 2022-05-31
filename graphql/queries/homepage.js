@@ -2,7 +2,7 @@ import { gql } from "nuxt-graphql-request";
 
 const query = gql`
   query homepage {
-    homepage:entry(section: "Homepage") {
+    homepage: entry(section: "Homepage") {
       ... on homepage_homepage_Entry {
         works {
           id
@@ -13,6 +13,16 @@ const query = gql`
             previewImages: imagesLimited {
               id
               url
+            }
+            color: inspirationColor {
+              ... on colors_Category {
+                workColor {
+                  ... on workColor_backgrounColor_BlockType {
+                    backgroundColor
+                    textColor
+                  }
+                }
+              }
             }
           }
         }

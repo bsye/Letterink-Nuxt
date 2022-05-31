@@ -1,15 +1,21 @@
 <template>
-  <div class="highlights" v-if="works">
+  <div class="highlights" v-if="works" :style="currentWorkBackgroundColor">
     <NuxtLink
       :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
       v-for="work of works"
       :key="work.id"
       @mouseenter.native="currentWorkId = work.id"
       @mouseleave.native="currentWorkId = null"
+      :style="currentWorkTextColor"
     >
       <div
         class="work-title"
         :class="currentWorkId === work.id && 'active-work'"
+        :style="
+          currentWorkTextColor && currentWorkId !== work.id
+            ? 'opacity: .4;'
+            : ''
+        "
       >
         {{ work.title }}
         <span class="date">{{ work.date }} </span>
@@ -19,9 +25,9 @@
     <transition name="preview-images">
       <div
         class="images work-1 work-2"
-        v-if="currentWork && currentWork.length"
+        v-if="currentWorkPreviews && currentWorkPreviews.length"
       >
-        <figure v-for="preview of currentWork" :key="preview.id">
+        <figure v-for="preview of currentWorkPreviews" :key="preview.id">
           <img :src="preview.url" />
         </figure>
       </div>
@@ -53,7 +59,41 @@ export default {
       const currentWork = this.works.filter(
         (work) => work.id === this.currentWorkId
       )[0];
-      return currentWork ? currentWork.previewImages : null;
+      return currentWork;
+    },
+
+    currentWorkPreviews() {
+      return this.currentWork ? this.currentWork.previewImages : null;
+    },
+
+    currentWorkColor() {
+      if (
+        this.currentWork &&
+        this.currentWork.color &&
+        this.currentWork.color.length &&
+        this.currentWork.color[0].workColor &&
+        this.currentWork.color[0].workColor.length
+      ) {
+        return this.currentWork.color[0].workColor[0];
+      }
+
+      return null;
+    },
+
+    currentWorkBackgroundColor() {
+      if (this.currentWorkColor) {
+        const color = this.currentWorkColor.backgroundColor;
+        return `background-color: ${color}; `;
+      }
+      return "";
+    },
+
+    currentWorkTextColor() {
+      if (this.currentWorkColor) {
+        const color = this.currentWorkColor.textColor;
+        return `color: ${color}; border-color: ${color};`;
+      }
+      return "";
     },
   },
 };
@@ -66,11 +106,18 @@ export default {
     flex
     overflow-auto
     relative
+    transition-colors
     
     md:flex-col;
 
   &::-webkit-scrollbar {
     @apply hidden;
+  }
+
+  &:hover {
+    a {
+      @apply text-opacity-40;
+    }
   }
 
   a {
@@ -107,7 +154,8 @@ export default {
 
       &.active-work {
         @apply relative
-          z-10;
+          z-10
+          text-opacity-100;
       }
     }
 
