@@ -2,13 +2,17 @@
   <div class="contact" v-if="contact">
     <p class="contact-label">Contact us</p>
 
-    <a href="mailto:info@letterink.it" class="contact-email" v-if="contact.email">
+    <a
+      href="mailto:info@letterink.it"
+      class="contact-email"
+      v-if="contact.email"
+    >
       {{ contact.email }}
     </a>
 
     <p>Follow us on</p>
 
-    <a href="#instagram" class="contact-instagram">
+    <a :href="instagramUrl" class="contact-instagram">
       Instagram
       <span>{{ contact.instagramUsername }}</span>
     </a>
@@ -22,17 +26,26 @@ export default {
   data() {
     return {
       contact: null,
+      socials: null,
     };
   },
 
   async asyncData({ $graphql }) {
     try {
-      const { contact } = await $graphql.default.request(query);
+      const { contact, socials } = await $graphql.default.request(query);
 
-      return { contact };
+      return { contact, socials };
     } catch (err) {
       console.log("ERROR: ", err);
     }
+  },
+
+  computed: {
+    instagramUrl() {
+      if (this.socials && this.socials.instagramUrl)
+        return this.socials.instagramUrl.url;
+      return null;
+    },
   },
 };
 </script>
