@@ -96,6 +96,16 @@ export default {
       return "";
     },
   },
+
+  watch: {
+    currentWorkTextColor(color) {
+      this.$store.commit("updateTextColor", color);
+    },
+
+    currentWorkBackgroundColor(color) {
+      this.$store.commit("updateBackgroundColor", color);
+    },
+  },
 };
 </script>
 

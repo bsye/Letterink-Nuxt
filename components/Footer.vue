@@ -1,6 +1,6 @@
 <template>
-  <footer>
-    <div class="footer-left">
+  <footer :style="backgroundColor ? backgroundColor : ''">
+    <div class="footer-left" :style="textColor ? textColor : ''">
       <div class="footer-copyright" v-if="copyright">
         {{ copyright }}
       </div>
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="footer-right">
+    <div class="footer-right" :style="textColor ? textColor : ''">
       <div class="footer-links">
         <a href="#credits" class="footer-credits">Credits</a>
         <a :href="instagramUrl" class="footer-instagram">/ Instagram</a>
@@ -34,6 +34,7 @@
 
 <script>
 import query from "~/graphql/queries/contact";
+import { mapState } from "vuex";
 
 export default {
   data() {
@@ -53,6 +54,8 @@ export default {
   },
 
   computed: {
+    ...mapState(["textColor", "backgroundColor"]),
+
     instagramUrl() {
       if (this.socials && this.socials.instagramUrl)
         return this.socials.instagramUrl.url;
@@ -64,6 +67,16 @@ export default {
       return null;
     },
   },
+
+  watch: {
+    $route: {
+      deep: true,
+      handler() {
+        this.$store.commit("updateTextColor", null);
+        this.$store.commit("updateBackgroundColor", null);
+      },
+    },
+  },
 };
 </script>
 
@@ -71,7 +84,6 @@ export default {
 footer {
   @apply h-54
     w-full
-    bg-white
     px-4
     flex
     justify-between
@@ -80,11 +92,14 @@ footer {
     text-sm
     font-cabinet-grotesk
     font-bold
+    transition-colors
     
     md:font-normal
     md:px-5;
 
   .footer-left {
+    @apply transition-colors;
+
     .footer-copyright {
       @apply hidden
 
@@ -100,7 +115,8 @@ footer {
   }
 
   .footer-right {
-    @apply flex;
+    @apply flex
+      transition-colors;
 
     .footer-links {
       @apply hidden
