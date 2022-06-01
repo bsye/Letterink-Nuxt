@@ -99,6 +99,10 @@ export default {
         w-full
         flex
         justify-between;
+
+      .inspirations-counter {
+        @apply text-gray-primary;
+      }
     }
   }
 }

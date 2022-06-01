@@ -166,7 +166,9 @@ export default {
         text-white
         text-42
         uppercase
-        font-cabinet-grotesk;
+        font-cabinet-grotesk
+        
+        md:text-100;
       }
     }
 

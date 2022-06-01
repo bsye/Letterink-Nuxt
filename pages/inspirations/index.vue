@@ -159,56 +159,13 @@
       <SectionInspirationsMasonry
         v-if="inspirations"
         :inspirations="inspirations"
+        @openOverlay="openOverlay = true"
       />
-
-      <!-- <transition name="inspirations-content" mode="out-in">
-        <div
-          class="inspirations-content"
-          v-if="inspirations && inspirations.length"
-          key="inspirations"
-        >
-          <div
-            class="inspiration"
-            v-for="inspiration of inspirations"
-            :key="inspiration.id"
-          >
-            <figure>
-              <img
-                v-if="inspiration.image.length"
-                :src="inspiration.image[0].url"
-              />
-
-              <div class="add-inspiration-btn">
-                <img class="cross" src="~/assets/icons/cross.svg" />
-              </div>
-
-              <div class="inspiration-veil">
-                <img class="cross" src="~/assets/icons/cross.svg" />
-              </div>
-            </figure>
-
-            <div class="inspiration-info">
-              <div class="inspiration-title" v-if="inspiration.title">
-                {{ inspiration.title }}
-              </div>
-
-              <a
-                :href="inspiration.buttonLink.url"
-                :target="inspiration.buttonLink.target"
-                class="inspiration-url"
-                v-if="inspiration.buttonLink"
-              >
-                {{ inspiration.buttonLink.url }}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div v-else key="no-inspirations" class="inspirations-not-found">
-          No inspirations found
-        </div>
-      </transition> -->
     </div>
+
+    <Overlay :openOverlay="openOverlay" @closeOverlay="openOverlay = false">
+      <ContentFormMoodboard v-if="moodboards" :moodboards="moodboards" />
+    </Overlay>
   </div>
 </template>
 
@@ -223,6 +180,7 @@ export default {
       inspirationsColors: null,
       openFilter: null,
       moodboards: null,
+      openOverlay: false,
     };
   },
 
