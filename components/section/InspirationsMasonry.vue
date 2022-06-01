@@ -10,20 +10,22 @@
         v-for="inspiration of inspirations"
         :key="inspiration.id"
       >
-        <figure>
-          <img
-            v-if="inspiration.image.length"
-            :src="inspiration.image[0].url"
-          />
+        <button @click="$emit('openOverlay')">
+          <figure>
+            <img
+              v-if="inspiration.image.length"
+              :src="inspiration.image[0].url"
+            />
 
-          <div class="add-inspiration-btn">
-            <img class="cross" src="~/assets/icons/cross.svg" />
-          </div>
+            <div class="add-inspiration-btn">
+              <img class="cross" src="~/assets/icons/cross.svg" />
+            </div>
 
-          <div class="inspiration-veil">
-            <img class="cross" src="~/assets/icons/cross.svg" />
-          </div>
-        </figure>
+            <div class="inspiration-veil">
+              <img class="cross" src="~/assets/icons/cross.svg" />
+            </div>
+          </figure>
+        </button>
 
         <div class="inspiration-info">
           <div class="inspiration-title" v-if="inspiration.title">
