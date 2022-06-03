@@ -1,14 +1,7 @@
 <template>
   <div class="form-moodboard">
-    <div class="form-moodboard-header">
-      <div class="form-moodboard-header-text">Aggiungi a moodboard</div>
-      <button>
-        <img src="~/assets/icons/cross.svg" />
-      </button>
-    </div>
-
     <div class="form-moodboard-content">
-      <form @submit.prevent>
+      <form @submit.prevent="addInspiration">
         <div class="fields">
           <div
             class="field"
@@ -19,7 +12,7 @@
               <input
                 type="radio"
                 :name="moodboard.slug"
-                :value="moodboard.slug"
+                :value="moodboard"
                 v-model="selectedMoodboard"
               />
               <span class="checkmark"></span>
@@ -29,7 +22,7 @@
         </div>
 
         <div class="form-footer">
-          <button>Crea nuova board</button>
+          <button @click.prevent="$emit('newMoodboard')">Crea nuova board</button>
           <button type="submit">Salva</button>
         </div>
       </form>
@@ -41,6 +34,7 @@
 export default {
   props: {
     moodboards: Array,
+    inspiration: Object,
   },
 
   data() {
@@ -48,39 +42,30 @@ export default {
       selectedMoodboard: null,
     };
   },
+
+  methods: {
+    addInspiration() {
+      console.log("TEST: ", this.inspiration);
+      console.log("MOODBOARD: ", this.selectedMoodboard);
+      if (this.selectedMoodboard && this.inspiration) {
+        console.log("OK");
+        this.$store.commit("moodboards/addInspirationToMoodboard", {
+          inspiration: this.inspiration,
+          moodboard: this.selectedMoodboard,
+        });
+      }
+    },
+
+    closeOverlay() {
+      console.log("OK");
+      this.$emit("closeOverlay");
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .form-moodboard {
-  @apply bg-black
-    text-white
-    uppercase
-    font-cabinet-grotesk
-    text-sm
-    w-full
-    mx-auto;
-  max-width: 31rem;
-
-  .form-moodboard-header {
-    @apply flex
-        justify-center
-        py-5
-        relative
-        border-b
-        border-white;
-
-    button {
-      @apply absolute
-        right-5;
-
-      img {
-        @apply transform
-        rotate-45;
-      }
-    }
-  }
-
   .form-moodboard-content {
     form {
       .fields {

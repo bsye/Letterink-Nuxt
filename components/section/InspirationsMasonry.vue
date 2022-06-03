@@ -10,7 +10,7 @@
         v-for="inspiration of inspirations"
         :key="inspiration.id"
       >
-        <button @click="$emit('openOverlay')">
+        <button @click="$emit('openOverlay', inspiration)">
           <figure>
             <img
               v-if="inspiration.image.length"

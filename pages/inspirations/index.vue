@@ -1,42 +1,6 @@
 <template>
   <div class="inspirations">
-    <div class="inspirations-moodboards" v-if="moodboards">
-      <div class="inspirations-moodboards-label">Inspirational Moodboard</div>
-
-      <div class="inspirations-moodboards-content">
-        <NuxtLink
-          :to="
-            localePath({
-              name: 'inspirations-slug',
-              params: { slug: moodboard.slug },
-            })
-          "
-          class="moodboard"
-          v-for="moodboard of moodboards"
-          :key="moodboard.id"
-        >
-          <div class="moodboard-items" v-if="moodboard.inspirationItems">
-            <figure
-              class="moodboard-item"
-              v-for="item of moodboard.inspirationItems"
-              :key="item.id"
-            >
-              <img v-if="item.image.length" :src="item.image[0].url" />
-            </figure>
-          </div>
-
-          <div class="moodboard-info">
-            <div class="moodboard-title" v-if="moodboard.title">
-              {{ moodboard.title }}
-            </div>
-
-            <div class="moodboard-counter">
-              {{ moodboard.inspirationItems.length }} Images
-            </div>
-          </div>
-        </NuxtLink>
-      </div>
-    </div>
+    <SectionMoodboards v-if="moodboards" :moodboards="moodboards" />
 
     <div class="inspirations-container">
       <div class="inspirations-filters">
@@ -159,12 +123,22 @@
       <SectionInspirationsMasonry
         v-if="inspirations"
         :inspirations="inspirations"
-        @openOverlay="openOverlay = true"
+        @openOverlay="toggleOverlay"
       />
     </div>
 
-    <Overlay :openOverlay="openOverlay" @closeOverlay="openOverlay = false">
-      <ContentFormMoodboard v-if="moodboards" :moodboards="moodboards" />
+    <Overlay
+      :openOverlay="openOverlay"
+      @closeOverlay="openOverlay = false"
+      :moodboards="moodboards"
+      :inspiration="inspiration"
+      overlayType="addInspiration"
+    >
+      <!-- <ContentFormMoodboard
+        v-if="moodboards"
+        :moodboards="moodboards"
+        :inspiration="inspiration"
+      /> -->
     </Overlay>
   </div>
 </template>
@@ -181,10 +155,11 @@ export default {
       openFilter: null,
       moodboards: null,
       openOverlay: false,
+      inspiration: {},
     };
   },
 
-  async asyncData({ $graphql, route }) {
+  async asyncData({ $graphql, route, store }) {
     try {
       // If with any filter
       if (route.query.category || route.query.color) {
@@ -197,6 +172,8 @@ export default {
           category: route.query.category,
           color: route.query.color,
         });
+
+        store.commit("moodboards/");
 
         const inspirations = inspirationsByCategories;
 
@@ -236,6 +213,11 @@ export default {
       }
     },
 
+    toggleOverlay(inspiration) {
+      this.inspiration = inspiration;
+      this.openOverlay = true;
+    },
+
     async fetchInspirations() {
       const category = this.$route.query.category;
       const color = this.$route.query.color;
@@ -272,69 +254,6 @@ export default {
 
 <style lang="scss" scoped>
 .inspirations {
-  .inspirations-moodboards {
-    @apply pb-16;
-
-    .inspirations-moodboards-label {
-      @apply uppercase
-        text-sm
-        font-cabinet-grotesk
-        w-full
-        text-center
-        py-5;
-    }
-
-    .inspirations-moodboards-content {
-      @apply flex
-        justify-center
-        gap-x-5;
-
-      .moodboard {
-        @apply flex
-          flex-col
-          gap-y-5;
-
-        .moodboard-items {
-          @apply grid
-            grid-cols-2
-            grid-rows-2
-            gap-1;
-          height: 13.5rem;
-          width: 13.5rem;
-
-          .moodboard-item {
-            @apply w-full;
-
-            img {
-              @apply w-full
-                h-full
-                object-cover;
-            }
-
-            &:nth-child(n + 5) {
-              @apply hidden;
-            }
-          }
-        }
-
-        .moodboard-info {
-          @apply flex
-            flex-col
-            justify-center
-            items-center
-            gap-y-1
-            uppercase
-            text-sm
-            font-cabinet-grotesk;
-
-          .moodboard-counter {
-            @apply text-gray-primary;
-          }
-        }
-      }
-    }
-  }
-
   .inspirations-container {
     @apply border-t
       border-black;
@@ -404,112 +323,6 @@ export default {
         }
       }
     }
-
-    // .inspirations-content {
-    //   @apply flex
-    //     flex-col
-    //     px-4
-
-    //     md:block
-    //     md:px-5;
-
-    //   @screen md {
-    //     column-count: auto;
-    //     column-gap: 1.25rem;
-    //     column-width: 18.75rem;
-    //   }
-
-    //   @screen xl {
-    //     column-width: 25rem;
-    //   }
-
-    //   .inspiration {
-    //     @apply mb-10
-    //       w-full;
-
-    //     break-inside: avoid;
-
-    //     figure {
-    //       @apply w-full
-    //         relative
-    //         cursor-pointer;
-
-    //       &:hover {
-    //         .add-inspiration-btn {
-    //           @apply opacity-0;
-    //         }
-
-    //         .inspiration-veil {
-    //           @apply opacity-100;
-    //         }
-    //       }
-
-    //       img {
-    //         @apply w-full
-    //           object-cover;
-    //       }
-
-    //       .add-inspiration-btn {
-    //         @apply rounded-full
-    //           bg-black
-    //           w-6
-    //           h-6
-    //           absolute
-    //           top-2
-    //           right-2
-    //           p-1
-    //           transition-opacity;
-    //       }
-
-    //       .inspiration-veil {
-    //         @apply absolute
-    //           inset-0
-    //           w-full
-    //           h-full
-    //           bg-black
-    //           bg-opacity-70
-    //           flex
-    //           justify-center
-    //           items-center
-    //           opacity-0
-    //           pointer-events-none
-    //           transition-opacity;
-
-    //         .cross {
-    //           @apply w-1/3;
-    //         }
-    //       }
-    //     }
-
-    //     .inspiration-info {
-    //       @apply flex
-    //         flex-col
-    //         justify-center
-    //         items-center
-    //         w-full
-    //         uppercase
-    //         font-cabinet-grotesk
-    //         text-sm
-    //         py-5
-    //         gap-y-2;
-
-    //       .inspiration-url {
-    //         @apply text-gray-primary;
-    //       }
-    //     }
-    //   }
-    // }
-
-    // .inspirations-not-found {
-    //   @apply w-full
-    //     flex
-    //     justify-center
-    //     items-center
-    //     font-cabinet-grotesk
-    //     uppercase
-    //     text-2xl;
-    //   min-height: 80vh;
-    // }
   }
 }
 
@@ -522,13 +335,4 @@ export default {
   opacity: 0;
   transform: translateY(-10%);
 }
-
-// .inspirations-content-enter-active,
-// .inspirations-content-leave-active {
-//   transition: opacity 0.3s;
-// }
-// .inspirations-content-enter,
-// .inspirations-content-leave-to {
-//   opacity: 0;
-// }
 </style>
