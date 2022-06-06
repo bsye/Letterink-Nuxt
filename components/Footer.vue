@@ -1,5 +1,8 @@
 <template>
-  <footer :style="backgroundColor ? backgroundColor : ''">
+  <footer
+    :class="inHome && 'footer-highlights'"
+    :style="isDesktop && backgroundColor ? backgroundColor : ''"
+  >
     <div class="footer-left" :style="textColor ? textColor : ''">
       <div class="footer-copyright" v-if="copyright">
         {{ copyright }}
@@ -47,6 +50,7 @@ export default {
   data() {
     return {
       socials: null,
+      isDesktop: false,
     };
   },
 
@@ -58,6 +62,26 @@ export default {
     } catch (err) {
       console.log("ERROR: ", err);
     }
+  },
+
+  mounted() {
+    this.checkIfDesktop();
+    
+    window.addEventListener("resize", () => {
+      this.checkIfDesktop();
+    });
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", () => {
+      this.isDesktop = false;
+    });
+  },
+
+  methods: {
+    checkIfDesktop() {
+      this.isDesktop = window.innerWidth >= 768;
+    },
   },
 
   computed: {
@@ -73,6 +97,10 @@ export default {
       if (this.socials && this.socials.copyright) return this.socials.copyright;
       return null;
     },
+
+    inHome() {
+      return this.$route.name.includes("index");
+    },
   },
 
   watch: {
@@ -81,6 +109,12 @@ export default {
       handler() {
         this.$store.commit("updateTextColor", null);
         this.$store.commit("updateBackgroundColor", null);
+      },
+    },
+
+    "window.innerWidth": {
+      handler(width) {
+        console.log("WATCH: ", width);
       },
     },
   },
@@ -103,6 +137,11 @@ footer {
     
     md:font-normal
     md:px-5;
+
+  &.footer-highlights {
+    @apply fixed
+      bottom-0;
+  }
 
   .footer-left {
     @apply transition-colors;
