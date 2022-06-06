@@ -48,6 +48,16 @@ export default {
     };
   },
 
+  mounted() {
+    this.$store.commit("updateTextColor", null);
+    this.$store.commit("updateBackgroundColor", null);
+  },
+
+  destroyed() {
+    this.$store.commit("updateTextColor", null);
+    this.$store.commit("updateBackgroundColor", null);
+  },
+
   computed: {
     works() {
       if (this.highlights.works && this.highlights.works.length)
@@ -143,25 +153,34 @@ export default {
         text-54
         border-r
         border-black
+        px-1
         
+        md:px-0
         md:text-100
         md:border-b
         md:border-r-0;
     writing-mode: vertical-rl;
-    line-height: 5rem;
 
     @screen md {
       writing-mode: horizontal-tb;
+      line-height: 5rem;
     }
 
     .work-title {
       @apply flex
-        gap-x-2;
+        gap-x-2
+        transform
+        -rotate-180
+        
+        md:rotate-0;
 
       .date {
         @apply text-sm
           font-cabinet-grotesk
-          font-normal;
+          font-normal
+          hidden
+          
+          md:flex;
       }
 
       &.active-work {

@@ -10,7 +10,7 @@
 
       <div class="mobile-footer-left">
         <div class="mobile-footer-copyright">©2022</div>
-        <a href="#credits" class="mobile-footer-credits"> / Credits</a>
+        <a href="#credits" class="mobile-footer-credits">Credits</a>
       </div>
     </div>
 
@@ -66,7 +66,7 @@ export default {
 
   mounted() {
     this.checkIfDesktop();
-    
+
     window.addEventListener("resize", () => {
       this.checkIfDesktop();
     });
@@ -111,12 +111,6 @@ export default {
         this.$store.commit("updateBackgroundColor", null);
       },
     },
-
-    "window.innerWidth": {
-      handler(width) {
-        console.log("WATCH: ", width);
-      },
-    },
   },
 };
 </script>
@@ -154,9 +148,16 @@ footer {
 
     .mobile-footer-left {
       @apply flex
-        gap-x-2
+        gap-x-1
 
         md:hidden;
+
+      .mobile-footer-credits {
+        &::before {
+          @apply mr-1;
+          content: "/";
+        }
+      }
     }
   }
 
@@ -199,14 +200,14 @@ footer {
         text-underline-position: under;
 
         &:hover {
-          @apply underline;
+          @apply md:underline;
         }
 
         &.current-locale {
           @apply underline;
 
           &:hover {
-            @apply no-underline;
+            @apply md:no-underline;
           }
         }
 

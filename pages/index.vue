@@ -28,6 +28,10 @@ export default {
 
 <style lang="scss" scoped>
 .homepage {
+  // @apply relative
+
+  //   md:top-0;
+  // top: -3.375rem;
   height: calc(100vh - 3.375rem);
 
   @screen md {
