@@ -54,4 +54,14 @@ export default {
 .layout {
   @apply h-screen;
 }
+
+.page-enter-active,
+.page-leave-active {
+  @apply transition-opacity;
+}
+
+.page-enter,
+.page-leave-to {
+  @apply opacity-0;
+}
 </style>
