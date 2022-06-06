@@ -15,7 +15,10 @@
           ispirations
         </NuxtLink>
 
-        <NuxtLink :to="localePath({ name: 'index' })" class="counter">
+        <NuxtLink
+          :to="localePath({ name: 'inspirations-your-moodboards' })"
+          class="counter"
+        >
           0
         </NuxtLink>
       </div>
