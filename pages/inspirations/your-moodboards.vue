@@ -1,6 +1,10 @@
 <template>
   <div class="your-moodboards">
-    <SectionMoodboards v-if="moodboards" :moodboards="moodboards" />
+    <SectionMoodboards
+      v-if="moodboards"
+      :moodboards="moodboards"
+      :yourMoodboards="true"
+    />
   </div>
 </template>
 
@@ -28,6 +32,7 @@ export default {
 
 <style lang="scss" scoped>
 .your-moodboards {
+  @apply overflow-y-auto;
   height: calc(100% - 108px);
 }
 </style>

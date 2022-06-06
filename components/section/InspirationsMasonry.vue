@@ -166,7 +166,12 @@ export default {
     font-cabinet-grotesk
     uppercase
     text-2xl;
-  min-height: 80vh;
+
+  min-height: 40vh;
+
+  @screen md {
+    min-height: 80vh;
+  }
 }
 
 .inspirations-masonry-enter-active,

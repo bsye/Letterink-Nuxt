@@ -1,6 +1,9 @@
 <template>
   <section class="moodboards" v-if="moodboards">
-    <div class="moodboards-label">Inspirational Moodboard</div>
+    <div class="moodboards-label">
+      <span v-if="yourMoodboards"> Your Moodboard </span>
+      <span v-else> Inspirational Moodboard </span>
+    </div>
 
     <div class="moodboards-content">
       <NuxtLink
@@ -42,6 +45,7 @@
 export default {
   props: {
     moodboards: Array,
+    yourMoodboards: Boolean,
   },
 };
 </script>
@@ -61,8 +65,15 @@ export default {
 
   .moodboards-content {
     @apply flex
-        justify-center
-        gap-x-5;
+      gap-x-5
+      overflow-auto
+      px-4
+
+      md:justify-center;
+
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
 
     .moodboard {
       @apply flex
