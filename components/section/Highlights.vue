@@ -249,9 +249,12 @@ export default {
       figure {
         &:nth-child(1) {
           @apply right-0;
+          top: 25%;
+          width: 60%;
+          padding-bottom: 112.16%;
 
           @screen md {
-            padding-bottom: 112.16%;
+            top: 0;
             width: 40%;
           }
         }
@@ -259,16 +262,26 @@ export default {
         &:nth-child(2) {
           left: 10%;
           padding-bottom: 86.8%;
-          width: 30%;
+          width: 35%;
+
+          @screen md {
+            width: 30%;
+          }
         }
 
         &:nth-child(3) {
           @apply top-full
             transform
-            -translate-y-1/2;
 
-          padding-bottom: 62%;
-          width: 50%;
+            md:-translate-y-1/2;
+          transform: translateY(calc(-50% - 54px));
+          padding-bottom: 75.5%;
+          width: 80%;
+
+          @screen md {
+            padding-bottom: 62%;
+            width: 50%;
+          }
         }
       }
     }
