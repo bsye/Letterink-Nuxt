@@ -1,10 +1,19 @@
 <template>
-  <div class="header">
+  <div class="header" :class="addBorder && 'header-border'">
     <NuxtLink class="logo" :to="localePath({ name: 'index' })">
       letterink
     </NuxtLink>
 
-    <div class="links"></div>
+    <div class="links" v-if="menu && menu.menuItems">
+      <LinkHandler
+        class="link"
+        :link="item"
+        v-for="item of menu.menuItems"
+        :key="item.id"
+      >
+        {{ item.label }}
+      </LinkHandler>
+    </div>
 
     <div class="header-right">
       <div class="inspirations-counter">
@@ -35,10 +44,51 @@
         </a>
       </div>
 
-      <button class="menu-open">Menu</button>
+      <button class="menu-open" @click="mobileMenuOpen = true">Menu</button>
     </div>
+
+    <ContentMenuMobile
+      v-if="menu && menu.menuItems"
+      :links="menu.menuItems"
+      :menuOpen="mobileMenuOpen"
+      @closeMobileMenu="mobileMenuOpen = false"
+    />
   </div>
 </template>
+
+<script>
+import query from "~/graphql/queries/menu";
+
+export default {
+  data() {
+    return {
+      menu: null,
+      mobileMenuOpen: false,
+    };
+  },
+
+  async fetch() {
+    try {
+      const { menu } = await this.$graphql.default.request(query);
+
+      this.menu = menu;
+    } catch (error) {
+      console.log("ERROR MENU: ", error);
+    }
+  },
+
+  computed: {
+    addBorder() {
+      return !(
+        !this.$route.name ||
+        this.$route.name.includes("index") ||
+        this.$route.name.includes("contact") ||
+        this.$route.name.includes("works-slug")
+      );
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .header {
@@ -55,8 +105,37 @@
     
     md:font-normal;
 
+  &.header-border {
+    @apply border-b
+      border-black;
+  }
+
   .links {
-    @apply hidden;
+    @apply hidden
+      items-center
+      justify-center
+      gap-x-2
+    
+      md:flex;
+
+    .link {
+      @apply relative;
+
+      &:not(:last-child)::after {
+        @apply ml-2
+          inline-block;
+        content: "/";
+      }
+    }
+
+    a {
+      @apply underline;
+      text-underline-position: under;
+
+      &:hover {
+        @apply no-underline;
+      }
+    }
   }
 
   .header-right {

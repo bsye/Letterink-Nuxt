@@ -74,6 +74,8 @@ export default {
 
 <style lang="scss" scoped>
 .single-moodboard {
+  @apply pt-5;
+
   .single-moodboard-header {
     @apply font-cabinet-grotesk
       uppercase
