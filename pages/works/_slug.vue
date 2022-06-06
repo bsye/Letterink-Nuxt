@@ -22,7 +22,7 @@
                 <NuxtLink
                   :to="
                     localePath({
-                      name: 'inspirations',
+                      name: 'works',
                       query: { category: category.slug },
                     })
                   "
@@ -167,8 +167,12 @@ export default {
         text-42
         uppercase
         font-cabinet-grotesk
+        text-center
+        w-full
+        px-4
         
-        md:text-100;
+        md:text-100
+        md:px-40;
       }
     }
 

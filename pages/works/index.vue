@@ -21,7 +21,12 @@
         v-for="(block, index) of worksBlock"
         :key="index"
       >
-        <div class="work" v-for="(work, index) of block" :key="index">
+        <NuxtLink
+          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
+          class="work"
+          v-for="(work, index) of block"
+          :key="index"
+        >
           <figure>
             <img v-if="work.image[0]" :src="work.image[0].url" />
           </figure>
@@ -39,7 +44,7 @@
               {{ category.title }}
             </span>
           </div>
-        </div>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -57,10 +62,22 @@ export default {
     };
   },
 
-  async asyncData({ $graphql }) {
+  async asyncData({ $graphql, route }) {
     try {
-      const { works, categories } = await $graphql.default.request(query);
+      if (route.query.category) {
+        const { worksByCategory, categories } = await $graphql.default.request(
+          query,
+          {
+            category: route.query.category,
+          }
+        );
 
+        const works = worksByCategory;
+
+        return { works, categories };
+      }
+
+      const { works, categories } = await $graphql.default.request(query);
       return { works, categories };
     } catch (err) {
       console.log("ERROR: ", err);
