@@ -14,7 +14,14 @@
     <div class="footer-right" :style="textColor ? textColor : ''">
       <div class="footer-links">
         <a href="#credits" class="footer-credits">Credits</a>
-        <a :href="instagramUrl" class="footer-instagram">/ Instagram</a>
+        <a
+          v-if="instagramUrl"
+          target="_blank"
+          :href="instagramUrl"
+          class="footer-instagram"
+        >
+          Instagram
+        </a>
       </div>
 
       <div class="languages">
@@ -130,6 +137,14 @@ footer {
 
         &:hover {
           @apply no-underline;
+        }
+
+        &.footer-instagram {
+          &::before {
+            @apply pr-1
+              inline-block;
+            content: "/";
+          }
         }
       }
     }
