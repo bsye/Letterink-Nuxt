@@ -83,28 +83,31 @@ export default {
 
     break-inside: avoid;
 
-    figure {
-      @apply w-full
+    button {
+      @apply w-full;
+
+      figure {
+        @apply w-full
         relative
         cursor-pointer;
 
-      &:hover {
-        .add-inspiration-btn {
-          @apply opacity-0;
+        &:hover {
+          .add-inspiration-btn {
+            @apply opacity-0;
+          }
+
+          .inspiration-veil {
+            @apply opacity-100;
+          }
         }
 
-        .inspiration-veil {
-          @apply opacity-100;
-        }
-      }
-
-      img {
-        @apply w-full
+        img {
+          @apply w-full
             object-cover;
-      }
+        }
 
-      .add-inspiration-btn {
-        @apply rounded-full
+        .add-inspiration-btn {
+          @apply rounded-full
             bg-black
             w-6
             h-6
@@ -113,10 +116,10 @@ export default {
             right-2
             p-1
             transition-opacity;
-      }
+        }
 
-      .inspiration-veil {
-        @apply absolute
+        .inspiration-veil {
+          @apply absolute
             inset-0
             w-full
             h-full
@@ -129,8 +132,9 @@ export default {
             pointer-events-none
             transition-opacity;
 
-        .cross {
-          @apply w-1/3;
+          .cross {
+            @apply w-1/3;
+          }
         }
       }
     }

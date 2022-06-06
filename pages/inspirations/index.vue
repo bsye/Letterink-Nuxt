@@ -77,7 +77,7 @@
 
             <transition name="dropdown">
               <div
-                class="inspirations-categories"
+                class="inspirations-categories colors"
                 v-if="openFilter === 'colors' && inspirationsColors"
               >
                 <NuxtLink
@@ -173,7 +173,7 @@ export default {
           color: route.query.color,
         });
 
-        store.commit("moodboards/");
+        // store.commit("moodboards/");
 
         const inspirations = inspirationsByCategories;
 
@@ -248,6 +248,13 @@ export default {
         this.fetchInspirations();
       },
     },
+
+    moodboards: {
+      deep: true,
+      handler(e) {
+        console.log("WATCH MOODBOARDS; ", e);
+      },
+    },
   },
 };
 </script>
@@ -301,12 +308,17 @@ export default {
             @apply flex
               flex-col
               absolute
-              w-full
+              w-max
               top-6
               px-2
               py-1
               z-10
               bg-white;
+
+            &.colors {
+              @apply w-max
+                right-0;
+            }
 
             .inspirations-category {
               @apply flex

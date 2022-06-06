@@ -13,7 +13,10 @@ const query = gql`
       ...inspirations
     }
 
-    inspirationsCategories: categories(group: "inspirationTags") {
+    inspirationsCategories: categories(
+      group: "inspirationTags"
+      orderBy: "title"
+    ) {
       ... on inspirationTags_Category {
         title
         slug
@@ -21,7 +24,7 @@ const query = gql`
       }
     }
 
-    inspirationsColors: categories(group: "colors") {
+    inspirationsColors: categories(group: "colors", orderBy: "title") {
       ... on colors_Category {
         title
         slug
