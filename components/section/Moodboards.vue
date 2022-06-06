@@ -5,7 +5,10 @@
       <span v-else> Inspirational Moodboard </span>
     </div>
 
-    <div class="moodboards-content">
+    <div
+      class="moodboards-content"
+      :class="yourMoodboards && 'in-your-moodboards'"
+    >
       <NuxtLink
         :to="
           localePath({
@@ -52,7 +55,8 @@ export default {
 
 <style lang="scss" scoped>
 .moodboards {
-  @apply pb-16;
+  @apply pb-16
+    overflow-hidden;
 
   .moodboards-label {
     @apply uppercase
@@ -64,37 +68,45 @@ export default {
   }
 
   .moodboards-content {
-    @apply flex
-      gap-x-5
-      overflow-auto
+    @apply block
       px-4
-
-      md:justify-center;
-
-    &::-webkit-scrollbar {
-      @apply hidden;
-    }
+      relative
+      
+      lg:left-1/2
+      lg:transform
+      lg:-translate-x-1/4;
+    column-count: auto;
+    column-gap: 1.25rem;
+    column-width: 13.5rem;
 
     .moodboard {
       @apply flex
-          flex-col
-          gap-y-5;
+        flex-col
+        gap-y-5
+        mb-8;
+      break-inside: avoid;
+
+      &:last-child {
+        @apply mb-0;
+      }
 
       .moodboard-items {
         @apply grid
             grid-cols-2
             grid-rows-2
-            gap-1;
-        height: 13.5rem;
-        width: 13.5rem;
+            gap-1
+            w-full;
 
         .moodboard-item {
-          @apply w-full;
+          @apply w-full
+            relative;
+          padding-bottom: 100%;
 
           img {
             @apply w-full
                 h-full
-                object-cover;
+                object-cover
+                absolute;
           }
 
           &:nth-child(n + 5) {
