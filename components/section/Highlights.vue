@@ -24,7 +24,8 @@
 
     <transition name="preview-images">
       <div
-        class="images work-1 work-2"
+        class="images"
+        :class="currentWork && currentWork.previewLayout"
         v-if="currentWorkPreviews && currentWorkPreviews.length"
       >
         <figure v-for="preview of currentWorkPreviews" :key="preview.id">
@@ -59,6 +60,7 @@ export default {
       const currentWork = this.works.filter(
         (work) => work.id === this.currentWorkId
       )[0];
+
       return currentWork;
     },
 
@@ -188,7 +190,8 @@ export default {
       w-full
       left-1/2
       transform
-      -translate-x-1/2;
+      -translate-x-1/2
+      z-20;
     height: calc(100vh - 6.75rem);
     top: 3.375;
     max-width: 72rem;
@@ -198,17 +201,17 @@ export default {
     }
 
     figure {
-      @apply absolute;
+      @apply absolute
+        overflow-hidden;
 
       img {
         @apply w-full
-          h-full
           object-cover
           absolute;
       }
     }
 
-    &.work-1 {
+    &.layout1 {
       figure {
         &:nth-child(1) {
           padding-bottom: 64.5%;
@@ -231,6 +234,42 @@ export default {
             width: 29%;
             padding-bottom: 40%;
           }
+        }
+
+        &:nth-child(3) {
+          @apply bottom-0
+            left-0;
+
+          padding-bottom: 62%;
+          width: 50%;
+        }
+      }
+    }
+
+    &.layout2 {
+      figure {
+        &:nth-child(1) {
+          @apply right-0;
+
+          @screen md {
+            padding-bottom: 112.16%;
+            width: 40%;
+          }
+        }
+
+        &:nth-child(2) {
+          left: 10%;
+          padding-bottom: 86.8%;
+          width: 30%;
+        }
+
+        &:nth-child(3) {
+          @apply top-full
+            transform
+            -translate-y-1/2;
+
+          padding-bottom: 62%;
+          width: 50%;
         }
       }
     }

@@ -14,6 +14,7 @@ const query = gql`
               id
               url
             }
+            previewLayout
             color: inspirationColor {
               ... on colors_Category {
                 workColor {
