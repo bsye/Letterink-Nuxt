@@ -128,7 +128,7 @@ export default {
   @apply w-screen;
 
   .works-categories {
-    @apply pl-4
+    @apply px-4
       py-5
       flex
       gap-x-5

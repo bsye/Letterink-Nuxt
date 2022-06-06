@@ -110,6 +110,10 @@ export default {
       border-black;
   }
 
+  .logo {
+    @apply w-48;
+  }
+
   .links {
     @apply hidden
       items-center
@@ -140,7 +144,9 @@ export default {
 
   .header-right {
     @apply flex
+      justify-end
       gap-x-4
+      w-48
       
       md:gap-x-2;
 
