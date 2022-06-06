@@ -190,8 +190,7 @@ export default {
       w-full
       left-1/2
       transform
-      -translate-x-1/2
-      z-20;
+      -translate-x-1/2;
     height: calc(100vh - 6.75rem);
     top: 3.375;
     max-width: 72rem;
@@ -277,7 +276,7 @@ export default {
 
   .preview-images-enter-active,
   .preview-images-leave-active {
-    transition: opacity 0.3s;
+    transition: opacity 0.5s;
   }
   .preview-images-enter,
   .preview-images-leave-to {
