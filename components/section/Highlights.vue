@@ -308,11 +308,11 @@ export default {
 
   .preview-images-enter-active,
   .preview-images-leave-active {
-    transition: opacity 0.5s;
+    transition: opacity 0.5s ease;
   }
   .preview-images-enter,
   .preview-images-leave-to {
-    opacity: 0;
+    @apply opacity-0;
   }
 }
 </style>

@@ -47,6 +47,10 @@ export default {
     };
   },
 
+  beforeDestroy() {
+    this.type = "";
+  },
+
   methods: {
     clickOutsideOverlay(e) {
       if (e.target === this.$el) this.closeOverlay();

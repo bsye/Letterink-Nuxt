@@ -22,7 +22,13 @@
         </div>
 
         <div class="form-footer">
-          <button @click.prevent="$emit('newMoodboard')">Crea nuova board</button>
+          <button @click.prevent="$emit('newMoodboard')">
+            <span class="plus">
+              <img src="~/assets/icons/cross-black.svg" />
+            </span>
+
+            Crea nuova board
+          </button>
           <button type="submit">Salva</button>
         </div>
       </form>
@@ -45,20 +51,12 @@ export default {
 
   methods: {
     addInspiration() {
-      console.log("TEST: ", this.inspiration);
-      console.log("MOODBOARD: ", this.selectedMoodboard);
       if (this.selectedMoodboard && this.inspiration) {
-        console.log("OK");
         this.$store.commit("moodboards/addInspirationToMoodboard", {
           inspiration: this.inspiration,
           moodboard: this.selectedMoodboard,
         });
       }
-    },
-
-    closeOverlay() {
-      console.log("OK");
-      this.$emit("closeOverlay");
     },
   },
 };
@@ -131,13 +129,40 @@ export default {
           @apply w-full
             uppercase
             font-cabinet-grotesk
+            flex
+            justify-center
+            items-center
             py-5
-            text-sm;
+            text-sm
+            border
+            border-transparent
+            transition-colors;
+
+          .plus {
+            @apply bg-white
+              rounded-full
+              w-6
+              h-6
+              flex
+              justify-center
+              items-center
+              mr-4;
+          }
+
+          &:hover {
+            @apply md:border-white;
+          }
         }
 
         button[type="submit"] {
           @apply bg-white
             text-black;
+
+          &:hover {
+            @apply md:bg-black
+              md:border-white
+              md:text-white;
+          }
         }
       }
     }
