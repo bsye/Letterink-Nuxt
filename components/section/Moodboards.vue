@@ -60,31 +60,49 @@ export default {
 
   .moodboards-label {
     @apply uppercase
-        text-sm
-        font-cabinet-grotesk
-        w-full
-        text-center
-        py-5;
+      text-sm
+      font-cabinet-grotesk
+      w-full
+      text-center
+      py-5;
   }
 
   .moodboards-content {
-    @apply block
+    @apply flex
+      gap-x-5
+      overflow-auto
       px-4
       relative
       
       lg:left-1/2
       lg:transform
       lg:-translate-x-1/4;
-    column-count: auto;
-    column-gap: 1.25rem;
-    column-width: 13.5rem;
+
+    &::-webkit-scrollbar {
+      @apply hidden;
+    }
+
+    &.in-your-moodboards {
+      @apply block;
+
+      column-count: auto;
+      column-gap: 1.25rem;
+      column-width: 13.5rem;
+
+      .moodboard {
+        @apply mb-8;
+        break-inside: avoid;
+
+        .moodboard-items {
+          @apply w-full;
+        }
+      }
+    }
 
     .moodboard {
       @apply flex
         flex-col
-        gap-y-5
-        mb-8;
-      break-inside: avoid;
+        gap-y-5;
 
       &:last-child {
         @apply mb-0;
@@ -94,8 +112,8 @@ export default {
         @apply grid
             grid-cols-2
             grid-rows-2
-            gap-1
-            w-full;
+            gap-1;
+        width: 13.5rem;
 
         .moodboard-item {
           @apply w-full
