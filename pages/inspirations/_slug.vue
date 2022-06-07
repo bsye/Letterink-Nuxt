@@ -1,7 +1,14 @@
 <template>
   <div class="single-moodboard">
     <div class="single-moodboard-header">
-      <div class="single-moodboard-header-label">Inspirational moodbaord</div>
+      <div class="single-moodboard-header-label-container">
+        <span class="single-moodboard-header-label">
+          Inspirational moodbaord
+        </span>
+        <span class="inspirations-counter">
+          {{ moodboard.inspirationItems.length }} Images
+        </span>
+      </div>
 
       <div class="single-moodboard-header-title" v-if="moodboard.title">
         {{ moodboard.title }}
@@ -12,7 +19,10 @@
           {{ moodboard.inspirationItems.length }} Images
         </div>
 
-        <div class="single-moodboard-header-actions"></div>
+        <div class="single-moodboard-header-actions">
+          <button>Condividi</button>
+          <button>Duplica</button>
+        </div>
       </div>
     </div>
 
@@ -74,7 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 .single-moodboard {
-  @apply pt-5;
+  @apply md:pt-5;
 
   .single-moodboard-header {
     @apply font-cabinet-grotesk
@@ -82,17 +92,38 @@ export default {
       flex
       flex-col
       items-center
-      px-4
       
       md:px-5;
 
-    .single-moodboard-label {
+    .single-moodboard-header-label-container {
       @apply py-5
-        text-sm;
+        px-4
+        text-sm
+        
+        md:px-0;
+
+      .single-moodboard-header-label {
+        @apply hidden
+
+          md:flex;
+      }
+
+      .inspirations-counter {
+        @apply text-gray-primary
+        
+          md:hidden;
+      }
     }
 
     .single-moodboard-header-title {
-      @apply text-100;
+      @apply text-42
+        text-center
+        pt-14
+        pb-28
+
+        md:py-0
+        md:text-100;
+      line-height: initial;
     }
 
     .single-moodboard-header-footer {
@@ -100,10 +131,34 @@ export default {
         text-sm
         w-full
         flex
-        justify-between;
+        justify-center
+        border-t
+        border-black
+
+        md:border-none
+        md:justify-between;
 
       .inspirations-counter {
-        @apply text-gray-primary;
+        @apply text-gray-primary
+          hidden
+          
+          md:flex;
+      }
+
+      .single-moodboard-header-actions {
+        @apply flex
+          gap-x-5;
+
+        button {
+          @apply uppercase
+            font-cabinet-grotesk
+            underline;
+          text-underline-position: under;
+
+          &:hover {
+            @apply md:no-underline;
+          }
+        }
       }
     }
   }
