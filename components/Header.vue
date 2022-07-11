@@ -1,29 +1,94 @@
 <template>
-  <div class="header">
+  <div class="header" :class="addBorder && 'header-border'">
     <NuxtLink class="logo" :to="localePath({ name: 'index' })">
       letterink
     </NuxtLink>
 
-    <div class="links"></div>
+    <div class="links" v-if="menu && menu.menuItems">
+      <LinkHandler
+        class="link"
+        :link="item"
+        v-for="item of menu.menuItems"
+        :key="item.id"
+      >
+        {{ item.label }}
+      </LinkHandler>
+    </div>
 
     <div class="header-right">
-      <NuxtLink
-        :to="localePath({ name: 'index' })"
-        class="inspirations-counter"
-      >
-        <span>ispirations</span>
-        <div class="counter">0</div>
-      </NuxtLink>
+      <div class="inspirations-counter">
+        <NuxtLink
+          class="inspiration"
+          :to="localePath({ name: 'inspirations' })"
+        >
+          ispirations
+        </NuxtLink>
 
-      <div class="languages">
-        <NuxtLink to="#">it</NuxtLink>
-        <NuxtLink to="#">en</NuxtLink>
+        <NuxtLink
+          :to="localePath({ name: 'inspirations-your-moodboards' })"
+          class="counter"
+        >
+          0
+        </NuxtLink>
       </div>
 
-      <button class="menu-open">Menu</button>
+      <div class="languages">
+        <a
+          :href="switchLocalePath(locale.code)"
+          :class="locale.code === $i18n.locale && 'current-locale'"
+          v-for="locale of $i18n.locales"
+          :key="locale.code"
+          @click.prevent.stop="$i18n.setLocale(locale.code)"
+        >
+          {{ locale.code }}
+        </a>
+      </div>
+
+      <button class="menu-open" @click="mobileMenuOpen = true">Menu</button>
     </div>
+
+    <ContentMenuMobile
+      v-if="menu && menu.menuItems"
+      :links="menu.menuItems"
+      :menuOpen="mobileMenuOpen"
+      @closeMobileMenu="mobileMenuOpen = false"
+    />
   </div>
 </template>
+
+<script>
+import query from "~/graphql/queries/menu";
+
+export default {
+  data() {
+    return {
+      menu: null,
+      mobileMenuOpen: false,
+    };
+  },
+
+  async fetch() {
+    try {
+      const { menu } = await this.$graphql.default.request(query);
+
+      this.menu = menu;
+    } catch (error) {
+      console.log("ERROR MENU: ", error);
+    }
+  },
+
+  computed: {
+    addBorder() {
+      return !(
+        !this.$route.name ||
+        this.$route.name.includes("index") ||
+        this.$route.name.includes("contact") ||
+        this.$route.name.includes("works-slug")
+      );
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .header {
@@ -40,13 +105,48 @@
     
     md:font-normal;
 
+  &.header-border {
+    @apply border-b
+      border-black;
+  }
+
+  .logo {
+    @apply w-48;
+  }
+
   .links {
-    @apply hidden;
+    @apply hidden
+      items-center
+      justify-center
+      gap-x-2
+    
+      md:flex;
+
+    .link {
+      @apply relative;
+
+      &:not(:last-child)::after {
+        @apply ml-2
+          inline-block;
+        content: "/";
+      }
+    }
+
+    a {
+      @apply underline;
+      text-underline-position: under;
+
+      &:hover {
+        @apply no-underline;
+      }
+    }
   }
 
   .header-right {
     @apply flex
+      justify-end
       gap-x-4
+      w-48
       
       md:gap-x-2;
 
@@ -55,11 +155,15 @@
         items-center
         gap-x-2;
 
-      span {
+      .inspiration {
         @apply hidden
           underline
         
           md:flex;
+
+        &:hover {
+          @apply no-underline;
+        }
 
         @screen md {
           text-underline-position: under;
@@ -86,6 +190,20 @@
         md:flex;
 
       a {
+        text-underline-position: under;
+
+        &:hover {
+          @apply underline;
+        }
+
+        &.current-locale {
+          @apply underline;
+
+          &:hover {
+            @apply no-underline;
+          }
+        }
+
         &:not(:last-child)::after {
           @apply ml-1
           inline-block;

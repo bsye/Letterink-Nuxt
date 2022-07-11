@@ -1,80 +1,121 @@
 <template>
-  <div class="highlights" v-if="works">
+  <div class="highlights" v-if="works" :style="currentWorkBackgroundColor">
     <NuxtLink
-      :to="localePath({ name: 'work', params: { work: work.slug } })"
+      :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
       v-for="work of works"
       :key="work.id"
-      @mouseenter.native="showPreview"
-      @mouseleave.native="hidePreview"
+      @mouseenter.native="currentWorkId = work.id"
+      @mouseleave.native="currentWorkId = null"
+      :style="currentWorkTextColor"
     >
-      <div class="work-title">
+      <div
+        class="work-title"
+        :class="currentWorkId === work.id && 'active-work'"
+        :style="
+          currentWorkTextColor && currentWorkId !== work.id
+            ? 'opacity: .4;'
+            : ''
+        "
+      >
         {{ work.title }}
         <span class="date">{{ work.date }} </span>
       </div>
     </NuxtLink>
 
-    <div class="images work-1 work-2">
-      <figure>
-        <img src="https://picsum.photos/600?random=1" />
-      </figure>
-
-      <figure>
-        <img src="https://picsum.photos/600?random=2" />
-      </figure>
-
-      <figure>
-        <img src="https://picsum.photos/600?random=3" />
-      </figure>
-    </div>
+    <transition name="preview-images">
+      <div
+        class="images"
+        :class="currentWork && currentWork.previewLayout"
+        v-if="currentWorkPreviews && currentWorkPreviews.length"
+      >
+        <figure v-for="preview of currentWorkPreviews" :key="preview.id">
+          <img :src="preview.url" />
+        </figure>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    highlights: Object,
+  },
+
   data() {
     return {
-      works: [
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-        {
-          title: "TITLE",
-          slug: "slug",
-          date: "2020",
-        },
-      ],
+      currentWorkId: null,
     };
   },
 
-  methods: {
-    showPreview(e) {
-      console.log("SHOW: ", e);
+  mounted() {
+    this.$store.commit("updateTextColor", null);
+    this.$store.commit("updateBackgroundColor", null);
+  },
+
+  destroyed() {
+    this.$store.commit("updateTextColor", null);
+    this.$store.commit("updateBackgroundColor", null);
+  },
+
+  computed: {
+    works() {
+      if (this.highlights.works && this.highlights.works.length)
+        return this.highlights.works;
+
+      return null;
     },
 
-    hidePreview(e) {
-      console.log("HIDE: ", e);
+    currentWork() {
+      const currentWork = this.works.filter(
+        (work) => work.id === this.currentWorkId
+      )[0];
+
+      return currentWork;
+    },
+
+    currentWorkPreviews() {
+      return this.currentWork ? this.currentWork.previewImages : null;
+    },
+
+    currentWorkColor() {
+      if (
+        this.currentWork &&
+        this.currentWork.color &&
+        this.currentWork.color.length &&
+        this.currentWork.color[0].workColor &&
+        this.currentWork.color[0].workColor.length
+      ) {
+        return this.currentWork.color[0].workColor[0];
+      }
+
+      return null;
+    },
+
+    currentWorkBackgroundColor() {
+      if (this.currentWorkColor) {
+        const color = this.currentWorkColor.backgroundColor;
+        return `background-color: ${color}; `;
+      }
+      return "";
+    },
+
+    currentWorkTextColor() {
+      if (this.currentWorkColor) {
+        const color = this.currentWorkColor.textColor;
+        return `color: ${color}; border-color: ${color};`;
+      }
+      return "";
+    },
+  },
+
+  watch: {
+    currentWorkTextColor(color) {
+      this.$store.commit("updateTextColor", color);
+    },
+
+    currentWorkBackgroundColor(color) {
+      this.$store.commit("updateBackgroundColor", color);
     },
   },
 };
@@ -87,11 +128,18 @@ export default {
     flex
     overflow-auto
     relative
+    transition-colors
     
     md:flex-col;
 
   &::-webkit-scrollbar {
     @apply hidden;
+  }
+
+  &:hover {
+    a {
+      @apply text-opacity-40;
+    }
   }
 
   a {
@@ -105,29 +153,44 @@ export default {
         text-54
         border-r
         border-black
+        px-1
         
+        md:px-0
         md:text-100
         md:border-b
         md:border-r-0;
     writing-mode: vertical-rl;
-    line-height: 5rem;
 
     @screen md {
       writing-mode: horizontal-tb;
+      line-height: 5rem;
     }
 
     .work-title {
       @apply flex
-        gap-x-2;
+        gap-x-2
+        transform
+        -rotate-180
+        
+        md:rotate-0;
 
       .date {
         @apply text-sm
           font-cabinet-grotesk
-          font-normal;
+          font-normal
+          hidden
+          
+          md:flex;
+      }
+
+      &.active-work {
+        @apply relative
+          z-10
+          text-opacity-100;
       }
     }
 
-    &:last-child {
+    &:last-of-type {
       @apply border-none;
     }
 
@@ -156,17 +219,17 @@ export default {
     }
 
     figure {
-      @apply absolute;
+      @apply absolute
+        overflow-hidden;
 
       img {
         @apply w-full
-          h-full
           object-cover
           absolute;
       }
     }
 
-    &.work-1 {
+    &.layout1 {
       figure {
         &:nth-child(1) {
           padding-bottom: 64.5%;
@@ -190,46 +253,66 @@ export default {
             padding-bottom: 40%;
           }
         }
+
+        &:nth-child(3) {
+          @apply bottom-0
+            left-0;
+
+          padding-bottom: 62%;
+          width: 50%;
+        }
+      }
+    }
+
+    &.layout2 {
+      figure {
+        &:nth-child(1) {
+          @apply right-0;
+          top: 25%;
+          width: 60%;
+          padding-bottom: 112.16%;
+
+          @screen md {
+            top: 0;
+            width: 40%;
+          }
+        }
+
+        &:nth-child(2) {
+          left: 10%;
+          padding-bottom: 86.8%;
+          width: 35%;
+
+          @screen md {
+            width: 30%;
+          }
+        }
+
+        &:nth-child(3) {
+          @apply top-full
+            transform
+
+            md:-translate-y-1/2;
+          transform: translateY(calc(-50% - 54px));
+          padding-bottom: 75.5%;
+          width: 80%;
+
+          @screen md {
+            padding-bottom: 62%;
+            width: 50%;
+          }
+        }
       }
     }
   }
 
-  // .images {
-  //   @apply absolute
-  //       inset-0
-  //       w-screen
-  //       h-full
-  //       pointer-events-none;
-
-  //   .preview-image {
-  //     @apply absolute;
-
-  //     &:nth-child(1) {
-  //       @apply top-0
-  //           left-0;
-  //     }
-
-  //     &:nth-child(2) {
-  //       @apply bottom-0
-  //           right-0;
-  //     }
-
-  //     .img-container {
-  //       @apply relative;
-  //       padding-bottom: 64.76%;
-  //     }
-
-  //     figure {
-  //       @apply w-full
-  //       absolute;
-
-  //       img {
-  //         @apply relative
-  //           w-full
-  //           h-full;
-  //       }
-  //     }
-  //   }
-  // }
+  .preview-images-enter-active,
+  .preview-images-leave-active {
+    transition: opacity 0.5s ease;
+  }
+  .preview-images-enter,
+  .preview-images-leave-to {
+    @apply opacity-0;
+  }
 }
 </style>

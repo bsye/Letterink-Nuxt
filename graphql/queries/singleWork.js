@@ -1,8 +1,8 @@
 import { gql } from "nuxt-graphql-request";
 
 const query = gql`
-  query works {
-    entry(section: "works", slug: "phil-nicole") {
+  query works($slug: [String]) {
+    work: entry(section: "works", slug: $slug) {
       ... on works_default_Entry {
         title
         slug
@@ -13,6 +13,7 @@ const query = gql`
         }
         imagesLimited {
           id
+          url
         }
         table {
           ... on table_BlockType {
@@ -26,6 +27,7 @@ const query = gql`
           ... on worksCategory_Category {
             id
             title
+            slug
           }
         }
         projectBlocks {

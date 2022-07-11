@@ -22,9 +22,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '~/plugins/craft.js',
-  ],
+  plugins: ["~/plugins/craft.js"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -34,6 +32,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     "@nuxtjs/tailwindcss",
     "nuxt-graphql-request",
+    "@nuxtjs/google-fonts",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -50,12 +49,12 @@ export default {
     straetegy: "prefix_except_default",
     defaultLocale: "en",
     locales: [
-      // {
-      //   code: "it",
-      //   name: "Italiano",
-      //   iso: "it-IT",
-      //   file: "it.js",
-      // },
+      {
+        code: "it",
+        name: "Italiano",
+        iso: "it-IT",
+        file: "it.js",
+      },
       {
         code: "en",
         name: "English",
@@ -78,6 +77,13 @@ export default {
         endpoint: process.env.BASE_API,
         mode: "cors",
       },
+    },
+  },
+
+  googleFonts: {
+    families: {
+      "Roboto": [400, 700],
+      "Cormorant+Upright": true,
     },
   },
 
