@@ -21,7 +21,7 @@
           class="inspiration"
           :to="localePath({ name: 'inspirations' })"
         >
-          ispirations
+          inspirations
         </NuxtLink>
 
         <NuxtLink

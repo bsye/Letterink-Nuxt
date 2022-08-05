@@ -22,7 +22,12 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/craft.js"],
+  plugins: [
+    "~/plugins/utils.js",
+    "~/plugins/craft.js",
+    "~/plugins/vuex-persist.client.js",
+    "~/plugins/init-moodboards.client.js"
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -82,7 +87,7 @@ export default {
 
   googleFonts: {
     families: {
-      "Roboto": [400, 700],
+      Roboto: [400, 700],
       "Cormorant+Upright": true,
     },
   },

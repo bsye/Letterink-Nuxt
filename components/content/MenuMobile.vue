@@ -25,7 +25,7 @@
           class="menu-mobile-link"
           :to="localePath({ name: 'inspirations' })"
         >
-          ispirations
+          inspirations
         </NuxtLink>
 
         <NuxtLink

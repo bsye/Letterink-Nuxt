@@ -1,50 +1,25 @@
 <template>
-  <transition name="inspirations-masonry" mode="out-in">
+  <transition
+    name="inspirations-masonry"
+    mode="out-in"
+  >
     <div
       class="inspirations-masonry"
       v-if="inspirations && inspirations.length"
       key="inspirations"
     >
-      <div
-        class="inspiration"
+      <TeaserInspiration
         v-for="inspiration of inspirations"
         :key="inspiration.id"
-      >
-        <button @click="$emit('openOverlay', inspiration)">
-          <figure>
-            <img
-              v-if="inspiration.image.length"
-              :src="inspiration.image[0].url"
-            />
-
-            <div class="add-inspiration-btn">
-              <img class="cross" src="~/assets/icons/cross.svg" />
-            </div>
-
-            <div class="inspiration-veil">
-              <img class="cross" src="~/assets/icons/cross.svg" />
-            </div>
-          </figure>
-        </button>
-
-        <div class="inspiration-info">
-          <div class="inspiration-title" v-if="inspiration.title">
-            {{ inspiration.title }}
-          </div>
-
-          <a
-            :href="inspiration.buttonLink.url"
-            :target="inspiration.buttonLink.target"
-            class="inspiration-url"
-            v-if="inspiration.buttonLink"
-          >
-            {{ inspiration.buttonLink.url }}
-          </a>
-        </div>
-      </div>
+        :inspiration="inspiration"
+      />
     </div>
 
-    <div v-else key="no-inspirations" class="inspirations-not-found">
+    <div
+      v-else
+      key="no-inspirations"
+      class="inspirations-not-found"
+    >
       No inspirations found
     </div>
   </transition>
@@ -75,86 +50,6 @@ export default {
 
   @screen xl {
     column-width: 25rem;
-  }
-
-  .inspiration {
-    @apply mb-10
-        w-full;
-
-    break-inside: avoid;
-
-    button {
-      @apply w-full;
-
-      figure {
-        @apply w-full
-        relative
-        cursor-pointer;
-
-        &:hover {
-          .add-inspiration-btn {
-            @apply opacity-0;
-          }
-
-          .inspiration-veil {
-            @apply opacity-100;
-          }
-        }
-
-        img {
-          @apply w-full
-            object-cover;
-        }
-
-        .add-inspiration-btn {
-          @apply rounded-full
-            bg-black
-            w-6
-            h-6
-            absolute
-            top-2
-            right-2
-            p-1
-            transition-opacity;
-        }
-
-        .inspiration-veil {
-          @apply absolute
-            inset-0
-            w-full
-            h-full
-            bg-black
-            bg-opacity-70
-            flex
-            justify-center
-            items-center
-            opacity-0
-            pointer-events-none
-            transition-opacity;
-
-          .cross {
-            @apply w-1/3;
-          }
-        }
-      }
-    }
-
-    .inspiration-info {
-      @apply flex
-        flex-col
-        justify-center
-        items-center
-        w-full
-        uppercase
-        font-cabinet-grotesk
-        text-sm
-        py-5
-        gap-y-2;
-
-      .inspiration-url {
-        @apply text-gray-primary;
-      }
-    }
   }
 }
 

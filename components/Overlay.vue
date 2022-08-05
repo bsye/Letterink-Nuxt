@@ -2,31 +2,22 @@
   <transition name="overlay">
     <div
       class="overlay"
-      v-if="openOverlay"
-      @closeOverlay="closeOverlay"
-      @click="clickOutsideOverlay"
+      v-if="overlayOpen"
+      @click="clickOutside($event)"
     >
       <div class="overlay-content">
         <div class="overlay-header">
           <div class="form-moodboard-header-text">Aggiungi a moodboard</div>
-          <button @click="closeOverlay">
+          <button @click="handleClose()">
             <img src="~/assets/icons/cross.svg" />
           </button>
         </div>
 
-        <ContentFormMoodboard
-          v-if="typeOverlay === 'addInspiration' && moodboards"
-          :moodboards="moodboards"
-          :inspiration="inspiration"
-          @newMoodboard="type = 'createMoodboard'"
-        />
-
-        <ContentCreateMoodboard
-          @addInspiration="type = 'addInspiration'"
-          v-if="typeOverlay === 'createMoodboard'"
-        />
-
-        <!-- <slot @closeOverlay="closeOverlay" /> -->
+        <ModalAddInspiration v-if="modals.addInspiration" />
+        <ModalCreateBoard v-if="modals.createBoard" />
+        <ModalCreateBoardOnly v-if="modals.createBoardOnly" />
+        <ModalShareBoard v-if="modals.shareBoard" />
+        <ModalDuplicateBoard v-if="modals.duplicateBoard" />
       </div>
     </div>
   </transition>
@@ -34,37 +25,72 @@
 
 <script>
 export default {
-  props: {
-    openOverlay: Boolean,
-    moodboards: Array,
-    inspiration: Object,
-    overlayType: String,
-  },
-
   data() {
     return {
-      type: "",
+      overlayOpen: false,
+      modals: {
+        addInspiration: false,
+        createBoard: false,
+        createBoardOnly: false,
+        shareBoard: false,
+        duplicateBoard: false,
+      },
     };
   },
 
-  beforeDestroy() {
-    this.type = "";
+  mounted() {
+    this.$root.$on("show-overlay", (state) => {
+      if (state) this.overlayOpen = state;
+      this.$root.$emit(state, true);
+    });
+
+    this.$root.$on("hide-overlay", (state) => {
+      this.overlayOpen = false;
+      this.closeModals();
+    });
+
+    this.$root.$on("modal-add-inspiration", (state) => {
+      this.closeModals();
+      this.modals.addInspiration = state;
+    });
+
+    this.$root.$on("modal-duplicate-board", (state) => {
+      this.closeModals();
+      this.modals.duplicateBoard = state;
+    });
+
+    this.$root.$on("modal-create-board", (state) => {
+      this.closeModals();
+      this.modals.createBoard = state;
+    });
+
+    this.$root.$on("modal-share-board", (state) => {
+      console.log("su");
+      this.closeModals();
+      this.modals.shareBoard = state;
+    });
+
+    this.$root.$on("modal-create-board-only", (state) => {
+      this.closeModals();
+      this.modals.createBoardOnly = state;
+    });
   },
 
   methods: {
-    clickOutsideOverlay(e) {
-      if (e.target === this.$el) this.closeOverlay();
+    clickOutside(e) {
+      if (e.target === this.$el) this.handleClose();
+      return false;
     },
 
-    closeOverlay() {
-      console.log("CLOSE");
-      this.$emit("closeOverlay");
+    closeModals() {
+      Object.keys(this.modals).forEach((key) => {
+        this.modals[key] = false;
+      });
     },
-  },
 
-  computed: {
-    typeOverlay() {
-      return this.type || this.overlayType;
+    handleClose(e) {
+      this.closeModals();
+      this.overlayOpen = false;
     },
   },
 };
@@ -87,11 +113,14 @@ export default {
     @apply bg-black
     text-white
     uppercase
+    flex
+    flex-col
     font-cabinet-grotesk
     text-sm
     w-full
-    mx-auto;
-    max-width: 31rem;
+    mx-auto
+    max-w-[31rem]
+    min-h-[410px];
   }
 
   .overlay-header {

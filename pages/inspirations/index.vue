@@ -1,6 +1,7 @@
 <template>
   <div class="inspirations">
-    <SectionMoodboards v-if="moodboards" :moodboards="moodboards" />
+    <SectionFeaturedMoodboards />
+    <SectionUserMoodboards />
 
     <div class="inspirations-container">
       <div class="inspirations-filters">
@@ -123,23 +124,8 @@
       <SectionInspirationsMasonry
         v-if="inspirations"
         :inspirations="inspirations"
-        @openOverlay="toggleOverlay"
       />
     </div>
-
-    <Overlay
-      :openOverlay="openOverlay"
-      @closeOverlay="openOverlay = false"
-      :moodboards="moodboards"
-      :inspiration="inspiration"
-      overlayType="addInspiration"
-    >
-      <!-- <ContentFormMoodboard
-        v-if="moodboards"
-        :moodboards="moodboards"
-        :inspiration="inspiration"
-      /> -->
-    </Overlay>
   </div>
 </template>
 
@@ -153,8 +139,6 @@ export default {
       inspirationsCategories: null,
       inspirationsColors: null,
       openFilter: null,
-      moodboards: null,
-      openOverlay: false,
       inspiration: {},
     };
   },
@@ -167,13 +151,10 @@ export default {
           inspirationsByCategories,
           inspirationsCategories,
           inspirationsColors,
-          moodboards,
         } = await $graphql.default.request(query, {
           category: route.query.category,
           color: route.query.color,
         });
-
-        // store.commit("moodboards/");
 
         const inspirations = inspirationsByCategories;
 
@@ -181,23 +162,17 @@ export default {
           inspirations,
           inspirationsCategories,
           inspirationsColors,
-          moodboards,
         };
       }
 
       // Without filters
-      const {
-        inspirations,
-        inspirationsCategories,
-        inspirationsColors,
-        moodboards,
-      } = await $graphql.default.request(query);
+      const { inspirations, inspirationsCategories, inspirationsColors } =
+        await $graphql.default.request(query);
 
       return {
         inspirations,
         inspirationsCategories,
         inspirationsColors,
-        moodboards,
       };
     } catch (error) {
       console.log("ERROR: ", error);
@@ -211,11 +186,6 @@ export default {
       } else {
         this.openFilter = filter;
       }
-    },
-
-    toggleOverlay(inspiration) {
-      this.inspiration = inspiration;
-      this.openOverlay = true;
     },
 
     async fetchInspirations() {

@@ -2,6 +2,7 @@
   <div class="layout">
     <Header />
     <Nuxt />
+    <Overlay />
     <Footer />
   </div>
 </template>
@@ -25,12 +26,10 @@ export default {
     } else if (this.$config.livePreview) {
       const storageKey = `scrollPosition:${this.$route.path}`;
 
-      // If scroll position is set, scroll to it
       if (sessionStorage.getItem(storageKey)) {
         window.scrollTo(0, parseInt(sessionStorage.getItem(storageKey)));
       }
 
-      // Record scroll position in session storage to retain scroll position in Live Preview
       setTimeout(() => {
         window.addEventListener("scroll", () => {
           this.scrollPosition = window.scrollY;
@@ -50,7 +49,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .layout {
   @apply h-screen;
 }

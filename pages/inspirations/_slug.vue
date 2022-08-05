@@ -3,25 +3,31 @@
     <div class="single-moodboard-header">
       <div class="single-moodboard-header-label-container">
         <span class="single-moodboard-header-label">
-          Inspirational moodbaord
+          Inspirational moodboard
         </span>
         <span class="inspirations-counter">
           {{ moodboard.inspirationItems.length }} Images
         </span>
       </div>
 
-      <div class="single-moodboard-header-title" v-if="moodboard.title">
+      <div
+        class="single-moodboard-header-title"
+        v-if="moodboard.title"
+      >
         {{ moodboard.title }}
       </div>
 
       <div class="single-moodboard-header-footer">
-        <div class="inspirations-counter" v-if="moodboard.inspirationItems">
+        <div
+          class="inspirations-counter"
+          v-if="moodboard.inspirationItems"
+        >
           {{ moodboard.inspirationItems.length }} Images
         </div>
 
         <div class="single-moodboard-header-actions">
-          <button>Condividi</button>
-          <button>Duplica</button>
+          <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board')">Duplica</ElementButton>
+          <ElementButton @click.native="$root.$emit('show-overlay','modal-share-board')">Condividi</ElementButton>
         </div>
       </div>
     </div>
@@ -44,41 +50,18 @@ export default {
       moodboard: null,
     };
   },
-
-  mounted() {
-    console.log("MOODBOARD: ", this.moodboard);
-  },
-
-  async asyncData({ $graphql, params }) {
+  async asyncData({ $graphql, params, store }) {
     try {
       const { moodboard } = await $graphql.default.request(query, {
         slug: params.slug,
       });
 
-      console.log("OK: ", moodboard);
-
+      store.dispatch("moodboards/setCurrentMoodboard", moodboard);
       return { moodboard };
-      // if (moodboard) {
-      //   return { moodboard };
-      // } else {
-      //   this.$nuxt.error({ statusCode: 404 });
-      // }
     } catch (error) {
       console.log("ERROR: ", error);
     }
   },
-
-  // async fetch() {
-  //   const { moodboard } = await this.$graphql.default.request(query, {
-  //     slug: this.$route.params.slug,
-  //   });
-
-  //   if (entry) {
-  //     this.inspiration = entry;
-  //   } else {
-  //     this.$nuxt.error({ statusCode: 404 });
-  //   }
-  // },
 };
 </script>
 
