@@ -1,5 +1,8 @@
 <template>
-  <div class="contact" v-if="contact">
+  <div
+    class="contact"
+    v-if="contact"
+  >
     <p class="contact-label">Contact us</p>
 
     <a
@@ -12,7 +15,10 @@
 
     <p>Follow us on</p>
 
-    <a :href="instagramUrl" class="contact-instagram">
+    <a
+      :href="instagramUrl"
+      class="contact-instagram"
+    >
       Instagram
       <span>{{ contact.instagramUsername }}</span>
     </a>
@@ -58,7 +64,7 @@ export default {
     items-center
     uppercase
     text-42
-    font-cabinet-grotesk
+    font-sans
     
     md:text-100
     md:gap-y-4;
@@ -73,7 +79,7 @@ export default {
 
   .contact-label,
   .contact-instagram {
-    @apply font-gambetta
+    @apply font-serif
         flex
         gap-x-2
         relative;

@@ -44,7 +44,7 @@ export default {
     createMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("hide-overlay");
+        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
       }
     },
   },
@@ -61,7 +61,7 @@ export default {
 
   .create-moodboard-label {
     @apply text-28
-        font-cabinet-grotesk
+        font-sans
         text-center
         py-16
         px-20;

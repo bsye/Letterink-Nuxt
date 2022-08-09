@@ -11,12 +11,37 @@
       class="moodboards-content"
       :class="'in-your-moodboards'"
     >
-      <template v-for="moodboard of getFeatured">
-        <TeaserMoodboard
-          :key="moodboard.id"
-          :moodboard="moodboard"
-        />
-      </template>
+      <ElementSliderCentered
+        slidesPerView="3"
+        class="slider"
+      >
+        <template v-for="moodboard of getFeatured">
+          <TeaserMoodboard
+            class="swiper-slide"
+            :key="moodboard.id"
+            :moodboard="moodboard"
+          />
+        </template>
+      </ElementSliderCentered>
+    </div>
+    <div
+      class="user"
+      v-if="!getUserMoodboards"
+    >
+      <ElementButton
+        class="button"
+        @click.native="$root.$emit('show-overlay', 'modal-create-board-only')"
+      >
+        <div>
+          <span> Crea la tua prima Moodboard </span>
+          <div class="icon">
+            <img
+              class="cross"
+              src="~/assets/icons/cross.svg"
+            />
+          </div>
+        </div>
+      </ElementButton>
     </div>
   </section>
 </template>
@@ -25,7 +50,7 @@
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters("moodboards", ["getFeatured"]),
+    ...mapGetters("moodboards", ["getFeatured", "getUserMoodboards"]),
   },
 };
 </script>
@@ -38,10 +63,18 @@ export default {
   .moodboards-label {
     @apply uppercase
       text-sm
-      font-cabinet-grotesk
+      font-sans
       w-full
       text-center
       py-5;
+  }
+
+  .user {
+    @apply
+      w-full
+      text-center
+      mt-8
+      mx-auto;
   }
 
   .moodboards-content {

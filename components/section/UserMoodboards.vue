@@ -12,7 +12,7 @@
       :class="'in-your-moodboards'"
     >
       <template v-for="moodboard of getUserMoodboards">
-        <TeaserMoodboard
+        <TeaserUserMoodboard
           :key="moodboard.id"
           :moodboard="moodboard"
         />
@@ -23,20 +23,7 @@
     class="moodboards"
     v-else
   >
-    <ElementButton
-      class="button"
-      @click.native="$root.$emit('show-overlay', 'modal-create-board-only')"
-    >
-      <div>
-        <span> Crea la tua prima Moodboard </span>
-        <div class="icon">
-          <img
-            class="cross"
-            src="~/assets/icons/cross.svg"
-          />
-        </div>
-      </div>
-    </ElementButton>
+
   </section>
 </template>
 
@@ -58,7 +45,7 @@ export default {
   .moodboards-label {
     @apply uppercase
       text-sm
-      font-cabinet-grotesk
+      font-sans
       w-full
       text-center
       py-5;

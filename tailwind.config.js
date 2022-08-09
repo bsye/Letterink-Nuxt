@@ -12,8 +12,8 @@ module.exports = {
       },
 
       fontFamily: {
-        "cabinet-grotesk": "Roboto",
-        gambetta: "Cormorant Upright",
+        sans: "Cabinet Grotesk",
+        serif: "Gambetta",
       },
 
       fontSize: {

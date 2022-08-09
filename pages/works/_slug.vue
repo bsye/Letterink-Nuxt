@@ -1,5 +1,8 @@
 <template>
-  <div class="single-work" v-if="work">
+  <div
+    class="single-work"
+    v-if="work"
+  >
     <div class="single-work-hero">
       <div class="single-work-cover">
         <figure>
@@ -11,12 +14,21 @@
       <div class="single-work-hero-content">
         <div class="single-work-about">
           <div class="single-work-about-label">About</div>
-          <div v-if="work.description" v-html="work.description"></div>
+          <div
+            v-if="work.description"
+            v-html="work.description"
+          ></div>
         </div>
 
         <div class="single-work-info">
-          <div class="single-work-more-info" v-if="workCategories || work.text">
-            <div class="single-work-categories" v-if="workCategories">
+          <div
+            class="single-work-more-info"
+            v-if="workCategories || work.text"
+          >
+            <div
+              class="single-work-categories"
+              v-if="workCategories"
+            >
               <div class="single-work-categories-label">Categories:</div>
               <div class="single-work-categories-container">
                 <NuxtLink
@@ -35,7 +47,10 @@
               </div>
             </div>
 
-            <div class="single-work-date" v-if="work.text">
+            <div
+              class="single-work-date"
+              v-if="work.text"
+            >
               <div class="single-work-date-label">Year:</div>
               <div class="single-work-year">{{ work.text }}</div>
             </div>
@@ -63,7 +78,10 @@
       </div>
     </div>
 
-    <div class="single-work-content" v-if="workContents">
+    <div
+      class="single-work-content"
+      v-if="workContents"
+    >
       <ContentImageRow
         :row="workContent"
         v-for="(workContent, index) of workContents"
@@ -166,7 +184,7 @@ export default {
         text-white
         text-42
         uppercase
-        font-cabinet-grotesk
+        font-sans
         text-center
         w-full
         px-4
@@ -182,7 +200,7 @@ export default {
         flex-col
         gap-y-5
         uppercase
-        font-cabinet-grotesk
+        font-sans
         text-sm
         
         md:flex-row

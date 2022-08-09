@@ -1,12 +1,21 @@
 <template>
   <transition name="menu">
-    <div v-if="menuOpen" class="menu-mobile">
+    <div
+      v-if="menuOpen"
+      class="menu-mobile"
+    >
       <div class="menu-mobile-header">
-        <NuxtLink class="menu-mobile-logo" :to="localePath({ name: 'index' })">
+        <NuxtLink
+          class="menu-mobile-logo"
+          :to="localePath({ name: 'index' })"
+        >
           letterink
         </NuxtLink>
 
-        <button class="menu-mobile-close" @click="$emit('closeMobileMenu')">
+        <button
+          class="menu-mobile-close"
+          @click="$emit('closeMobileMenu')"
+        >
           Close
         </button>
       </div>
@@ -81,13 +90,13 @@ export default {
     .menu-mobile-logo {
       @apply uppercase
         font-bold
-        font-cabinet-grotesk;
+        font-sans;
     }
 
     .menu-mobile-close {
       @apply uppercase
         font-bold
-        font-cabinet-grotesk;
+        font-sans;
     }
   }
 
@@ -101,7 +110,7 @@ export default {
 
     .menu-mobile-link {
       @apply text-42
-        font-cabinet-grotesk
+        font-sans
         font-normal
         border-b
         border-white
@@ -115,7 +124,7 @@ export default {
       }
 
       &:nth-child(3n + 2) {
-        @apply font-gambetta;
+        @apply font-serif;
       }
 
       &:nth-child(3n + 3) {

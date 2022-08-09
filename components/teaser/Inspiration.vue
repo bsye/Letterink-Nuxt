@@ -110,7 +110,7 @@ export default {
         items-center
         w-full
         uppercase
-        font-cabinet-grotesk
+        font-sans
         text-sm
         py-5
         gap-y-2;

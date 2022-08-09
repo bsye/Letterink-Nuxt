@@ -1,5 +1,9 @@
 <template>
-  <div class="highlights" v-if="works" :style="currentWorkBackgroundColor">
+  <div
+    class="highlights"
+    v-if="works"
+    :style="currentWorkBackgroundColor"
+  >
     <NuxtLink
       :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
       v-for="work of works"
@@ -28,7 +32,10 @@
         :class="currentWork && currentWork.previewLayout"
         v-if="currentWorkPreviews && currentWorkPreviews.length"
       >
-        <figure v-for="preview of currentWorkPreviews" :key="preview.id">
+        <figure
+          v-for="preview of currentWorkPreviews"
+          :key="preview.id"
+        >
           <img :src="preview.url" />
         </figure>
       </div>
@@ -149,7 +156,7 @@ export default {
         items-center
         text-black
         uppercase
-        font-cabinet-grotesk
+        font-sans
         text-54
         border-r
         border-black
@@ -176,7 +183,7 @@ export default {
 
       .date {
         @apply text-sm
-          font-cabinet-grotesk
+          font-sans
           font-normal
           hidden
           
@@ -195,7 +202,7 @@ export default {
     }
 
     &:nth-child(3n + 2) {
-      @apply font-gambetta;
+      @apply font-serif;
     }
 
     &:nth-child(3n + 3) {

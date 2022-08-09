@@ -1,7 +1,6 @@
 <template>
   <div class="inspirations">
     <SectionFeaturedMoodboards />
-    <SectionUserMoodboards />
 
     <div class="inspirations-container">
       <div class="inspirations-filters">

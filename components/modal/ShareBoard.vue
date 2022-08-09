@@ -9,26 +9,55 @@
 
     <div class="buttons">
       <ElementButton
-        @click.native="generateShare()"
+        @click.native="linkShare()"
         class="button white"
       >
         Copia Link
       </ElementButton>
       <ElementButton class="button white">
-        Facebook
+        <ShareNetwork
+          v-if="shareUrl"
+          network="facebook"
+          :url="shareUrl"
+          :title="getCurrentMoodboard.title"
+        >
+          Facebook
+        </ShareNetwork>
       </ElementButton>
       <ElementButton class="button white">
-        Linkedin
+        <ShareNetwork
+          v-if="shareUrl"
+          network="linkedin"
+          :url="shareUrl"
+          :title="getCurrentMoodboard.title"
+        >
+          Linkedin
+        </ShareNetwork>
       </ElementButton>
       <ElementButton class="button white">
-        Pinterest
+        <ShareNetwork
+          v-if="shareUrl"
+          network="pinterest"
+          :url="shareUrl"
+          :title="getCurrentMoodboard.title"
+        >
+          Pinterest
+        </ShareNetwork>
       </ElementButton>
       <ElementButton class="button white">
-        Whatsapp
+        <ShareNetwork
+          v-if="shareUrl"
+          network="whatsapp"
+          :url="shareUrl"
+          :title="getCurrentMoodboard.title"
+        >
+          Whatsapp
+        </ShareNetwork>
       </ElementButton>
       <div class="warning">
         <span>
-          (*) Stai condividendo la versione corrente della tua Board, se effettuerai modifiche a "matrimonio in campagna" in futuro non verranno visualizzate sul link generato.
+          {{ `'(*) Stai condividendo la versione corrente della tua Board, se effettuerai modifiche a "${getCurrentMoodboard.title}" in futuro non verranno visualizzate sul link generato.'` }}
+
         </span>
       </div>
     </div>
@@ -42,7 +71,12 @@ export default {
   data() {
     return {
       moodboardName: "",
+      shareUrl: null,
     };
+  },
+
+  async created() {
+    this.shareUrl = await this.$store.dispatch("moodboards/generateShare");
   },
 
   computed: {
@@ -50,9 +84,13 @@ export default {
   },
 
   methods: {
-    generateShare() {
-      const generated = this.$store.dispatch("moodboards/generateShare");
-      console.log(generated);
+    async linkShare() {
+      if (!process.client) return;
+      const generated = await this.$store.dispatch("moodboards/generateShare");
+      navigator.clipboard.writeText(generated).then(
+        () => console.log("Async: Copying to clipboard was successful!"),
+        () => console.log("error")
+      );
     },
   },
 };
@@ -68,7 +106,7 @@ export default {
 
   .create-moodboard-label {
     @apply text-28
-        font-cabinet-grotesk
+        font-sans
         text-center
         py-16
         px-20;

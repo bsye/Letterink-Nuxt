@@ -3,20 +3,35 @@
     :class="inHome && 'footer-highlights'"
     :style="isDesktop && backgroundColor ? backgroundColor : ''"
   >
-    <div class="footer-left" :style="textColor ? textColor : ''">
-      <div class="footer-copyright" v-if="copyright">
+    <div
+      class="footer-left"
+      :style="textColor ? textColor : ''"
+    >
+      <div
+        class="footer-copyright"
+        v-if="copyright"
+      >
         {{ copyright }}
       </div>
 
       <div class="mobile-footer-left">
         <div class="mobile-footer-copyright">©2022</div>
-        <a href="#credits" class="mobile-footer-credits">Credits</a>
+        <a
+          href="#credits"
+          class="mobile-footer-credits"
+        >Credits</a>
       </div>
     </div>
 
-    <div class="footer-right" :style="textColor ? textColor : ''">
+    <div
+      class="footer-right"
+      :style="textColor ? textColor : ''"
+    >
       <div class="footer-links">
-        <a href="#credits" class="footer-credits">Credits</a>
+        <a
+          href="#credits"
+          class="footer-credits"
+        >Credits</a>
         <a
           v-if="instagramUrl"
           target="_blank"
@@ -125,7 +140,7 @@ footer {
     items-center
     uppercase
     text-sm
-    font-cabinet-grotesk
+    font-sans
     font-bold
     transition-colors
     

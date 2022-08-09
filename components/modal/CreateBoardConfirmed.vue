@@ -1,26 +1,29 @@
 <template>
   <div class="create-moodboard">
     <div class="create-moodboard-label">
-      <span>Sei sicur* di voler duplicare la board?</span>
+      <img
+        class="check"
+        src="~/assets/icons/check.svg"
+      />
+      <span>{{ $t('board.created') }}</span>
     </div>
 
     <form @submit.prevent="">
       <div class="form-actions">
         <ElementButton
-          class="button white"
+          class="w-2/5 button white"
           :inactive="true"
-          @click.native="$root.$emit('modal-add-inspiration', true)"
+          @click.native="$root.$emit('hide-overlay', true)"
         >
-          <span>Annulla</span>
+          <span>{{ $t('board.continue') }}</span>
         </ElementButton>
         <ElementButton
           class="button white full"
-          @click.native="duplicateBoard()"
           type="submit"
         >
-          <span>
-            Conferma
-          </span>
+          <NuxtLink :to="localePath('/inspirations/user')">
+            <span>{{ $t('board.myMoodboards') }}</span>
+          </NuxtLink>
         </ElementButton>
       </div>
     </form>
@@ -28,14 +31,7 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    duplicateBoard() {
-      this.$root.$emit("modal-duplicate-board-confirmed", true);
-      this.$store.dispatch("moodboards/duplicateBoard");
-    },
-  },
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
@@ -50,9 +46,10 @@ export default {
     @apply text-28
         font-sans
         text-center
+        flex-col
         grow
         flex
-        justify-center
+        justify-between
         items-center
         py-16
         px-20;

@@ -2,22 +2,29 @@
   <div class="form-moodboard">
     <form @submit.prevent="addInspiration">
       <div class="fields">
-        <div
-          class="field"
-          v-for="moodboard of moodboards"
-          :key="moodboard.id"
-        >
-          <label>
-            <input
-              type="radio"
-              :name="moodboard.slug"
-              :value="moodboard"
-              v-model="selectedMoodboard"
-            />
-            <span class="checkmark"></span>
-            <span class="title">{{ moodboard.title }}</span>
-          </label>
-        </div>
+        <template v-if="moodboards">
+          <div
+            class="field"
+            v-for="moodboard of moodboards"
+            :key="moodboard.id"
+          >
+            <label>
+              <input
+                type="radio"
+                :name="moodboard.slug"
+                :value="moodboard"
+                v-model="selectedMoodboard"
+              />
+              <span class="checkmark"></span>
+              <span class="title">{{ moodboard.title }}</span>
+            </label>
+          </div>
+        </template>
+        <template v-else>
+          <div class="empty">
+            {{ $t('board.notFound') }}
+          </div>
+        </template>
       </div>
 
       <div class="form-footer">
@@ -82,9 +89,19 @@ export default {
     .fields {
       @apply 
         flex
+        grow
         overflow-auto
         max-h-[240px]
         flex-col;
+
+      .empty {
+        @apply
+          grow
+          flex
+          h-full
+          justify-center
+          items-center;
+      }
 
       .field {
         @apply border-b

@@ -1,10 +1,19 @@
 <template>
-  <div class="header" :class="addBorder && 'header-border'">
-    <NuxtLink class="logo" :to="localePath({ name: 'index' })">
+  <div
+    class="header"
+    :class="{ 'seamless': addBorder}"
+  >
+    <NuxtLink
+      class="logo"
+      :to="localePath({ name: 'index' })"
+    >
       letterink
     </NuxtLink>
 
-    <div class="links" v-if="menu && menu.menuItems">
+    <div
+      class="links"
+      v-if="menu && menu.menuItems"
+    >
       <LinkHandler
         class="link"
         :link="item"
@@ -17,19 +26,20 @@
 
     <div class="header-right">
       <div class="inspirations-counter">
-        <NuxtLink
-          class="inspiration"
-          :to="localePath({ name: 'inspirations' })"
-        >
-          inspirations
+        <NuxtLink :to="localePath('/inspirations')">
+          {{ $t('inspiration') }}
         </NuxtLink>
-
-        <NuxtLink
+        <button
+          @click="$root.$emit('show-popup', true)"
           :to="localePath({ name: 'inspirations-your-moodboards' })"
-          class="counter"
         >
-          0
-        </NuxtLink>
+          <div>
+            <div class="counter">
+              {{ moodboardsCount }}
+            </div>
+          </div>
+        </button>
+        <PopupViewInspirations />
       </div>
 
       <div class="languages">
@@ -44,7 +54,10 @@
         </a>
       </div>
 
-      <button class="menu-open" @click="mobileMenuOpen = true">Menu</button>
+      <button
+        class="menu-open"
+        @click="mobileMenuOpen = true"
+      >Menu</button>
     </div>
 
     <ContentMenuMobile
@@ -79,12 +92,16 @@ export default {
 
   computed: {
     addBorder() {
-      return !(
+      return (
         !this.$route.name ||
         this.$route.name.includes("index") ||
         this.$route.name.includes("contact") ||
         this.$route.name.includes("works-slug")
       );
+    },
+
+    moodboardsCount() {
+      return this.$store.getters["moodboards/getMoodboardsCount"];
     },
   },
 };
@@ -93,21 +110,21 @@ export default {
 <style lang="scss" scoped>
 .header {
   @apply h-54
-    bg-white
     flex
     justify-between
     items-center
     text-sm
-    font-cabinet-grotesk
+    font-sans
     font-bold
+    border-b
     uppercase
     px-4
     
     md:font-normal;
 
-  &.header-border {
-    @apply border-b
-      border-black;
+  &.seamless {
+    @apply
+      border-transparent;
   }
 
   .logo {
@@ -147,27 +164,19 @@ export default {
       justify-end
       gap-x-4
       w-48
-      
       md:gap-x-2;
 
     .inspirations-counter {
-      @apply flex
+      @apply
+        flex
         items-center
-        gap-x-2;
+        relative;
 
-      .inspiration {
-        @apply hidden
-          underline
-        
-          md:flex;
-
-        &:hover {
-          @apply no-underline;
-        }
-
-        @screen md {
-          text-underline-position: under;
-        }
+      button {
+        @apply
+          flex
+          items-center
+          uppercase;
       }
 
       .counter {
@@ -175,6 +184,8 @@ export default {
           bg-black
           text-white
           h-6
+
+          ml-2
           w-6
           flex
           justify-center

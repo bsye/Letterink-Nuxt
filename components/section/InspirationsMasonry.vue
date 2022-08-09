@@ -58,7 +58,7 @@ export default {
     flex
     justify-center
     items-center
-    font-cabinet-grotesk
+    font-sans
     uppercase
     text-2xl;
 

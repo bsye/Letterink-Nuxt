@@ -2,8 +2,8 @@
   <NuxtLink
     class="moodboard"
     :to="localePath({
-            name: 'inspirations-slug',
-            params: { slug: moodboard.slug },
+            name: 'inspirations-user-id',
+            params: { id:  moodboard.id},
   })"
   >
     <div class="moodboard-items">

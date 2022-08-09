@@ -19,14 +19,14 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ["~/static/fonts/stylesheet.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "~/plugins/utils.js",
     "~/plugins/craft.js",
     "~/plugins/vuex-persist.client.js",
-    "~/plugins/init-moodboards.client.js"
+    "~/plugins/init-moodboards.client.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -37,12 +37,12 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     "@nuxtjs/tailwindcss",
     "nuxt-graphql-request",
-    "@nuxtjs/google-fonts",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // '@nuxt/http',
+    'vue-social-sharing/nuxt',
     "@nuxtjs/i18n",
   ],
 
@@ -51,7 +51,6 @@ export default {
 
   i18n: {
     // skipSettingLocaleOnNavigate: true,
-    straetegy: "prefix_except_default",
     defaultLocale: "en",
     locales: [
       {
@@ -82,13 +81,6 @@ export default {
         endpoint: process.env.BASE_API,
         mode: "cors",
       },
-    },
-  },
-
-  googleFonts: {
-    families: {
-      Roboto: [400, 700],
-      "Cormorant+Upright": true,
     },
   },
 

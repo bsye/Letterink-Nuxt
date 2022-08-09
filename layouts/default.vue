@@ -54,6 +54,48 @@ export default {
   @apply h-screen;
 }
 
+html {
+  * {
+    @apply
+      border-black;
+  }
+}
+
+html.dark {
+  @apply
+    bg-black
+    border-white
+    text-white;
+
+  * {
+    @apply
+      border-white;
+  }
+
+  .header {
+    &.seamless {
+      @apply
+        bg-black;
+    }
+
+    .header-right {
+      .inspirations-counter {
+        div.counter {
+          @apply
+            bg-white
+            text-black;
+        }
+      }
+    } 
+  }
+}
+
+* {
+  @apply
+    antialiased;
+}
+
+
 .page-enter-active,
 .page-leave-active {
   @apply transition-opacity;

@@ -42,34 +42,23 @@
 </template>
 
 <script>
-import query from "~/graphql/queries/singleMoodboard";
-
 export default {
-  data() {
-    return {
-      moodboard: null,
-    };
+  computed: {
+    moodboard() {
+      const userMoodboard = this.$store.getters[
+        "moodboards/getUserMoodboardById"
+      ](this.$route.params.id);
+      this.$store.dispatch("moodboards/setCurrentMoodboard", userMoodboard);
+      return userMoodboard;
+    },
   },
 
-  watch() {
+  head() {
     return {
-      bodyAttrs: {
-        class: "dark",
+      htmlAttrs: {
+        class: `dark`,
       },
     };
-  },
-
-  async asyncData({ $graphql, params, store }) {
-    try {
-      const { moodboard } = await $graphql.default.request(query, {
-        slug: params.slug,
-      });
-
-      store.dispatch("moodboards/setCurrentMoodboard", moodboard);
-      return { moodboard };
-    } catch (error) {
-      console.log("ERROR: ", error);
-    }
   },
 };
 </script>

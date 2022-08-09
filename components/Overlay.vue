@@ -7,7 +7,7 @@
     >
       <div class="overlay-content">
         <div class="overlay-header">
-          <div class="form-moodboard-header-text">Aggiungi a moodboard</div>
+          <div class="form-moodboard-header-text">{{ title }}</div>
           <button @click="handleClose()">
             <img src="~/assets/icons/cross.svg" />
           </button>
@@ -16,8 +16,10 @@
         <ModalAddInspiration v-if="modals.addInspiration" />
         <ModalCreateBoard v-if="modals.createBoard" />
         <ModalCreateBoardOnly v-if="modals.createBoardOnly" />
+        <ModalCreateBoardConfirmed v-if="modals.createBoardConfirmed" />
         <ModalShareBoard v-if="modals.shareBoard" />
         <ModalDuplicateBoard v-if="modals.duplicateBoard" />
+        <ModalDuplicateBoardConfirmed v-if="modals.duplicateBoardConfirmed" />
       </div>
     </div>
   </transition>
@@ -28,12 +30,15 @@ export default {
   data() {
     return {
       overlayOpen: false,
+      title: false,
       modals: {
         addInspiration: false,
         createBoard: false,
         createBoardOnly: false,
+        createBoardConfirmed: false,
         shareBoard: false,
         duplicateBoard: false,
+        duplicateBoardConfirmed: false,
       },
     };
   },
@@ -51,28 +56,44 @@ export default {
 
     this.$root.$on("modal-add-inspiration", (state) => {
       this.closeModals();
+      this.title = this.$i18n.t("Aggiungi a moodboard");
       this.modals.addInspiration = state;
     });
 
     this.$root.$on("modal-duplicate-board", (state) => {
       this.closeModals();
+      this.title = this.$i18n.t("Duplica");
       this.modals.duplicateBoard = state;
+    });
+
+    this.$root.$on("modal-duplicate-board-confirmed", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Duplica");
+      this.modals.duplicateBoardConfirmed = state;
     });
 
     this.$root.$on("modal-create-board", (state) => {
       this.closeModals();
+      this.title = this.$i18n.t("Crea moodboard");
       this.modals.createBoard = state;
-    });
-
-    this.$root.$on("modal-share-board", (state) => {
-      console.log("su");
-      this.closeModals();
-      this.modals.shareBoard = state;
     });
 
     this.$root.$on("modal-create-board-only", (state) => {
       this.closeModals();
+      this.title = this.$i18n.t("Crea moodboard");
       this.modals.createBoardOnly = state;
+    });
+
+    this.$root.$on("modal-create-board-confirmed", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Crea moodboard");
+      this.modals.createBoardConfirmed = state;
+    });
+
+    this.$root.$on("modal-share-board", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Condividi moodboard");
+      this.modals.shareBoard = state;
     });
   },
 
@@ -104,7 +125,7 @@ export default {
     w-full
     h-screen
     bg-black
-    bg-opacity-20
+    bg-opacity-30
     flex
     justify-center
     items-center;
@@ -115,7 +136,7 @@ export default {
     uppercase
     flex
     flex-col
-    font-cabinet-grotesk
+    font-sans
     text-sm
     w-full
     mx-auto
@@ -145,10 +166,12 @@ export default {
 
 .overlay-enter-active,
 .overlay-leave-active {
-  transition: opacity 0.3s;
+  @apply
+    transition-opacity;
 }
 
-.overlay-enter .overlay-leave-to {
+.overlay-enter,
+.overlay-leave-to {
   @apply opacity-0;
 }
 </style>

@@ -1,7 +1,13 @@
 <template>
   <div class="works">
-    <div class="works-categories" v-if="categories">
-      <NuxtLink class="works-category" :to="localePath({ name: 'works' })">
+    <div
+      class="works-categories"
+      v-if="categories"
+    >
+      <NuxtLink
+        class="works-category"
+        :to="localePath({ name: 'works' })"
+      >
         All
       </NuxtLink>
 
@@ -15,7 +21,10 @@
       </NuxtLink>
     </div>
 
-    <div class="works-container" v-if="worksBlock">
+    <div
+      class="works-container"
+      v-if="worksBlock"
+    >
       <div
         class="works-block"
         v-for="(block, index) of worksBlock"
@@ -28,14 +37,23 @@
           :key="index"
         >
           <figure>
-            <img v-if="work.image[0]" :src="work.image[0].url" />
+            <img
+              v-if="work.image[0]"
+              :src="work.image[0].url"
+            />
           </figure>
 
-          <div class="work-title" v-if="work.title">
+          <div
+            class="work-title"
+            v-if="work.title"
+          >
             {{ work.title }}
           </div>
 
-          <div class="work-categories" v-if="work.workCategories.length">
+          <div
+            class="work-categories"
+            v-if="work.workCategories.length"
+          >
             <span
               class="work-category"
               v-for="category of work.workCategories"
@@ -139,7 +157,7 @@ export default {
     .works-category {
       @apply uppercase
         text-sm
-        font-cabinet-grotesk
+        font-sans
         whitespace-nowrap;
 
       &:last-child {
@@ -182,7 +200,7 @@ export default {
         gap-y-2
         uppercase
         text-sm
-        font-cabinet-grotesk;
+        font-sans;
 
         figure {
           @apply w-full

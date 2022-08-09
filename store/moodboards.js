@@ -55,15 +55,25 @@ export const getters = {
     return state.userMoodboards.featured
   },
 
+  getUserMoodboardById: (state) => (id) => {
+    return state.userMoodboards.elements[id]
+  },
+
   getCurrentMoodboard(state) {
     return state.currentMoodboard
+  },
+
+  getMoodboardsCount(state) {
+    if (!process.client) return 0;
+    if(!state.userMoodboards.elements) return 0
+    return Object.keys(state.userMoodboards.elements).length;
   },
 
   getUserMoodboards(state) {
     return state.userMoodboards.elements
   },
 }
-
+  
 export const actions = {
   createMoodboard(context, name) {
     context.commit("NEW_MOODBOARD", {
@@ -74,8 +84,14 @@ export const actions = {
   },
 
   generateShare(context, name) {
+    if (!process.client) return;
     const currentMoodboard = JSON.stringify(context.state.currentMoodboard)
-    return encodeURIComponent(Base64.encode(currentMoodboard));
+    const encoded = encodeURIComponent(Base64.encode(currentMoodboard));
+    const url = new URL(
+      `/inspirations/share/${encoded}`,
+      window.location.origin
+    );
+    return url.href;
   },
 
   setCurrentMoodboard(context, moodboard) {
@@ -85,7 +101,7 @@ export const actions = {
   duplicateBoard(context) {
     const currentMoodboard = context.state.currentMoodboard
     context.commit("NEW_MOODBOARD", {
-      title: currentMoodboard.title,
+      title: currentMoodboard.title + ' (copy)',
       originalId: currentMoodboard.id,
       id: uuidv4(),
       inspirationItems: currentMoodboard.inspirationItems

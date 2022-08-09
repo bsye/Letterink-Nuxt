@@ -24,7 +24,7 @@ div.button {
     cursor-pointer
     inline-block
     uppercase
-    font-cabinet-grotesk
+    font-sans
     w-auto
     justify-center
     items-center
@@ -42,6 +42,10 @@ div.button {
   > * {
     @apply
       flex
+      py-4
+      -my-4
+      px-6
+      -mx-6
       leading-normal
       justify-center
       items-center;
