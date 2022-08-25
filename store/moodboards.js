@@ -146,13 +146,25 @@ export const actions = {
     });
   },
 
-  removeInspiration(context) {
+  removeInspirationFromCurrentBoard(context) {
     const currentInspiration = context.state.currentInspiration;
     const currentMoodboard = context.state.currentMoodboard;
     context.commit("DELETE_INSPIRATION", {
       inspiration: currentInspiration,
       moodboard: currentMoodboard,
     });
+  },
+
+  removeInspiration(context, {moodboards}) {
+    const currentInspiration = context.state.currentInspiration;
+    moodboards.forEach(moodboard => {
+      context.commit("DELETE_INSPIRATION", {
+        inspiration: currentInspiration,
+        moodboard: {
+          id: moodboard
+        },
+      });
+    })
   },
 
   async setFeatured(context, name) {

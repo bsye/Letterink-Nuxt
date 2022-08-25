@@ -14,7 +14,7 @@
                 checked
                 :name="moodboard.id"
                 ref="moodboard"
-                v-model="selectedMoodboard[moodboard.id]"
+                v-model="unselectedMoodboard[moodboard.id]"
               />
               <span class="checkmark"></span>
               <span class="title">{{ moodboard.title }}</span>
@@ -73,6 +73,7 @@ export default {
     return {
       moodboards: false,
       alreadyInMoodboard: [],
+      unselectedMoodboard: [],
       selectedMoodboard: [],
     };
   },
@@ -87,6 +88,8 @@ export default {
 
     this.alreadyInMoodboard = [];
 
+    if (!userMoodboards || !currentInspiration)
+      return (this.moodboards = false);
     this.moodboards = Object.values(userMoodboards).filter((moodboard) => {
       if (
         moodboard.inspirationItems.find(
@@ -102,12 +105,19 @@ export default {
 
   methods: {
     addInspiration() {
-      if (this.selectedMoodboard) {
-        this.$store.dispatch(
-          "moodboards/addToMoodboards",
-          Object.keys(this.selectedMoodboard)
-        );
-      }
+      let toRemove = Object.keys(this.unselectedMoodboard).filter(
+        (item) => this.unselectedMoodboard[item] == false
+      );
+      let toAdd = Object.keys(this.selectedMoodboard).filter(
+        (item) => this.selectedMoodboard[item] == true
+      );
+
+      if (toAdd) this.$store.dispatch("moodboards/addToMoodboards", toAdd);
+
+      if (toRemove)
+        this.$store.dispatch("moodboards/removeInspiration", {
+          moodboards: toRemove,
+        });
     },
   },
 };

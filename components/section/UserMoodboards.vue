@@ -40,6 +40,8 @@ export default {
 .moodboards {
   @apply pb-16
     text-center
+    relative
+    z-0
     overflow-hidden;
 
   .moodboards-label {

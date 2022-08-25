@@ -8,7 +8,10 @@
       <div class="overlay-content">
         <div class="overlay-header">
           <div class="form-moodboard-header-text">{{ title }}</div>
-          <button @click="handleClose()">
+          <button
+            class="close"
+            @click="handleClose()"
+          >
             <img src="~/assets/icons/cross.svg" />
           </button>
         </div>
@@ -208,6 +211,12 @@ export default {
         rotate-45;
       }
     }
+  }
+
+  .close {
+    @apply
+      -m-5
+      p-5;
   }
 }
 

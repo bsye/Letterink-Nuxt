@@ -58,6 +58,8 @@ export default {
 <style lang="scss" scoped>
 .moodboards {
   @apply pb-16
+    relative
+    z-0
     overflow-hidden;
 
   .moodboards-label {
