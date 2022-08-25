@@ -3,7 +3,7 @@
     <div class="single-moodboard-header">
       <div class="single-moodboard-header-label-container">
         <span class="single-moodboard-header-label">
-          Inspirational moodboard
+          {{ $t('user.moodboard') }}
         </span>
         <span class="inspirations-counter">
           {{ moodboard.inspirationItems.length }} Images
@@ -27,13 +27,14 @@
 
         <div class="single-moodboard-header-actions">
           <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board')">Duplica</ElementButton>
+          <ElementButton @click.native="$root.$emit('show-overlay','modal-rename-board')">Rinomina</ElementButton>
           <ElementButton @click.native="$root.$emit('show-overlay','modal-share-board')">Condividi</ElementButton>
         </div>
       </div>
     </div>
 
     <div class="single-moodboard-content">
-      <SectionInspirationsMasonry
+      <SectionUserInspirationsMasonry
         v-if="moodboard.inspirationItems"
         :inspirations="moodboard.inspirationItems"
       />

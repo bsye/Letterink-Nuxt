@@ -5,15 +5,32 @@
         <template v-if="moodboards">
           <div
             class="field"
+            v-for="moodboard of alreadyInMoodboard"
+            :key="moodboard.id"
+          >
+            <label>
+              <input
+                type="checkbox"
+                checked
+                :name="moodboard.id"
+                ref="moodboard"
+                v-model="selectedMoodboard[moodboard.id]"
+              />
+              <span class="checkmark"></span>
+              <span class="title">{{ moodboard.title }}</span>
+            </label>
+          </div>
+          <div
+            class="field"
             v-for="moodboard of moodboards"
             :key="moodboard.id"
           >
             <label>
               <input
-                type="radio"
-                :name="moodboard.slug"
-                :value="moodboard"
-                v-model="selectedMoodboard"
+                type="checkbox"
+                :name="moodboard.id"
+                ref="moodboard"
+                v-model="selectedMoodboard[moodboard.id]"
               />
               <span class="checkmark"></span>
               <span class="title">{{ moodboard.title }}</span>
@@ -26,7 +43,6 @@
           </div>
         </template>
       </div>
-
       <div class="form-footer">
         <ElementButton
           class="button white"
@@ -55,17 +71,42 @@
 export default {
   data() {
     return {
-      moodboards: this.$store.getters["moodboards/getUserMoodboards"],
-      selectedMoodboard: null,
+      moodboards: false,
+      alreadyInMoodboard: [],
+      selectedMoodboard: [],
     };
+  },
+
+  async mounted() {
+    const userMoodboards = await this.$store.getters[
+      "moodboards/getUserMoodboards"
+    ];
+    const currentInspiration = await this.$store.getters[
+      "moodboards/getCurrentInspiration"
+    ];
+
+    this.alreadyInMoodboard = [];
+
+    this.moodboards = Object.values(userMoodboards).filter((moodboard) => {
+      if (
+        moodboard.inspirationItems.find(
+          (element) => element.id == currentInspiration.id
+        )
+      ) {
+        this.alreadyInMoodboard.push(moodboard);
+        return false;
+      }
+      return moodboard;
+    });
   },
 
   methods: {
     addInspiration() {
       if (this.selectedMoodboard) {
-        this.$store.commit("moodboards/ADD_TO_MOODBOARD", {
-          moodboard: this.selectedMoodboard,
-        });
+        this.$store.dispatch(
+          "moodboards/addToMoodboards",
+          Object.keys(this.selectedMoodboard)
+        );
       }
     },
   },
@@ -78,6 +119,15 @@ export default {
     flex
     flex-col
     grow;
+
+  .warning {
+    @apply
+      text-[10px]
+      leading-snug
+      pt-4
+      px-4
+      text-center;
+  }
 
   form {
     @apply

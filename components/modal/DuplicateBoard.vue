@@ -1,6 +1,6 @@
 <template>
-  <div class="create-moodboard">
-    <div class="create-moodboard-label">
+  <div class="moodboard">
+    <div class="moodboard-label">
       <span>Sei sicur* di voler duplicare la board?</span>
     </div>
 
@@ -39,14 +39,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.create-moodboard {
+.moodboard {
   @apply flex
     flex-col
     grow
     justify-between
     items-center;
 
-  .create-moodboard-label {
+  .moodboard-label {
     @apply text-28
         font-sans
         text-center

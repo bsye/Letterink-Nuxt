@@ -1,30 +1,25 @@
 <template>
   <div class="moodboard">
     <div class="moodboard-label">
-      Inserisci il nuovo nome della board?
+      <span>Sei sicur* di voler rimuovere l'inspiration?</span>
     </div>
 
     <form @submit.prevent="">
-      <input
-        type="text"
-        maxlength="28"
-        v-model="moodboardName"
-      />
       <div class="form-actions">
         <ElementButton
           class="button white"
           :inactive="true"
-          @click.native="$root.$emit('modal-add-inspiration', true)"
+          @click.native="$root.$emit('hide-overlay', true)"
         >
           <span>Annulla</span>
         </ElementButton>
         <ElementButton
           class="button white full"
-          @click.native="createMoodboard()"
+          @click.native="removeInspiration()"
           type="submit"
         >
           <span>
-            Crea
+            Conferma
           </span>
         </ElementButton>
       </div>
@@ -34,18 +29,10 @@
 
 <script>
 export default {
-  data() {
-    return {
-      moodboardName: "",
-    };
-  },
-
   methods: {
-    createMoodboard() {
-      if (this.moodboardName) {
-        this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
-      }
+    removeInspiration() {
+      this.$store.dispatch("moodboards/removeInspiration");
+      this.$root.$emit("hide-overlay", true);
     },
   },
 };
@@ -63,6 +50,10 @@ export default {
     @apply text-28
         font-sans
         text-center
+        grow
+        flex
+        justify-center
+        items-center
         py-16
         px-20;
     line-height: initial;

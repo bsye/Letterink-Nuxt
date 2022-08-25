@@ -1,6 +1,6 @@
 <template>
   <div class="inspiration">
-    <button @click="addToMoodboard()">
+    <button @click="removeInspiration()">
       <figure>
         <img
           v-if="inspiration.image.length"
@@ -10,7 +10,7 @@
         <div class="icon">
           <img
             class="cross"
-            src="~/assets/icons/cross.svg"
+            src="~/assets/icons/minus.svg"
           />
         </div>
       </figure>
@@ -46,12 +46,12 @@ export default {
   },
 
   methods: {
-    addToMoodboard() {
-      this.$root.$emit("show-overlay", "modal-add-inspiration");
-      this.$store.dispatch(
+    async removeInspiration() {
+      await this.$store.dispatch(
         "moodboards/setCurrentInspiration",
         this.inspiration
       );
+      this.$root.$emit("show-overlay", "modal-remove-inspiration");
     },
   },
 };

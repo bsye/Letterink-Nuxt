@@ -1,31 +1,22 @@
 <template>
   <div class="moodboard">
     <div class="moodboard-label">
-      Inserisci il nuovo nome della board?
+      <img
+        class="check"
+        src="~/assets/icons/check.svg"
+      />
+      <span>{{ $t('board.renamed') }}</span>
     </div>
 
     <form @submit.prevent="">
-      <input
-        type="text"
-        maxlength="28"
-        v-model="moodboardName"
-      />
       <div class="form-actions">
         <ElementButton
-          class="button white"
-          :inactive="true"
-          @click.native="$root.$emit('modal-add-inspiration', true)"
-        >
-          <span>Annulla</span>
-        </ElementButton>
-        <ElementButton
-          class="button white full"
-          @click.native="createMoodboard()"
+          class="w-2/5 button white full"
           type="submit"
+          :inactive="true"
+          @click.native="$root.$emit('hide-overlay', true)"
         >
-          <span>
-            Crea
-          </span>
+          <span>{{ $t('board.continue') }}</span>
         </ElementButton>
       </div>
     </form>
@@ -33,22 +24,7 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      moodboardName: "",
-    };
-  },
-
-  methods: {
-    createMoodboard() {
-      if (this.moodboardName) {
-        this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
-      }
-    },
-  },
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
@@ -63,6 +39,11 @@ export default {
     @apply text-28
         font-sans
         text-center
+        flex-col
+        grow
+        flex
+        justify-between
+        items-center
         py-16
         px-20;
     line-height: initial;

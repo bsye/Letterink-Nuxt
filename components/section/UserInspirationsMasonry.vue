@@ -28,7 +28,7 @@
         v-for="(inspiration,index) of inspirations"
         :key="index"
       >
-        <TeaserInspiration
+        <TeaserUserInspiration
           ref="inspiration"
           :inspiration="inspiration"
         />

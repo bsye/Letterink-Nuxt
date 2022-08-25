@@ -26,6 +26,7 @@ export default {
     "~/plugins/utils.js",
     "~/plugins/craft.js",
     "~/plugins/vuex-persist.client.js",
+    "~/plugins/grid-layout.js",
     "~/plugins/init-moodboards.client.js",
   ],
 

@@ -12,19 +12,12 @@
       />
       <div class="form-actions">
         <ElementButton
-          class="button white"
-          :inactive="true"
-          @click.native="$root.$emit('modal-add-inspiration', true)"
-        >
-          <span>Annulla</span>
-        </ElementButton>
-        <ElementButton
           class="button white full"
-          @click.native="createMoodboard()"
+          @click.native="renameMoodboard()"
           type="submit"
         >
           <span>
-            Crea
+            Rinomina
           </span>
         </ElementButton>
       </div>
@@ -41,10 +34,10 @@ export default {
   },
 
   methods: {
-    createMoodboard() {
+    renameMoodboard() {
       if (this.moodboardName) {
-        this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
+        this.$store.dispatch("moodboards/renameMoodboard", this.moodboardName);
+        this.$root.$emit("show-overlay", "modal-rename-board-confirmed");
       }
     },
   },
@@ -87,8 +80,7 @@ export default {
         uppercase;
     }
 
-    button,
-    div {
+    button {
       @apply
         w-full;
     }

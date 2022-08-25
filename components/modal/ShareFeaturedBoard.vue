@@ -56,7 +56,7 @@
       </ElementButton>
       <div class="warning">
         <span>
-          {{ `'(*) Stai condividendo la versione corrente della tua Board, se effettuerai modifiche a "${getCurrentMoodboard.title}" in futuro non verranno visualizzate sul link generato.'` }}
+          {{ `'(*) Stai condividendo una moodboard editoriale che potrebbe essere soggetta a modifiche'` }}
 
         </span>
       </div>
@@ -76,7 +76,7 @@ export default {
   },
 
   async created() {
-    this.shareUrl = await this.$store.dispatch("moodboards/generateShare");
+    this.shareUrl = location.href;
   },
 
   computed: {
@@ -84,9 +84,9 @@ export default {
   },
 
   methods: {
-    async linkShare() {
+    linkShare() {
       if (!process.client) return;
-      const generated = await this.$store.dispatch("moodboards/generateShare");
+      const generated = location.href;
       navigator.clipboard.writeText(generated).then(
         () => console.log("Async: Copying to clipboard was successful!"),
         () => console.log("error")

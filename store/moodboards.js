@@ -21,6 +21,15 @@ export const mutations = {
     };
   },
 
+  RENAME_INSPIRATION(state, {moodboard, moodboardName}) {
+    state.userMoodboards.elements[moodboard.id].title = moodboardName;
+  },
+
+  DELETE_INSPIRATION(state, {inspiration, moodboard}) {
+    const remaining = state.userMoodboards.elements[moodboard.id].inspirationItems.filter((item) => item.id != inspiration.id);
+    state.userMoodboards.elements[moodboard.id].inspirationItems = remaining
+  },
+
   SET_CURRENT_INSPIRATION(state, inspiration) {
     state.currentInspiration = inspiration
   },
@@ -36,13 +45,11 @@ export const mutations = {
     };
   },
 
-  ADD_TO_MOODBOARD(state, payload) {
-    const moodboard = payload.moodboard;
-    if (state.currentInspiration)
-      state.userMoodboards.elements[moodboard.id].inspirationItems = [
-        ...state.userMoodboards.elements[moodboard.id].inspirationItems,
-        state.currentInspiration,
-      ];
+  ADD_TO_MOODBOARD(state, {moodboardId, inspiration}) {
+    state.userMoodboards.elements[moodboardId].inspirationItems = [
+      ...state.userMoodboards.elements[moodboardId].inspirationItems,
+      inspiration,
+    ];
   },
 };
 
@@ -61,6 +68,10 @@ export const getters = {
 
   getCurrentMoodboard(state) {
     return state.currentMoodboard
+  },
+
+  getCurrentInspiration(state) {
+    return state.currentInspiration
   },
 
   getMoodboardsCount(state) {
@@ -85,7 +96,7 @@ export const actions = {
 
   generateShare(context, name) {
     if (!process.client) return;
-    const currentMoodboard = JSON.stringify(context.state.currentMoodboard)
+    const currentMoodboard = JSON.stringify(context.state.currentMoodboard);
     const encoded = encodeURIComponent(Base64.encode(currentMoodboard));
     const url = new URL(
       `/inspirations/share/${encoded}`,
@@ -94,18 +105,27 @@ export const actions = {
     return url.href;
   },
 
-  setCurrentMoodboard(context, moodboard) {
-    context.commit("SET_CURRENT_MOODBOARD", moodboard);
+  addToMoodboards(context, moodboards) {
+    const currentInspiration = context.state.currentInspiration;
+    if(!currentInspiration) return false
+    moodboards.forEach((moodboard) => {
+      context.commit("ADD_TO_MOODBOARD", {
+        moodboardId: moodboard,
+        inspiration: currentInspiration,
+      });
+    })
   },
 
-  duplicateBoard(context) {
-    const currentMoodboard = context.state.currentMoodboard
-    context.commit("NEW_MOODBOARD", {
-      title: currentMoodboard.title + ' (copy)',
-      originalId: currentMoodboard.id,
-      id: uuidv4(),
-      inspirationItems: currentMoodboard.inspirationItems
-    })
+  renameMoodboard(context, moodboardName) {
+    const currentMoodboard = context.state.currentMoodboard;
+    context.commit("RENAME_INSPIRATION", {
+      moodboardName: moodboardName,
+      moodboard: currentMoodboard,
+    });
+  },
+
+  setCurrentMoodboard(context, moodboard) {
+    context.commit("SET_CURRENT_MOODBOARD", moodboard);
   },
 
   setCurrentInspiration(context, inspiration) {
@@ -116,12 +136,33 @@ export const actions = {
     });
   },
 
+  duplicateBoard(context) {
+    const currentMoodboard = context.state.currentMoodboard;
+    context.commit("NEW_MOODBOARD", {
+      title: currentMoodboard.title + " (copy)",
+      originalId: currentMoodboard.id,
+      id: uuidv4(),
+      inspirationItems: currentMoodboard.inspirationItems,
+    });
+  },
+
+  removeInspiration(context) {
+    const currentInspiration = context.state.currentInspiration;
+    const currentMoodboard = context.state.currentMoodboard;
+    context.commit("DELETE_INSPIRATION", {
+      inspiration: currentInspiration,
+      moodboard: currentMoodboard,
+    });
+  },
+
   async setFeatured(context, name) {
     try {
-      const featured = await this.$graphql.default.request(query)
-      featured.moodboards.forEach(moodboard => context.commit('SET_FEATURED', moodboard))
+      const featured = await this.$graphql.default.request(query);
+      featured.moodboards.forEach((moodboard) =>
+        context.commit("SET_FEATURED", moodboard)
+      );
     } catch (error) {
-      console.log('Featured moodboards error', error)
+      console.log("Featured moodboards error", error);
     }
-  }
+  },
 };

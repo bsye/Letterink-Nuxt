@@ -14,12 +14,18 @@
         </div>
 
         <ModalAddInspiration v-if="modals.addInspiration" />
+        <ModalRemoveInspiration v-if="modals.removeInspiration" />
         <ModalCreateBoard v-if="modals.createBoard" />
         <ModalCreateBoardOnly v-if="modals.createBoardOnly" />
         <ModalCreateBoardConfirmed v-if="modals.createBoardConfirmed" />
+        <ModalRenameBoard v-if="modals.renameBoard" />
+        <ModalRenameBoardConfirmed v-if="modals.renameBoardConfirmed" />
         <ModalShareBoard v-if="modals.shareBoard" />
+        <ModalShareFeaturedBoard v-if="modals.shareFeaturedBoard" />
         <ModalDuplicateBoard v-if="modals.duplicateBoard" />
         <ModalDuplicateBoardConfirmed v-if="modals.duplicateBoardConfirmed" />
+        <ModalSaveBoard v-if="modals.saveBoard" />
+        <ModalSaveBoardConfirmed v-if="modals.saveBoardConfirmed" />
       </div>
     </div>
   </transition>
@@ -33,12 +39,18 @@ export default {
       title: false,
       modals: {
         addInspiration: false,
+        removeInspiration: false,
         createBoard: false,
         createBoardOnly: false,
         createBoardConfirmed: false,
+        renameBoard: false,
+        renameBoardConfirmed: false,
         shareBoard: false,
+        shareFeaturedBoard: false,
         duplicateBoard: false,
         duplicateBoardConfirmed: false,
+        saveBoard: false,
+        saveBoardConfirmed: false,
       },
     };
   },
@@ -60,6 +72,12 @@ export default {
       this.modals.addInspiration = state;
     });
 
+    this.$root.$on("modal-remove-inspiration", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Rimuovere inspiration?");
+      this.modals.removeInspiration = state;
+    });
+
     this.$root.$on("modal-duplicate-board", (state) => {
       this.closeModals();
       this.title = this.$i18n.t("Duplica");
@@ -70,6 +88,18 @@ export default {
       this.closeModals();
       this.title = this.$i18n.t("Duplica");
       this.modals.duplicateBoardConfirmed = state;
+    });
+
+    this.$root.$on("modal-save-board", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Salva");
+      this.modals.saveBoard = state;
+    });
+
+    this.$root.$on("modal-save-board-confirmed", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Duplica");
+      this.modals.saveBoardConfirmed = state;
     });
 
     this.$root.$on("modal-create-board", (state) => {
@@ -90,10 +120,27 @@ export default {
       this.modals.createBoardConfirmed = state;
     });
 
+    this.$root.$on("modal-rename-board", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Rinomina Board");
+      this.modals.renameBoard = state;
+    });
+
+    this.$root.$on("modal-rename-board-confirmed", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Rinomina Board");
+      this.modals.renameBoardConfirmed = state;
+    });
+
     this.$root.$on("modal-share-board", (state) => {
       this.closeModals();
       this.title = this.$i18n.t("Condividi moodboard");
       this.modals.shareBoard = state;
+    });
+    this.$root.$on("modal-share-featured-board", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Condividi moodboard");
+      this.modals.shareFeaturedBoard = state;
     });
   },
 

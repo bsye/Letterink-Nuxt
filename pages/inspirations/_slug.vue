@@ -27,7 +27,7 @@
 
         <div class="single-moodboard-header-actions">
           <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board')">Duplica</ElementButton>
-          <ElementButton @click.native="$root.$emit('show-overlay','modal-share-board')">Condividi</ElementButton>
+          <ElementButton @click.native="$root.$emit('show-overlay','modal-share-featured-board')">Condividi</ElementButton>
         </div>
       </div>
     </div>
