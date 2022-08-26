@@ -7,7 +7,7 @@
       :items="inspirations"
       :ssr-columns="1"
       :column-width="500"
-      :gap="24"
+      :gap="20"
       class="inspirations-masonry"
       :responsive="true"
       v-if="inspirations && inspirations.length"
@@ -47,20 +47,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.inspirations-masonry {
+  @apply
+    px-5;
+}
+
 .inspirations-not-found {
   @apply w-full
     flex
+    absolute
+    top-0
+    bottom-0
     justify-center
     items-center
     font-sans
     uppercase
     text-2xl;
-
-  min-height: 40vh;
-
-  @screen md {
-    min-height: 80vh;
-  }
 }
 
 .inspirations-masonry-enter-active,

@@ -4,25 +4,29 @@
     v-if="getFeatured"
   >
     <div class="moodboards-label">
-      <span> Editorial Moodboard </span>
+      <span> Inspirational Moodboard </span>
     </div>
 
     <div
       class="moodboards-content"
       :class="'in-your-moodboards'"
     >
-      <ElementSliderCentered
-        slidesPerView="3"
-        class="slider"
-      >
-        <template v-for="moodboard of getFeatured">
-          <TeaserMoodboard
-            class="swiper-slide"
-            :key="moodboard.id"
-            :moodboard="moodboard"
-          />
-        </template>
-      </ElementSliderCentered>
+      <template v-for="(moodboard, key, index) of getFeatured">
+        <TeaserMoodboard
+          v-if="index < 3"
+          class="swiper-slide"
+          :key="moodboard.id"
+          :moodboard="moodboard"
+        />
+        <TeaserMoodboard
+          class="swiper-slide"
+          v-else
+          :placeholder="true"
+          :placeholderLength="Object.keys(getFeatured).length"
+          :key="moodboard.id"
+          :moodboard="moodboard"
+        />
+      </template>
     </div>
     <div
       class="user"
@@ -71,6 +75,20 @@ export default {
       py-5;
   }
 
+  .placeholder {
+    @apply
+      relative;
+
+    .overlay {
+      @apply
+        inset-0
+        bg-black
+        w-full
+        h-full
+        absolute;
+    }
+  }
+
   .user {
     @apply
       w-full
@@ -80,8 +98,10 @@ export default {
   }
 
   .moodboards-content {
-    @apply flex
+    @apply
       -mx-8
+      grid
+      grid-flow-col-dense
       overflow-auto
       justify-center
       relative;
@@ -92,7 +112,8 @@ export default {
 
     .moodboard {
       @apply
-        px-4;
+        min-w-[300px]
+        px-2.5;
     }
   }
 }

@@ -24,18 +24,18 @@ export default {
     await this.$nextTick();
     new Swiper(this.$refs.swiper, {
       slidesPerView: "auto",
-      loop: true,
+      loop: false,
       centeredSlides: true,
-      spaceBetween: 20,
+      spaceBetween: 0,
       breakpoints: {
         1280: {
           slidesPerView: "auto",
-          spaceBetween: 40,
+          spaceBetween: 0,
         },
 
         1024: {
           slidesPerView: "auto",
-          spaceBetween: 40,
+          spaceBetween: 0,
         },
 
         768: {

@@ -174,24 +174,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dark {
-  .overlay {
-    .overlay-content {
-      @apply
-        border-white
-        border;
-    }
-  }
-}
 
 .overlay {
   @apply fixed
     top-0
     left-0
     w-full
-    h-screen
     bg-black
-    bg-opacity-30
+    border-none
+    h-screen
+    bg-opacity-70
     flex
     justify-center
     items-center;
@@ -206,6 +198,8 @@ export default {
     text-sm
     w-full
     mx-auto
+    border
+    border-white
     max-w-[31rem]
     min-h-[410px];
   }

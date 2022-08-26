@@ -7,7 +7,7 @@
       :items="inspirations"
       :ssr-columns="1"
       ref="masonry"
-      :gap="24"
+      :gap="20"
       :column-width="700"
       class="inspirations-masonry"
       :responsive="true"
@@ -16,11 +16,13 @@
     >
       <template
         class="masonry"
-        #default="{ item }"
+        #default="{ item, index }"
       >
         <TeaserUserInspiration
-          ref="inspiration"
           :key="item.id"
+          :ref="`inspiration-${index}`"
+          :sort="index"
+          :id="item.id"
           :inspiration="item"
         />
       </template>
@@ -55,6 +57,7 @@ export default {
     });
 
     drake.on("dragend", () => {
+      let newOrder = [];
       columns.forEach((column, index) => {
         if (column.childNodes.length == 0) {
           let currentIndex = index;
@@ -89,6 +92,9 @@ export default {
           }
         }
       });
+
+      console.log(this.$refs);
+      // this.$store.dispatch("moodboards/orderInspirations", { order: newOrder });
     });
   },
 
@@ -99,20 +105,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.inspirations-masonry {
+  @apply
+    px-5;
+}
+
 .inspirations-not-found {
   @apply w-full
     flex
     justify-center
     items-center
+    absolute
+    top-0
+    bottom-0
     font-sans
     uppercase
     text-2xl;
-
-  min-height: 40vh;
-
-  @screen md {
-    min-height: 80vh;
-  }
 }
 
 .inspirations-masonry {

@@ -1,33 +1,42 @@
 <template>
   <NuxtLink
     class="moodboard"
-    :to="localePath({
-            name: 'inspirations-slug',
-            params: { slug: moodboard.slug },
-  })"
+    :class="{ 'inactive': placeholder}"
+    :to="url"
   >
-    <div class="moodboard-items">
-      <template v-if="moodboard.inspirationItems">
-        <template v-for="(item, index) of moodboard.inspirationItems">
-          <figure
-            :key="index"
-            v-if="index < 4"
-            class="moodboard-item"
-          >
-            <img
-              v-if="$get(item, 'image.length')"
-              :src="item.image[0].url"
-            />
-          </figure>
+    <div class="wrapper">
+      <div
+        v-if="placeholder"
+        class="placeholder"
+      >
+        {{ `${$t('view.all')} (${placeholderLength})` }}
+      </div>
+      <div class="moodboard-items">
+        <template v-if="moodboard.inspirationItems">
+          <template v-for="(item, index) of moodboard.inspirationItems">
+            <figure
+              :key="index"
+              v-if="index < 4"
+              class="moodboard-item"
+            >
+              <img
+                v-if="$get(item, 'image.length')"
+                :src="item.image[0].url"
+              />
+            </figure>
+          </template>
         </template>
-      </template>
-      <figure class="moodboard-item placeholder"></figure>
-      <figure class="moodboard-item placeholder"></figure>
-      <figure class="moodboard-item placeholder"></figure>
-      <figure class="moodboard-item placeholder"></figure>
+        <figure class="moodboard-item empty"></figure>
+        <figure class="moodboard-item empty"></figure>
+        <figure class="moodboard-item empty"></figure>
+        <figure class="moodboard-item empty"></figure>
+      </div>
     </div>
 
-    <div class="moodboard-info">
+    <div
+      v-if="!placeholder"
+      class="moodboard-info"
+    >
       <div
         class="moodboard-title"
         v-if="moodboard.title"
@@ -49,6 +58,26 @@ export default {
       type: Object,
       required: true,
     },
+
+    placeholder: {
+      type: Boolean,
+      required: false,
+    },
+
+    placeholderLength: {
+      type: Number,
+      required: false,
+    },
+  },
+
+  computed: {
+    url() {
+      if (this.placeholder) return "/inspiration";
+      return this.localePath({
+        name: "inspirations-slug",
+        params: { slug: this.moodboard.slug },
+      });
+    },
   },
 };
 </script>
@@ -63,11 +92,34 @@ export default {
         @apply mb-0;
       }
 
+      .wrapper {
+        @apply
+            w-[13.5rem]
+            relative;
+
+        .placeholder {
+          @apply
+            absolute
+            inset-0
+            w-full
+            z-10
+            h-full
+            uppercase
+            flex
+            font-bold
+            text-sm
+            justify-center
+            items-center
+            bg-white
+            bg-opacity-90;
+        }
+      }
+
       .moodboard-items {
         @apply grid
             grid-cols-2
+            relative
             grid-rows-2
-            w-[13.5rem]
             gap-1;
 
         .moodboard-item {
@@ -89,10 +141,11 @@ export default {
 
         }
 
-        .placeholder {
+        .empty {
           @apply
             pb-[100%]
-            bg-slate-100;
+            bg-gray-500
+            bg-opacity-20;
         }
       }
 

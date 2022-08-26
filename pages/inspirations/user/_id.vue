@@ -66,7 +66,17 @@ export default {
 
 <style lang="scss" scoped>
 .single-moodboard {
-  @apply md:pt-5;
+  @apply
+    md:pt-5
+    flex
+    flex-grow
+    flex-col;
+
+  .single-moodboard-content {
+    @apply
+      grow
+      relative;
+  }
 
   .single-moodboard-header {
     @apply font-sans

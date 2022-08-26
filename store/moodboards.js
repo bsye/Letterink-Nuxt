@@ -25,6 +25,10 @@ export const mutations = {
     state.userMoodboards.elements[moodboard.id].title = moodboardName;
   },
 
+  ORDER_INSPIRATIONS(state, {inspirations, moodboard}) {
+    state.userMoodboards.elements[moodboard.id].inspirationItems = inspirations
+  },
+
   DELETE_INSPIRATION(state, {inspiration, moodboard}) {
     const remaining = state.userMoodboards.elements[moodboard.id].inspirationItems.filter((item) => item.id != inspiration.id);
     state.userMoodboards.elements[moodboard.id].inspirationItems = remaining
@@ -165,6 +169,20 @@ export const actions = {
         },
       });
     })
+  },
+
+  orderInspirations(context, {order}) {
+    const currentBoard = context.state.currentMoodboard
+    let currentBoardInspirations = currentBoard.inspirationItems
+
+    currentBoardInspirations = order.map((single) =>
+      currentBoardInspirations.find(item => item.id == single)
+    );
+
+    context.commit("ORDER_INSPIRATIONS", {
+      inspirations: currentBoardInspirations,
+      moodboard: currentBoard
+    });
   },
 
   async setFeatured(context, name) {

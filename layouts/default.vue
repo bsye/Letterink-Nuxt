@@ -1,7 +1,9 @@
 <template>
   <div class="layout">
     <Header />
-    <Nuxt />
+    <div class="site-content">
+      <Nuxt />
+    </div>
     <Overlay />
     <Footer />
   </div>
@@ -51,7 +53,17 @@ export default {
 
 <style lang="scss">
 .layout {
-  @apply h-screen;
+  @apply
+    flex
+    flex-col
+    min-h-screen;
+
+  .site-content {
+    @apply
+      grow
+      flex
+      flex-col;
+  }
 }
 
 html {
