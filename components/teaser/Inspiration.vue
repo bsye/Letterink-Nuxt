@@ -1,7 +1,7 @@
 <template>
   <div class="inspiration">
     <button @click="addToMoodboard()">
-      <figure>
+      <figure draggable="false">
         <img
           v-if="inspiration.image.length"
           :src="inspiration.image[0].url"
@@ -60,6 +60,7 @@ export default {
 <style scoped lang="scss">
 .inspiration {
   @apply
+    select-none
     w-full;
 
   break-inside: avoid;
@@ -70,6 +71,7 @@ export default {
     figure {
       @apply w-full
         relative
+        select-none
         cursor-pointer;
 
       &:hover {

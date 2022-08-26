@@ -58,6 +58,12 @@ export default {
     };
   },
 
+  watch: {
+    $route() {
+      this.$root.$emit("hide-overlay", true);
+    },
+  },
+
   mounted() {
     this.$root.$on("show-overlay", (state) => {
       if (state) this.overlayOpen = state;
@@ -168,6 +174,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dark {
+  .overlay {
+    .overlay-content {
+      @apply
+        border-white
+        border;
+    }
+  }
+}
+
 .overlay {
   @apply fixed
     top-0

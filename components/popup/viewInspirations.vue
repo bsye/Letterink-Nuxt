@@ -70,6 +70,12 @@ export default {
     };
   },
 
+  watch: {
+    $route() {
+      this.$root.$emit("hide-popup", true);
+    },
+  },
+
   mounted() {
     this.$root.$on("show-popup", (state) => {
       if (state) this.popupOpen = state;

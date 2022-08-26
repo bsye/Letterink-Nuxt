@@ -15,7 +15,7 @@
         </ElementButton>
         <ElementButton
           class="button white full"
-          @click.native="removeInspiration()"
+          @click.native="removeInspirationFromCurrentBoard()"
           type="submit"
         >
           <span>
@@ -30,8 +30,8 @@
 <script>
 export default {
   methods: {
-    removeInspiration() {
-      this.$store.dispatch("moodboards/removeInspiration");
+    removeInspirationFromCurrentBoard() {
+      this.$store.dispatch("moodboards/removeInspirationFromCurrentBoard");
       this.$root.$emit("hide-overlay", true);
     },
   },
