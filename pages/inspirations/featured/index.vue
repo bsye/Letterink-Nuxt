@@ -13,7 +13,6 @@
     <div class="inspirations">
       <template v-for="(moodboard) of getFeatured">
         <TeaserFeaturedMoodboard
-          class="swiper-slide"
           :key="moodboard.id"
           :moodboard="moodboard"
         />

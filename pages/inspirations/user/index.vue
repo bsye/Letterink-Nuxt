@@ -5,10 +5,9 @@
       :section="$t('User moodboards')"
     />
     <div class="inspirations">
-      <TeaserAddMoodboard />
+      <TeaserAddUserMoodboard />
       <template v-for="(moodboard) of getUserMoodboards">
         <TeaserUserMoodboard
-          class="swiper-slide"
           :key="moodboard.id"
           :moodboard="moodboard"
         />

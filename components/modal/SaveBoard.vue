@@ -8,12 +8,12 @@
       <div class="form-actions">
         <ElementButton
           class="button white"
-          :inactive="true"
           @click.native="$root.$emit('modal-add-inspiration', true)"
         >
           <span>Annulla</span>
         </ElementButton>
         <ElementButton
+          :focus="true"
           class="button white full"
           @click.native="duplicateBoard()"
           type="submit"

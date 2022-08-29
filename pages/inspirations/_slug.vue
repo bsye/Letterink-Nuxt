@@ -8,7 +8,7 @@
       />
 
       <SectionMoodboardActions :length="$get(moodboard,'inspirationItems.length')">
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board')">Duplica</ElementButton>
+        <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board-only')">Duplica</ElementButton>
         <ElementButton @click.native="$root.$emit('show-overlay','modal-share-featured-board')">Condividi</ElementButton>
       </SectionMoodboardActions>
     </div>

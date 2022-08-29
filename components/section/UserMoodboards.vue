@@ -9,22 +9,22 @@
       :class="'in-your-moodboards'"
     >
       <template v-if="getUserMoodboards">
-        <template v-for="(moodboard, key, index) of getUserMoodboards">
+        <div
+          v-for="(moodboard, key, index) of getUserMoodboards"
+          :key="moodboard.id"
+        >
           <TeaserUserMoodboard
             v-if="index < 3"
-            class="swiper-slide"
-            :key="moodboard.id"
             :moodboard="moodboard"
           />
 
           <TeaserViewUserMoodboard
-            class="swiper-slide"
-            v-else-if="index == 4"
+            v-else-if="index == 3"
+            v-once
             :placeholderLength="Object.keys(getUserMoodboards).length"
-            :key="moodboard.id"
             :moodboard="moodboard"
           />
-        </template>
+        </div>
       </template>
       <TeaserAddUserMoodboard v-if="displayAddMoodboard" />
     </div>

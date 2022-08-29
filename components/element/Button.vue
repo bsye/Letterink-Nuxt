@@ -1,18 +1,26 @@
 <template>
-  <button v-if="!inactive">
+  <button
+    v-if="focus"
+    ref="focus"
+  >
     <slot />
   </button>
-  <div v-else>
+  <button v-else>
     <slot />
-  </div>
+  </button>
 </template>
 
 <script>
 export default {
   props: {
-    inactive: {
+    focus: {
       type: Boolean,
+      required: false,
     },
+  },
+
+  mounted() {
+    if (this.focus) this.$refs.focus.focus();
   },
 };
 </script>
@@ -24,8 +32,8 @@ div.button {
     cursor-pointer
     inline-block
     uppercase
+    w-full
     font-sans
-    w-auto
     justify-center
     items-center
     py-4

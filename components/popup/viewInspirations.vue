@@ -36,8 +36,8 @@
             <TeaserUserMoodboard
               class="swiper-slide"
               @click.native="$root.$emit('hide-popup', true)"
-              v-for="moodboard in moodboards"
-              :key="moodboard.id"
+              v-for="(moodboard, index) in moodboards"
+              :key="index"
               :moodboard="moodboard"
             />
           </ElementSlider>
@@ -115,9 +115,9 @@ export default {
 .popup {
   @apply
     absolute
-    right-[-4px]
+    right-0
     w-[31rem]
-    top-10
+    top-[39px]
     z-50
     flex
     justify-end
@@ -131,7 +131,7 @@ export default {
       inset-0
       bg-black
       z-40
-      bg-opacity-30;
+      bg-opacity-70;
   }
 
   .inner {
@@ -140,6 +140,8 @@ export default {
     uppercase
     flex
     flex-col
+    border
+    border-white
     font-sans
     text-sm
     w-[31rem]

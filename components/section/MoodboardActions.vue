@@ -49,14 +49,16 @@ export default {
         grid-flow-col
         gap-x-5;
 
-      button {
-        @apply uppercase
-            font-sans
-            underline;
-        text-underline-position: under;
-
-        &:hover {
-          @apply md:no-underline;
+      &::v-deep {
+        button {
+          @apply uppercase
+              font-sans
+              underline;
+          text-underline-position: under;
+  
+          &:hover {
+            @apply md:no-underline;
+          }
         }
       }
     }

@@ -11,19 +11,19 @@
     <form @submit.prevent="">
       <div class="form-actions">
         <ElementButton
-          class="w-2/5 button white"
-          :inactive="true"
-          @click.native="$root.$emit('hide-overlay', true)"
-        >
-          <span>{{ $t('board.continue') }}</span>
-        </ElementButton>
-        <ElementButton
-          class="button white full"
+          class="button white"
           type="submit"
         >
           <NuxtLink :to="localePath('/inspirations/user')">
             <span>{{ $t('board.viewMoodboards') }}</span>
           </NuxtLink>
+        </ElementButton>
+        <ElementButton
+          class="button white full"
+          :focus="true"
+          @click.native="$root.$emit('hide-overlay', true)"
+        >
+          <span>{{ $t('board.continue') }}</span>
         </ElementButton>
       </div>
     </form>

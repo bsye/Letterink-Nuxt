@@ -4,10 +4,10 @@
     :to="localePath('/inspirations/featured')"
   >
     <div class="wrapper">
-      <div class="placeholder">
-        {{ `${$t('view.all')} (${placeholderLength})` }}
-      </div>
       <div class="moodboard-items">
+        <div class="placeholder">
+          {{ `${$t('view.all')} (${placeholderLength})` }}
+        </div>
         <template v-if="moodboard.inspirationItems">
           <template v-for="(item, index) of moodboard.inspirationItems">
             <figure
@@ -58,8 +58,9 @@ export default {
 
 <style lang="scss" scoped>
     .moodboard {
-      @apply flex
-        flex-col
+      @apply 
+        grid
+        grid-flow-row-dense
         gap-y-5;
 
       &:last-child {
@@ -68,7 +69,7 @@ export default {
 
       .wrapper {
         @apply
-            w-[13.5rem]
+            w-full
             relative;
 
         .placeholder {

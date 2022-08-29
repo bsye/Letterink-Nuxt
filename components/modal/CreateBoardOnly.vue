@@ -37,7 +37,7 @@ export default {
     createMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-duplicate-board-confirmed");
+        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
       }
     },
   },

@@ -114,6 +114,12 @@ export default {
             text-sm
             font-sans;
 
+        .moodboard-title {
+          @apply
+            leading-tight
+            text-center;
+        }
+
         .moodboard-counter {
           @apply text-gray-primary;
         }

@@ -8,12 +8,12 @@
       <div class="form-actions">
         <ElementButton
           class="button white"
-          :inactive="true"
           @click.native="$root.$emit('hide-overlay', true)"
         >
           <span>Annulla</span>
         </ElementButton>
         <ElementButton
+          :focus="true"
           class="button white full"
           @click.native="removeInspirationFromCurrentBoard()"
           type="submit"

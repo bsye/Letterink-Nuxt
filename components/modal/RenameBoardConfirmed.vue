@@ -13,7 +13,7 @@
         <ElementButton
           class="w-2/5 button white full"
           type="submit"
-          :inactive="true"
+          :focus="true"
           @click.native="$root.$emit('hide-overlay', true)"
         >
           <span>{{ $t('board.continue') }}</span>

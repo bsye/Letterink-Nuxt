@@ -1,22 +1,20 @@
 <template>
   <div class="moodboard">
     <div class="moodboard-label">
-      <img
-        class="check"
-        src="~/assets/icons/check.svg"
-      />
-      <span>{{ $t('board.created') }}</span>
+      <span>Sei sicur* di voler duplicare la board?</span>
     </div>
 
     <form @submit.prevent="">
       <div class="form-actions">
         <ElementButton
-          class="w-2/5 button white full"
-          type="submit"
+          class="button white full"
           :focus="true"
-          @click.native="$root.$emit('hide-overlay', true)"
+          @click.native="duplicateBoard()"
+          type="submit"
         >
-          <span>{{ $t('board.continue') }}</span>
+          <span>
+            Conferma
+          </span>
         </ElementButton>
       </div>
     </form>
@@ -24,6 +22,14 @@
 </template>
 
 <script>
+export default {
+  methods: {
+    duplicateBoard() {
+      this.$root.$emit("modal-duplicate-board-confirmed", true);
+      this.$store.dispatch("moodboards/duplicateBoard");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -38,10 +44,9 @@
     @apply text-28
         font-sans
         text-center
-        flex-col
         grow
         flex
-        justify-between
+        justify-center
         items-center
         py-16
         px-20;

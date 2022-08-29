@@ -77,7 +77,7 @@ export default {
 
       .wrapper {
         @apply
-          w-[13.5rem]
+          w-full
           relative;
       }
 
@@ -119,6 +119,12 @@ export default {
             uppercase
             text-sm
             font-sans;
+
+        .moodboard-title {
+          @apply
+            leading-tight
+            text-center;
+        }
 
         .moodboard-counter {
           @apply text-gray-primary;

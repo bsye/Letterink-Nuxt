@@ -4,10 +4,10 @@
     :to="localePath('/inspirations/user')"
   >
     <div class="wrapper">
-      <div class="placeholder">
-        {{ `${$t('view.all')} (${placeholderLength})` }}
-      </div>
       <div class="moodboard-items">
+        <div class="placeholder">
+          {{ `${$t('view.all')} (${placeholderLength})` }}
+        </div>
         <template v-if="moodboard.inspirationItems">
           <template v-for="(item, index) of moodboard.inspirationItems">
             <figure
@@ -62,6 +62,7 @@ export default {
       .wrapper {
         @apply
             w-full
+            z-0
             relative;
 
         .placeholder {

@@ -17,11 +17,9 @@
       >
         <TeaserFeaturedMoodboard
           v-if="index < 3"
-          class="swiper-slide"
           :moodboard="moodboard"
         />
         <TeaserViewFeaturedMoodboard
-          class="swiper-slide"
           v-else
           v-once
           :placeholderLength="Object.keys(getFeatured).length"

@@ -57,6 +57,7 @@
         </ElementButton>
         <ElementButton
           class="button white full"
+          :focus="true"
           @click.native="$root.$emit('hide-overlay', true)"
           type="submit"
         >

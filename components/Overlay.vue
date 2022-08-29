@@ -26,6 +26,7 @@
         <ModalShareBoard v-if="modals.shareBoard" />
         <ModalShareFeaturedBoard v-if="modals.shareFeaturedBoard" />
         <ModalDuplicateBoard v-if="modals.duplicateBoard" />
+        <ModalDuplicateBoardOnly v-if="modals.duplicateBoardOnly" />
         <ModalDuplicateBoardConfirmed v-if="modals.duplicateBoardConfirmed" />
         <ModalSaveBoard v-if="modals.saveBoard" />
         <ModalSaveBoardConfirmed v-if="modals.saveBoardConfirmed" />
@@ -51,6 +52,7 @@ export default {
         shareBoard: false,
         shareFeaturedBoard: false,
         duplicateBoard: false,
+        duplicateBoardOnly: false,
         duplicateBoardConfirmed: false,
         saveBoard: false,
         saveBoardConfirmed: false,
@@ -91,6 +93,12 @@ export default {
       this.closeModals();
       this.title = this.$i18n.t("Duplica");
       this.modals.duplicateBoard = state;
+    });
+
+    this.$root.$on("modal-duplicate-board-only", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("Duplica");
+      this.modals.duplicateBoardOnly = state;
     });
 
     this.$root.$on("modal-duplicate-board-confirmed", (state) => {
