@@ -1,14 +1,10 @@
 <template>
   <NuxtLink
-    class="moodboard"
-    :class="{ 'inactive': placeholder}"
-    :to="url"
+    class="moodboard inactive"
+    :to="localePath('/inspirations/featured')"
   >
     <div class="wrapper">
-      <div
-        v-if="placeholder"
-        class="placeholder"
-      >
+      <div class="placeholder">
         {{ `${$t('view.all')} (${placeholderLength})` }}
       </div>
       <div class="moodboard-items">
@@ -26,26 +22,11 @@
             </figure>
           </template>
         </template>
-        <figure class="moodboard-item empty"></figure>
-        <figure class="moodboard-item empty"></figure>
-        <figure class="moodboard-item empty"></figure>
-        <figure class="moodboard-item empty"></figure>
-      </div>
-    </div>
-
-    <div
-      v-if="!placeholder"
-      class="moodboard-info"
-    >
-      <div
-        class="moodboard-title"
-        v-if="moodboard.title"
-      >
-        {{ moodboard.title }}
-      </div>
-
-      <div class="moodboard-counter">
-        {{ moodboard.inspirationItems.length }} Images
+        <figure
+          v-for="n in renderPlaceholders"
+          :key="n"
+          class="moodboard-item empty"
+        ></figure>
       </div>
     </div>
   </NuxtLink>
@@ -59,11 +40,6 @@ export default {
       required: true,
     },
 
-    placeholder: {
-      type: Boolean,
-      required: false,
-    },
-
     placeholderLength: {
       type: Number,
       required: false,
@@ -71,12 +47,10 @@ export default {
   },
 
   computed: {
-    url() {
-      if (this.placeholder) return "/inspiration";
-      return this.localePath({
-        name: "inspirations-slug",
-        params: { slug: this.moodboard.slug },
-      });
+    renderPlaceholders() {
+      if (!this.moodboard.inspirationItems.length) return 4;
+      if (this.moodboard.inspirationItems.length > 3) return 0;
+      return 4 - this.moodboard.inspirationItems.length;
     },
   },
 };
@@ -134,11 +108,6 @@ export default {
                 object-cover
                 absolute;
           }
-
-          &:nth-child(n + 5) {
-            @apply hidden;
-          }
-
         }
 
         .empty {

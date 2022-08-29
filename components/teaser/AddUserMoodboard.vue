@@ -1,48 +1,22 @@
 <template>
-  <NuxtLink
-    class="moodboard"
-    :to="localePath({
-        name: 'inspirations-user-id',
-        params: { id: this.moodboard.id },
-      })"
+  <button
+    @click="$root.$emit('show-overlay', 'modal-create-board-only')"
+    class="moodboard inactive"
   >
     <div class="wrapper">
+      <div class="placeholder">
+        {{ $t('add.moodboard') }}
+      </div>
       <div class="moodboard-items">
-        <template v-if="moodboard.inspirationItems">
-          <template v-for="(item, index) of moodboard.inspirationItems">
-            <figure
-              :key="index"
-              v-if="index < 4"
-              class="moodboard-item"
-            >
-              <img
-                v-if="$get(item, 'image.length')"
-                :src="item.image[0].url"
-              />
-            </figure>
-          </template>
-        </template>
         <figure
-          v-for="n in renderPlaceholders"
+          v-for="n in 4"
           :key="n"
           class="moodboard-item empty"
         ></figure>
       </div>
     </div>
 
-    <div class="moodboard-info">
-      <div
-        class="moodboard-title"
-        v-if="moodboard.title"
-      >
-        {{ moodboard.title }}
-      </div>
-
-      <div class="moodboard-counter">
-        {{ moodboard.inspirationItems.length }} Images
-      </div>
-    </div>
-  </NuxtLink>
+  </button>
 </template>
 
 <script>
@@ -53,26 +27,42 @@ export default {
       required: true,
     },
   },
-
-  computed: {
-    renderPlaceholders() {
-      if (!this.moodboard.inspirationItems.length) return 4;
-      if (this.moodboard.inspirationItems.length > 3) return 0;
-      return 4 - this.moodboard.inspirationItems.length;
-    },
-  },
 };
 </script>
 
 <style lang="scss" scoped>
     .moodboard {
-      @apply
+      @apply 
         grid
         grid-flow-row-dense
         gap-y-5;
 
       &:last-child {
         @apply mb-0;
+      }
+
+      .wrapper {
+        @apply
+            w-full
+            z-0
+            relative;
+
+        .placeholder {
+          @apply
+            absolute
+            inset-0
+            w-full
+            z-10
+            h-full
+            uppercase
+            flex
+            justify-center
+            font-bold
+            text-sm
+            items-center
+            bg-black
+            bg-opacity-40;
+        }
       }
 
       .moodboard-items {

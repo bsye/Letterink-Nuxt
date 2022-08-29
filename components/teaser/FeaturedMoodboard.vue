@@ -2,8 +2,8 @@
   <NuxtLink
     class="moodboard"
     :to="localePath({
-        name: 'inspirations-user-id',
-        params: { id: this.moodboard.id },
+        name: 'inspirations-slug',
+        params: { slug: this.moodboard.slug },
       })"
   >
     <div class="wrapper">
@@ -66,13 +66,19 @@ export default {
 
 <style lang="scss" scoped>
     .moodboard {
-      @apply
+      @apply 
         grid
         grid-flow-row-dense
         gap-y-5;
 
       &:last-child {
         @apply mb-0;
+      }
+
+      .wrapper {
+        @apply
+          w-[13.5rem]
+          relative;
       }
 
       .moodboard-items {

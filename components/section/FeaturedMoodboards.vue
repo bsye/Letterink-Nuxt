@@ -11,22 +11,23 @@
       class="moodboards-content"
       :class="'in-your-moodboards'"
     >
-      <template v-for="(moodboard, key, index) of getFeatured">
-        <TeaserMoodboard
+      <div
+        v-for="(moodboard, key, index) of getFeatured"
+        :key="moodboard.id"
+      >
+        <TeaserFeaturedMoodboard
           v-if="index < 3"
           class="swiper-slide"
-          :key="moodboard.id"
           :moodboard="moodboard"
         />
-        <TeaserMoodboard
+        <TeaserViewFeaturedMoodboard
           class="swiper-slide"
           v-else
-          :placeholder="true"
+          v-once
           :placeholderLength="Object.keys(getFeatured).length"
-          :key="moodboard.id"
           :moodboard="moodboard"
         />
-      </template>
+      </div>
     </div>
     <div
       class="user"

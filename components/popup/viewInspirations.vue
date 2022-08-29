@@ -35,6 +35,7 @@
           >
             <TeaserUserMoodboard
               class="swiper-slide"
+              @click.native="$root.$emit('hide-popup', true)"
               v-for="moodboard in moodboards"
               :key="moodboard.id"
               :moodboard="moodboard"
@@ -49,8 +50,11 @@
         </div>
 
         <div class="popup-footer">
-          <ElementButton class="button white full">
-            <NuxtLink :to="localePath('/inspirations/user')">
+          <ElementButton
+            @click.native="$root.$emit('hide-popup', true)"
+            class="button white full"
+          >
+            <NuxtLink :to="localePath('/inspirations')">
               <span>{{ $t('board.viewYourMoodboard') }}</span>
             </NuxtLink>
           </ElementButton>

@@ -8,7 +8,7 @@
       :ssr-columns="1"
       ref="masonry"
       :gap="20"
-      :column-width="700"
+      :column-width="500"
       class="inspirations-masonry"
       :responsive="true"
       v-if="inspirations && inspirations.length"
@@ -20,7 +20,6 @@
       >
         <TeaserUserInspiration
           :key="item.id"
-          :ref="`inspiration-${index}`"
           :sort="index"
           :id="item.id"
           :inspiration="item"
@@ -54,6 +53,20 @@ export default {
 
     columns.forEach((column) => {
       drake.containers.push(column);
+    });
+
+    let oldOrder = [];
+
+    drake.on("drag", () => {
+      oldOrder = [];
+      const masonry = document.querySelectorAll(".masonry-column .inspiration");
+
+      masonry.forEach((element) => {
+        oldOrder.push({
+          sort: element.getAttribute("sort"),
+          id: element.getAttribute("id"),
+        });
+      });
     });
 
     drake.on("dragend", () => {
@@ -93,8 +106,26 @@ export default {
         }
       });
 
-      console.log(this.$refs);
-      // this.$store.dispatch("moodboards/orderInspirations", { order: newOrder });
+      let order = [];
+
+      const elements = document.querySelectorAll(
+        ".masonry-column .inspiration"
+      );
+
+      elements.forEach((element) => {
+        order.push({
+          sort: element.getAttribute("sort"),
+          id: element.getAttribute("id"),
+        });
+      });
+
+      order.forEach((single, index) => {
+        if (single.id !== oldOrder[index].id) {
+          single.sort = oldOrder[index].sort;
+        }
+      });
+
+      this.$store.dispatch("moodboards/orderInspirations", { order });
     });
   },
 

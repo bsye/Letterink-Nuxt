@@ -44,15 +44,15 @@ export const mutations = {
 
   NEW_MOODBOARD(state, moodboard) {
     state.userMoodboards.elements = {
-      ...state.userMoodboards.elements,
       [moodboard.id]: moodboard,
+      ...state.userMoodboards.elements,
     };
   },
 
   ADD_TO_MOODBOARD(state, {moodboardId, inspiration}) {
     state.userMoodboards.elements[moodboardId].inspirationItems = [
-      ...state.userMoodboards.elements[moodboardId].inspirationItems,
       inspiration,
+      ...state.userMoodboards.elements[moodboardId].inspirationItems,
     ];
   },
 };
@@ -172,11 +172,13 @@ export const actions = {
   },
 
   orderInspirations(context, {order}) {
-    const currentBoard = context.state.currentMoodboard
-    let currentBoardInspirations = currentBoard.inspirationItems
+    const currentBoard = context.state.currentMoodboard;
+    let currentBoardInspirations = currentBoard.inspirationItems;
+
+    order.sort((a, b) => a.sort - b.sort);
 
     currentBoardInspirations = order.map((single) =>
-      currentBoardInspirations.find(item => item.id == single)
+      currentBoardInspirations.find((item) => item.id == single.id)
     );
 
     context.commit("ORDER_INSPIRATIONS", {

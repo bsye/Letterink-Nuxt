@@ -26,13 +26,8 @@
 
     <div class="header-right">
       <div class="inspirations-counter">
-        <NuxtLink :to="localePath('/inspirations')">
+        <button @click="$root.$emit('show-popup', true)">
           {{ $t('inspiration') }}
-        </NuxtLink>
-        <button
-          @click="$root.$emit('show-popup', true)"
-          :to="localePath({ name: 'inspirations-your-moodboards' })"
-        >
           <div>
             <div class="counter">
               {{ moodboardsCount }}

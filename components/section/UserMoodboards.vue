@@ -1,8 +1,5 @@
 <template>
-  <section
-    class="moodboards"
-    v-if="getUserMoodboards"
-  >
+  <section class="moodboards">
     <div class="moodboards-label">
       <span> Your Moodboards </span>
     </div>
@@ -11,29 +8,26 @@
       class="moodboards-content"
       :class="'in-your-moodboards'"
     >
-      <template v-for="(moodboard, key, index) of getUserMoodboards">
-        <TeaserUserMoodboard
-          v-if="index < 3"
-          class="swiper-slide"
-          :key="moodboard.id"
-          :moodboard="moodboard"
-        />
-        <TeaserUserMoodboard
-          class="swiper-slide"
-          v-else
-          :placeholder="true"
-          :placeholderLength="Object.keys(getUserMoodboards).length"
-          :key="moodboard.id"
-          :moodboard="moodboard"
-        />
-      </template>
-    </div>
-  </section>
-  <section
-    class="moodboards"
-    v-else
-  >
+      <template v-if="getUserMoodboards">
+        <template v-for="(moodboard, key, index) of getUserMoodboards">
+          <TeaserUserMoodboard
+            v-if="index < 3"
+            class="swiper-slide"
+            :key="moodboard.id"
+            :moodboard="moodboard"
+          />
 
+          <TeaserViewUserMoodboard
+            class="swiper-slide"
+            v-else-if="index == 4"
+            :placeholderLength="Object.keys(getUserMoodboards).length"
+            :key="moodboard.id"
+            :moodboard="moodboard"
+          />
+        </template>
+      </template>
+      <TeaserAddUserMoodboard v-if="displayAddMoodboard" />
+    </div>
   </section>
 </template>
 
@@ -42,6 +36,13 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters("moodboards", ["getUserMoodboards"]),
+
+    displayAddMoodboard() {
+      if (!this.getUserMoodboards) return true;
+      if (Object.keys(this.getUserMoodboards).length < 4) return true;
+
+      return false;
+    },
   },
 };
 </script>

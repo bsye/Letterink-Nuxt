@@ -1,6 +1,9 @@
 <template>
   <div class="homepage">
-    <SectionHighlights v-if="homepage" :highlights="homepage" />
+    <SectionWorkHighlights
+      v-if="homepage"
+      :highlights="homepage"
+    />
   </div>
 </template>
 
