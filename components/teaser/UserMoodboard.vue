@@ -116,7 +116,7 @@ export default {
 
         .moodboard-title {
           @apply
-            leading-tight
+            leading-none
             text-center;
         }
 

@@ -98,11 +98,11 @@ export default {
 
   .moodboards-content {
     @apply
-      -mx-8
       grid
       grid-flow-col-dense
       overflow-auto
-      justify-center
+      px-2.5
+      lg:justify-center
       relative;
 
     &::-webkit-scrollbar {
@@ -111,7 +111,10 @@ export default {
 
     .moodboard {
       @apply
-        min-w-[300px]
+        min-w-[200px]
+        lg:w-[250px]
+        xl:min-w-[250px]
+        xl:w-[17vw]
         px-2.5;
     }
   }

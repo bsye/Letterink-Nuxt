@@ -41,13 +41,14 @@ export default {
       mt-5
       px-5
       grid
-      grid-cols-2
+      grid-cols-1
+      sm:grid-cols-2
       md:grid-cols-2
       justify-start
       w-full
       lg:grid-cols-4
-      xl:grid-cols-6
-      2xl:grid-cols-8
+      xl:grid-cols-5
+      2xl:grid-cols-6
       gap-5;
 
     .moodboard {

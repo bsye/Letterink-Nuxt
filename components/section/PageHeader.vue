@@ -48,7 +48,7 @@ export default {
       flex
       flex-col
       items-center
-      
+
       md:px-5;
 
   .router {
@@ -77,7 +77,7 @@ export default {
     @apply text-42
         text-center
         mt-5
-        pb-28
+        pb-5
 
         md:py-0
         md:text-100;

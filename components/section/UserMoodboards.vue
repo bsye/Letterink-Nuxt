@@ -1,11 +1,11 @@
 <template>
   <section class="moodboards">
-    <div class="moodboards-label">
+    <div class="label">
       <span> Your Moodboards </span>
     </div>
 
     <div
-      class="moodboards-content"
+      class="content"
       :class="'in-your-moodboards'"
     >
       <template v-if="getUserMoodboards">
@@ -56,7 +56,7 @@ export default {
     text-white
     overflow-hidden;
 
-  .moodboards-label {
+  .label {
     @apply uppercase
       text-sm
       font-sans
@@ -87,13 +87,13 @@ export default {
       mx-auto;
   }
 
-  .moodboards-content {
+  .content {
     @apply
-      -mx-8
       grid
       grid-flow-col-dense
       overflow-auto
-      justify-center
+      px-2.5
+      lg:justify-center
       relative;
 
     &::-webkit-scrollbar {
@@ -102,7 +102,10 @@ export default {
 
     .moodboard {
       @apply
-        min-w-[300px]
+        min-w-[200px]
+        lg:w-[250px]
+        xl:min-w-[250px]
+        xl:w-[17vw]
         px-2.5;
     }
   }

@@ -1,15 +1,10 @@
 <template>
   <div class="featured">
-    <div class="title">
-      <NuxtLink
-        class="back"
-        :to="localePath('inspirations')"
-      >
-        <img src="~/assets/icons/arrow.svg" />
-      </NuxtLink>
-      {{ $t('Inspirational moodboards') }}
-      <div></div>
-    </div>
+    <SectionPageHeader
+      class="title"
+      :back="localePath('inspirations')"
+      :section="$t('Inspirational moodboards')"
+    />
     <div class="inspirations">
       <template v-for="(moodboard) of getFeatured">
         <TeaserFeaturedMoodboard
@@ -33,13 +28,11 @@ export default {
 
 <style lang="scss" scoped>
 .featured {
-  @apply
-    px-5;
-
   .inspirations {
     @apply
       mt-5
       grid
+      px-5
       grid-cols-2
       md:grid-cols-2
       justify-start
@@ -56,19 +49,7 @@ export default {
   }
 
   .title {
-    @apply
-      mt-5
-      grid
-      justify-between
-      grid-flow-col-dense
-      gap-4
-      uppercase;
-
-    .back {
-      @apply
-        -m-5
-        p-5;
-
+    &::v-deep {
       img {
         @apply
           rotate-180;
