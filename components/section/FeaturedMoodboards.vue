@@ -27,25 +27,6 @@
         />
       </div>
     </div>
-    <div
-      class="user"
-      v-if="!getUserMoodboards"
-    >
-      <ElementButton
-        class="button"
-        @click.native="$root.$emit('show-overlay', 'modal-create-board-only')"
-      >
-        <div>
-          <span> Crea la tua prima Moodboard </span>
-          <div class="icon">
-            <img
-              class="cross"
-              src="~/assets/icons/cross.svg"
-            />
-          </div>
-        </div>
-      </ElementButton>
-    </div>
   </section>
 </template>
 
