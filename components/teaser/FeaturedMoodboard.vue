@@ -69,7 +69,8 @@ export default {
       @apply 
         grid
         grid-flow-row-dense
-        gap-y-5;
+        gap-y-4
+        md:gap-y-5;
 
       &:last-child {
         @apply mb-0;
@@ -86,7 +87,8 @@ export default {
             grid-cols-2
             relative
             grid-rows-2
-            gap-1;
+            gap-[3px]
+            md:gap-1;
 
         .moodboard-item {
           @apply 

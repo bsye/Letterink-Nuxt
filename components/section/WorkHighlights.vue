@@ -176,6 +176,7 @@ export default {
     .work-title {
       @apply flex
         gap-x-2
+        text-center
         transform
         -rotate-180
         

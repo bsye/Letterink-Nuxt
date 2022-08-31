@@ -3,7 +3,7 @@
     class="moodboards"
     v-if="getFeatured"
   >
-    <div class="moodboards-label">
+    <div class="label">
       <span> Inspirational Moodboard </span>
     </div>
 
@@ -41,18 +41,21 @@ export default {
 
 <style lang="scss" scoped>
 .moodboards {
-  @apply pb-16
+  @apply
+    md:pb-16
+    pb-10
     relative
     z-0
     overflow-hidden;
 
-  .moodboards-label {
+  .label {
     @apply uppercase
       text-sm
       font-sans
       w-full
       text-center
-      py-5;
+      py-4
+      md:py-5;
   }
 
   .placeholder {

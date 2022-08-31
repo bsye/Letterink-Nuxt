@@ -7,13 +7,13 @@
       })"
   >
     <div class="wrapper">
-      <div class="moodboard-items">
+      <div class="items">
         <template v-if="moodboard.inspirationItems">
           <template v-for="(item, index) of moodboard.inspirationItems">
             <figure
               :key="index"
               v-if="index < 4"
-              class="moodboard-item"
+              class="item"
             >
               <img
                 v-if="$get(item, 'image.length')"
@@ -25,20 +25,20 @@
         <figure
           v-for="n in renderPlaceholders"
           :key="n"
-          class="moodboard-item empty"
+          class="item empty"
         ></figure>
       </div>
     </div>
 
-    <div class="moodboard-info">
+    <div class="info">
       <div
-        class="moodboard-title"
+        class="title"
         v-if="moodboard.title"
       >
         {{ moodboard.title }}
       </div>
 
-      <div class="moodboard-counter">
+      <div class="counter">
         {{ moodboard.inspirationItems.length }} Images
       </div>
     </div>
@@ -69,20 +69,22 @@ export default {
       @apply
         grid
         grid-flow-row-dense
-        gap-y-5;
+        gap-y-4
+        md:gap-y-5;
 
       &:last-child {
         @apply mb-0;
       }
 
-      .moodboard-items {
+      .items {
         @apply grid
             grid-cols-2
             relative
             grid-rows-2
-            gap-1;
+            gap-[3px]
+            md:gap-1;
 
-        .moodboard-item {
+        .item {
           @apply 
             w-full
             pb-[100%]
@@ -104,23 +106,24 @@ export default {
         }
       }
 
-      .moodboard-info {
+      .info {
         @apply flex
             flex-col
             justify-center
             items-center
             gap-y-1
             uppercase
-            text-sm
+            text-xs
+            md:text-sm
             font-sans;
 
-        .moodboard-title {
+        .title {
           @apply
             leading-none
             text-center;
         }
 
-        .moodboard-counter {
+        .counter {
           @apply text-gray-primary;
         }
       }

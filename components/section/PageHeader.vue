@@ -61,6 +61,12 @@ export default {
         text-sm
         md:px-0;
 
+    h3 {
+      @apply
+        opacity-50
+        md:opacity-100;
+    }
+
     .back {
       @apply
         -m-5
@@ -76,10 +82,10 @@ export default {
   .title {
     @apply text-42
         text-center
-        mt-5
-        pb-5
+        py-20
 
         md:py-0
+        md:mt-5
         md:text-100;
     line-height: initial;
   }

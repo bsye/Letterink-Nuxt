@@ -23,8 +23,9 @@ export default {
 
 <style lang="scss" scoped>
   .actions {
-    @apply py-5
-        px-5
+    @apply
+        p-4
+        md:p-5
         text-sm
         w-full
         flex

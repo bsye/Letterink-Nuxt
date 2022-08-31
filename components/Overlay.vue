@@ -203,26 +203,90 @@ export default {
     flex
     flex-col
     font-sans
-    text-sm
-    w-full
+    text-xs
+    md:text-sm
     mx-auto
     border
     border-white
+    w-[calc(100vw_-_2rem)]
+    md:w-[calc(100vw_-_2.5rem)]
     max-w-[31rem]
-    min-h-[410px];
+    min-h-[320px]
+    md:min-h-[410px];
+  }
+
+  &::v-deep {
+    .modal {
+      @apply flex
+        flex-col
+        grow
+        justify-between
+        items-center;
+
+      .label {
+        @apply text-28
+            font-sans
+            text-center
+            flex-col
+            grow
+            flex
+            justify-between
+            items-center
+            py-16
+            px-20;
+        line-height: initial;
+      }
+  
+      form {
+        @apply flex
+            flex-col
+            w-full
+            px-4
+            md:px-5
+            pb-4
+            md:pb-5
+            gap-y-4
+            md:gap-y-5;
+  
+        input {
+          @apply border
+            border-white
+            text-sm
+            text-white
+            bg-black
+            outline-none
+            p-4
+            uppercase;
+        }
+  
+        button,
+        div {
+          @apply
+            w-full;
+        }
+  
+        .form-actions {
+          @apply flex
+            justify-between
+            gap-x-4;
+        }
+      }
+    }
   }
 
   .overlay-header {
     @apply flex
       justify-center
-      py-5
+      py-4
+      md:py-5
       relative
       border-b
       border-white;
 
     button {
       @apply absolute
-        right-5;
+        right-4
+        md:right-5;
 
       img {
         @apply transform

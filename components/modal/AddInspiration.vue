@@ -1,5 +1,5 @@
 <template>
-  <div class="form-moodboard">
+  <div class="add">
     <form @submit.prevent="addInspiration">
       <div class="fields">
         <template v-if="moodboards">
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-moodboard {
+.add {
   @apply
     flex
     flex-col
@@ -175,14 +175,15 @@ export default {
 
         .title {
           @apply
-            px-7
+            px-8
             inline-block
             py-3.5;
         }
 
         label {
           @apply cursor-pointer
-              pl-5
+              pl-4
+              md:pl-5
               w-full;
 
           input {
@@ -218,10 +219,14 @@ export default {
     }
 
     .form-footer {
-      @apply flex
-          justify-between
-          gap-x-4
-          p-5;
+      @apply
+          grid
+          grid-flow-row
+          w-full
+          md:grid-flow-col
+          gap-4
+          p-4
+          md:p-5;
 
       button {
         @apply

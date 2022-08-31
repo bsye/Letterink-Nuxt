@@ -49,7 +49,9 @@ export default {
 
 <style lang="scss" scoped>
 .moodboards {
-  @apply pb-16
+  @apply
+    md:pb-16
+    pb-10
     relative
     z-0
     bg-black
@@ -62,7 +64,8 @@ export default {
       font-sans
       w-full
       text-center
-      py-5;
+      py-4
+      md:py-5;
   }
 
   .placeholder {

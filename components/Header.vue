@@ -25,7 +25,7 @@
     </div>
 
     <div class="header-right">
-      <div class="inspirations-counter">
+      <div class="moodboards">
         <button @click="$root.$emit('show-popup', true)">
           {{ $t('inspiration') }}
           <div>
@@ -161,11 +161,11 @@ export default {
       w-48
       md:gap-x-2;
 
-    .inspirations-counter {
+    .moodboards {
       @apply
         flex
         items-center
-        relative;
+        sm:relative;
 
       button {
         @apply

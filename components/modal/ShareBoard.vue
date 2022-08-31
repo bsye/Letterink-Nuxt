@@ -1,6 +1,6 @@
 <template>
-  <div class="moodboard">
-    <div class="moodboard-label">
+  <div class="modal">
+    <div class="label">
       Condividi
       <span>
         {{ `'${getCurrentMoodboard.title}'` }}
@@ -97,22 +97,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.moodboard {
-  @apply flex
-    flex-col
-    grow
-    justify-between
-    items-center;
-
-  .moodboard-label {
-    @apply text-28
-        font-sans
-        text-center
-        py-16
-        px-20;
-    line-height: initial;
-  }
-
+.modal {
   .warning {
     @apply
       text-[10px]
@@ -128,29 +113,6 @@ export default {
         px-5
         pb-5
         gap-y-5;
-
-    input {
-      @apply border
-        border-white
-        text-sm
-        text-white
-        bg-black
-        outline-none
-        p-4
-        uppercase;
-    }
-
-    button,
-    div {
-      @apply
-        w-full;
-    }
-
-    .form-actions {
-      @apply flex
-        justify-between
-        gap-x-4;
-    }
   }
 }
 </style>

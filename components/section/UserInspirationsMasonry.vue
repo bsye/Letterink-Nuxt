@@ -138,7 +138,8 @@ export default {
 <style lang="scss" scoped>
 .inspirations-masonry {
   @apply
-    px-5;
+    px-4
+    md:px-5;
 }
 
 .inspirations-not-found {

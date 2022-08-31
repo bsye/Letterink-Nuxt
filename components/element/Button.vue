@@ -41,7 +41,8 @@ div.button {
     border-black
     text-black
     px-6
-    text-sm
+    text-xs
+    md:text-sm
     border
     transition-colors
     hover:bg-black

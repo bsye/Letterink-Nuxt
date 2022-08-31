@@ -115,9 +115,11 @@ export default {
 .popup {
   @apply
     absolute
-    right-0
-    w-[31rem]
+    sm:right-0
+    sm:w-[31rem]
     top-[39px]
+    right-4
+    md:right-5
     z-50
     flex
     justify-end
@@ -144,16 +146,19 @@ export default {
     border-white
     font-sans
     text-sm
-    w-[31rem]
+    w-[calc(100vw_-_2rem)]
+    md:w-[calc(100vw_-_2.5rem)]
+    max-w-[31rem]
+    lg:w-[31rem]
     z-50
-    min-h-[410px];
+    sm:min-h-[410px];
   }
 
   .popup-header {
     @apply flex
       justify-between
-      px-5
-      py-5
+      md:p-5
+      p-4
       relative
       border-b
       border-white;
@@ -187,9 +192,11 @@ export default {
 
   .popup-content {
     @apply
-      px-5
+      px-4
+      md:px-5
       grow
-      pt-8;
+      pt-5
+      md:pt-8;
 
     &::v-deep {
       .moodboard-counter {
@@ -211,7 +218,8 @@ export default {
 
   .popup-footer {
     @apply
-      p-5;
+      p-4
+      md:p-5;
 
     button {
       @apply
