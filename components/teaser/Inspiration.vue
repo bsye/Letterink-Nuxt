@@ -110,7 +110,7 @@ export default {
       text-xs
       break-words
       break-all
-      mt-1
+      mt-0.5
       opacity-30
       text-center
       md:text-sm;
@@ -125,7 +125,8 @@ export default {
         uppercase
         font-sans
         text-sm
-        py-5;
+        pt-2
+        md:py-5;
   }
 }
 </style>
