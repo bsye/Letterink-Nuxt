@@ -15,6 +15,12 @@ function getElementsOrder(masonry) {
   return order
 }
 
+function masonryResponsive(columnWidth) {
+    if (window.innerWidth <= 767) return Number(columnWidth * (window.innerWidth / 1000));
+    if (window.innerWidth > 768 && window.innerWidth < 1439) return Number(columnWidth * (window.innerWidth / 1400));
+    if (window.innerWidth >= 1440) return Number(columnWidth * (window.innerWidth / 1800));
+}
+
 function rearrangeColumns(columns) {
   columns.forEach((column, index) => {
     try {
@@ -88,4 +94,5 @@ export default({}, inject) => {
   inject('orderElements', orderElements)
   inject('rearrangeColumns', rearrangeColumns)
   inject("handleMasonryResize", handleMasonryResize);
+  inject("masonryResponsive", masonryResponsive);
 }

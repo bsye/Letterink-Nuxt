@@ -71,10 +71,6 @@ export default {
 
 <style lang="scss" scoped>
 .inspirations {
-  .inspirations-container {
-    @apply md:border-t
-      md:border-black;
-  }
 }
 
 .dropdown-enter-active,

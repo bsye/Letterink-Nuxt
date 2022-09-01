@@ -1,19 +1,20 @@
 <template>
   <transition
     name="inspirations-masonry"
+    style="padding-left: 1rem;padding-right: 1rem;"
     mode="out-in"
   >
     <MasonryWall
       :items="inspirations"
       :ssr-columns="1"
-      :column-width="500"
-      :gap="20"
+      :column-width="columnsWidth"
+      :gap="gap"
       class="inspirations-masonry"
       :responsive="true"
       v-if="inspirations && inspirations.length"
       key="inspirations"
     >
-      <template #default="{ item, index }">
+      <template #default="{ item }">
         <TeaserInspiration
           ref="inspiration"
           :key="item.id"
@@ -43,6 +44,24 @@ export default {
   props: {
     inspirations: Array,
   },
+
+  data() {
+    return {
+      columnsWidth: this.$masonryResponsive(390),
+      gap: 24,
+    };
+  },
+
+  async mounted() {
+    await this.$nextTick();
+    if (window.innerWidth < 768) this.gap = 16;
+    else this.gap = 24;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 768) this.gap = 16;
+      else this.gap = 24;
+      this.columnsWidth = this.$masonryResponsive(390);
+    });
+  },
 };
 </script>
 
@@ -51,6 +70,18 @@ export default {
   @apply
     px-4
     md:px-5;
+
+  &::v-deep {
+    .masonry-column {
+      @apply
+        flex-grow-0;
+
+      .masonry-item {
+        @apply
+          w-auto;
+      }
+    }
+  }
 }
 
 .inspirations-not-found {

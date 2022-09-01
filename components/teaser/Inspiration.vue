@@ -16,9 +16,9 @@
       </figure>
     </button>
 
-    <div class="inspiration-info">
+    <div class="info">
       <div
-        class="inspiration-title"
+        class="title"
         v-if="inspiration.title"
       >
         {{ inspiration.title }}
@@ -27,7 +27,7 @@
       <a
         :href="inspiration.buttonLink.url"
         :target="inspiration.buttonLink.target"
-        class="inspiration-url"
+        class="url"
         v-if="inspiration.buttonLink"
       >
         {{ inspiration.buttonLink.url }}
@@ -105,7 +105,18 @@ export default {
     }
   }
 
-  .inspiration-info {
+  .url {
+    @apply
+      text-xs
+      break-words
+      break-all
+      mt-1
+      opacity-30
+      text-center
+      md:text-sm;
+  }
+
+  .info {
     @apply flex
         flex-col
         justify-center
@@ -114,12 +125,7 @@ export default {
         uppercase
         font-sans
         text-sm
-        py-5
-        gap-y-2;
-
-    .inspiration-url {
-      @apply text-gray-primary;
-    }
+        py-5;
   }
 }
 </style>

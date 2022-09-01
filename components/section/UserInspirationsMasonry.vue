@@ -7,8 +7,8 @@
       :items="inspirations"
       :ssr-columns="1"
       ref="masonry"
-      :gap="20"
-      :column-width="500"
+      :gap="gap"
+      :column-width="columnsWidth"
       class="inspirations-masonry"
       :responsive="true"
       v-if="inspirations && inspirations.length"
@@ -47,8 +47,24 @@ export default {
     MasonryWall,
   },
 
+  data() {
+    return {
+      columnsWidth: this.$masonryResponsive(390),
+      gap: 24,
+    };
+  },
+
   async mounted() {
     await this.$nextTick();
+
+    if (window.innerWidth < 768) this.gap = 16;
+    else this.gap = 24;
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 768) this.gap = 16;
+      else this.gap = 24;
+      this.columnsWidth = this.$masonryResponsive(390);
+    });
+
     let columns = document.querySelectorAll(".masonry-column");
     const drake = dragula();
 
