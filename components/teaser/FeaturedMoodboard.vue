@@ -11,7 +11,7 @@
         <template v-if="moodboard.inspirationItems">
           <template v-for="(item, index) of moodboard.inspirationItems">
             <figure
-              :key="index"
+              :key="item.id"
               v-if="index < 4"
               class="moodboard-item"
             >

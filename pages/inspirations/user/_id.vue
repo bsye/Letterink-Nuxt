@@ -3,7 +3,7 @@
     <div>
       <SectionPageHeader
         :title="moodboard.title"
-        :back="localePath('inspirations-user')"
+        :back="route"
         :section="$t('User moodboards')"
       />
 
@@ -32,6 +32,12 @@ export default {
       ](this.$route.params.id);
       this.$store.dispatch("moodboards/setCurrentMoodboard", userMoodboard);
       return userMoodboard;
+    },
+
+    route() {
+      if (this.$nuxt.context.from.name !== this.$nuxt.context.route.name)
+        return this.localePath(this.$nuxt.context.from);
+      return this.localePath("inspirations");
     },
   },
 

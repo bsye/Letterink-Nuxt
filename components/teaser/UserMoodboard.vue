@@ -3,7 +3,7 @@
     class="moodboard"
     :to="localePath({
         name: 'inspirations-user-id',
-        params: { id: this.moodboard.id },
+        params: { id: moodboard.id },
       })"
   >
     <div class="wrapper">
@@ -11,7 +11,7 @@
         <template v-if="moodboard.inspirationItems">
           <template v-for="(item, index) of moodboard.inspirationItems">
             <figure
-              :key="index"
+              :key="item.id"
               v-if="index < 4"
               class="item"
             >

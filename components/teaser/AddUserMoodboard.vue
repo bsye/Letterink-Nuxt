@@ -20,14 +20,7 @@
 </template>
 
 <script>
-export default {
-  props: {
-    moodboard: {
-      type: Object,
-      required: true,
-    },
-  },
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>

@@ -20,6 +20,7 @@
       >
         <TeaserUserInspiration
           :key="item.id"
+          ref="inspiration"
           :sort="index"
           :id="item.id"
           :inspiration="item"
@@ -48,82 +49,29 @@ export default {
 
   async mounted() {
     await this.$nextTick();
-    const columns = document.querySelectorAll(".masonry-column");
+    let columns = document.querySelectorAll(".masonry-column");
     const drake = dragula();
 
-    columns.forEach((column) => {
-      drake.containers.push(column);
-    });
+    this.$handleMasonryResize(columns, drake);
 
     let oldOrder = [];
-
     drake.on("drag", () => {
       oldOrder = [];
-      const masonry = document.querySelectorAll(".masonry-column .inspiration");
-
-      masonry.forEach((element) => {
-        oldOrder.push({
-          sort: element.getAttribute("sort"),
-          id: element.getAttribute("id"),
-        });
-      });
-    });
-
-    drake.on("dragend", () => {
-      let newOrder = [];
-      columns.forEach((column, index) => {
-        if (column.childNodes.length == 0) {
-          let currentIndex = index;
-          let found = false;
-          let element = false;
-          if (currentIndex == 0) {
-            do {
-              if (columns[index + 1].childNodes.length > 1) {
-                found = index + 1;
-                element =
-                  columns[found].childNodes[
-                    columns[found].childNodes.length - 1
-                  ];
-              }
-              currentIndex++;
-            } while (currentIndex < columns.length - 1);
-
-            column.appendChild(element);
-          } else {
-            do {
-              if (columns[index - 1].childNodes.length > 1) {
-                found = index - 1;
-                element =
-                  columns[found].childNodes[
-                    columns[found].childNodes.length - 1
-                  ];
-              }
-              currentIndex--;
-            } while (currentIndex > 0);
-
-            column.appendChild(element);
-          }
-        }
-      });
-
-      let order = [];
-
       const elements = document.querySelectorAll(
         ".masonry-column .inspiration"
       );
+      oldOrder = this.$getElementsOrder(elements);
+    });
 
-      elements.forEach((element) => {
-        order.push({
-          sort: element.getAttribute("sort"),
-          id: element.getAttribute("id"),
-        });
-      });
+    drake.on("dragend", () => {
+      let order = [];
 
-      order.forEach((single, index) => {
-        if (single.id !== oldOrder[index].id) {
-          single.sort = oldOrder[index].sort;
-        }
-      });
+      this.$rearrangeColumns(columns);
+      const elements = document.querySelectorAll(
+        ".masonry-column .inspiration"
+      );
+      order = this.$getElementsOrder(elements);
+      order = this.$orderElements(order, oldOrder);
 
       this.$store.dispatch("moodboards/orderInspirations", { order });
     });
