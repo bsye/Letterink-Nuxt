@@ -107,7 +107,7 @@ export default {
 
   .url {
     @apply
-      text-xs
+      text-[10px]
       break-words
       break-all
       mt-0.5
@@ -124,8 +124,10 @@ export default {
         w-full
         uppercase
         font-sans
-        text-sm
-        pt-2
+        text-xs
+        md:text-sm
+        pt-0.5
+        md:pt-2
         md:py-5;
   }
 }
