@@ -9,7 +9,6 @@
 
 <script>
 import query from "~/graphql/queries/homepage.js";
-
 export default {
   data() {
     return {

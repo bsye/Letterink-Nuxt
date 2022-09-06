@@ -1,49 +1,68 @@
 <template>
-  <div
-    class="highlights"
-    v-if="works"
-    :style="currentWorkBackgroundColor"
-  >
-    <NuxtLink
-      :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
-      v-for="work of works"
-      :key="work.id"
-      @mouseenter.native="currentWorkId = work.id"
-      @mouseleave.native="currentWorkId = null"
-      :style="currentWorkTextColor"
+  <div>
+    <div
+      class="highlights"
+      ref="container"
+      :style="currentWorkBackgroundColor"
     >
       <div
-        class="work-title"
-        :class="currentWorkId === work.id && 'active-work'"
-        :style="
-          currentWorkTextColor && currentWorkId !== work.id
-            ? 'opacity: .4;'
-            : ''
-        "
+        :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
+        v-for="(work, index) of works"
+        :key="work.id"
+        class="work"
+        :data-work="work.id"
       >
-        {{ work.title }}
-        <span class="date">{{ work.date }} </span>
-      </div>
-    </NuxtLink>
-
-    <transition name="preview-images">
-      <div
-        class="images"
-        :class="currentWork && currentWork.previewLayout"
-        v-if="currentWorkPreviews && currentWorkPreviews.length"
-      >
-        <figure
-          v-for="preview of currentWorkPreviews"
-          :key="preview.id"
+        <NuxtLink
+          class="wrapper"
+          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
         >
-          <img :src="preview.url" />
-        </figure>
+          <div class="work-title">
+            {{ work.title }}
+            <span class="date">{{ work.date }} </span>
+          </div>
+        </NuxtLink>
       </div>
-    </transition>
+
+      <div
+        v-for="(work, index) of works"
+        :key="work.id"
+        ref="clones"
+        class="work"
+        :data-work="work.id"
+      >
+        <NuxtLink
+          class="wrapper"
+          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
+        >
+          <div class="work-title">
+            {{ work.title }}
+            <span class="date">{{ work.date }} </span>
+          </div>
+        </NuxtLink>
+      </div>
+
+      <transition name="preview-images">
+        <div
+          class="images"
+          :class="$get(currentWork, 'previewLayout')"
+        >
+          <figure
+            v-for="preview of currentWorkPreviews"
+            :key="preview.id"
+          >
+            <img :src="preview.url" />
+          </figure>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 export default {
   props: {
     highlights: Object,
@@ -52,25 +71,90 @@ export default {
   data() {
     return {
       currentWorkId: null,
+      scrollWidth: 0,
+      scrollPos: 0,
+      clonesWidth: 0,
     };
   },
 
-  mounted() {
-    this.$store.commit("updateTextColor", null);
-    this.$store.commit("updateBackgroundColor", null);
+  async mounted() {
+    await this.$nextTick();
+    if (!process.client) return;
+    const self = this;
+
+    this.reCalc();
+    this.$refs.container.addEventListener("scroll", () => {
+      self.setActive();
+      window.requestAnimationFrame(self.scrollUpdate);
+    });
+
+    window.addEventListener("resize", () =>
+      window.requestAnimationFrame(self.reCalc)
+    );
   },
 
-  destroyed() {
-    this.$store.commit("updateTextColor", null);
-    this.$store.commit("updateBackgroundColor", null);
+  methods: {
+    getScrollPos() {
+      return (
+        this.$refs.container.scrollLeft - this.$refs.container.clientLeft || 0
+      );
+    },
+
+    setScrollPos(pos) {
+      this.$refs.container.scrollLeft = pos;
+    },
+
+    getClonesWidth() {
+      this.$refs.clones.forEach((element) => {
+        console.log(element.offsetWidth);
+        this.clonesWidth = this.clonesWidth + element.offsetWidth;
+      });
+    },
+
+    reCalc() {
+      this.scrollPos = this.getScrollPos();
+      this.scrollWidth = this.$refs.container.scrollWidth;
+      this.getClonesWidth();
+      if (this.scrollPos <= 0) {
+        this.setScrollPos(1);
+      }
+    },
+
+    scrollUpdate() {
+      this.scrollPos = this.getScrollPos();
+
+      if (this.clonesWidth + this.scrollPos >= this.scrollWidth)
+        this.setScrollPos(1);
+      else if (this.scrollPos <= 0)
+        this.setScrollPos(this.scrollWidth - this.clonesWidth);
+    },
+
+    setActive() {
+      const works = this.$refs.container.querySelectorAll(".work");
+
+      works &&
+        works.forEach((work) => {
+          const width = window.innerWidth / 2;
+          const left = Math.abs(work.getBoundingClientRect().left);
+          const right = Math.abs(work.getBoundingClientRect().right);
+
+          if (
+            width % left <= work.offsetWidth &&
+            width % right >= work.offsetWidth &&
+            left % right >= work.offsetWidth
+          ) {
+            this.currentWorkId = work.dataset.work;
+            work.classList.add("active");
+          } else {
+            work.classList.remove("active");
+          }
+        });
+    },
   },
 
   computed: {
     works() {
-      if (this.highlights.works && this.highlights.works.length)
-        return this.highlights.works;
-
-      return null;
+      return this.$get(this.highlights, "works");
     },
 
     currentWork() {
@@ -82,47 +166,21 @@ export default {
     },
 
     currentWorkPreviews() {
-      return this.currentWork ? this.currentWork.previewImages : null;
+      return this.$get(this.currentWork, "previewImages");
     },
 
     currentWorkColor() {
-      if (
-        this.currentWork &&
-        this.currentWork.color &&
-        this.currentWork.color.length &&
-        this.currentWork.color[0].workColor &&
-        this.currentWork.color[0].workColor.length
-      ) {
-        return this.currentWork.color[0].workColor[0];
-      }
-
-      return null;
+      return this.$get(this.currentWork, "color[0].workColor[0]");
     },
 
     currentWorkBackgroundColor() {
-      if (this.currentWorkColor) {
-        const color = this.currentWorkColor.backgroundColor;
-        return `background-color: ${color}; `;
-      }
-      return "";
+      const color = this.$get(this.currentWorkColor, "backgroundColor");
+      return `background-color: ${color}; `;
     },
 
     currentWorkTextColor() {
-      if (this.currentWorkColor) {
-        const color = this.currentWorkColor.textColor;
-        return `color: ${color}; border-color: ${color};`;
-      }
-      return "";
-    },
-  },
-
-  watch: {
-    currentWorkTextColor(color) {
-      this.$store.commit("updateTextColor", color);
-    },
-
-    currentWorkBackgroundColor(color) {
-      this.$store.commit("updateBackgroundColor", color);
+      const color = this.$get(this.currentWorkColor, "textColor");
+      return `color: ${color}; border-color: ${color};`;
     },
   },
 };
@@ -134,80 +192,76 @@ export default {
     h-full
     flex
     overflow-auto
-    relative
     transition-colors
     
     md:flex-col;
 
-  &::-webkit-scrollbar {
-    @apply hidden;
-  }
+  width: auto !important;
+  max-width: unset !important;
 
-  &:hover {
-    a {
-      @apply text-opacity-40;
-    }
-  }
+  .work {
+    @apply
+      transition-all;
 
-  a {
-    @apply h-full
-        flex
-        justify-center
-        items-center
-        text-black
-        uppercase
-        font-sans
-        text-54
-        border-r
-        border-black
-        px-1
-        
-        md:px-0
-        md:text-100
-        md:border-b
-        md:border-r-0;
-    writing-mode: vertical-rl;
-
-    @screen md {
-      writing-mode: horizontal-tb;
-      line-height: 5rem;
+    &.active {
+      @apply
+        opacity-100
+        scale-105
+        z-50;
     }
 
-    .work-title {
-      @apply flex
-        gap-x-2
-        text-center
-        transform
-        -rotate-180
-        
-        md:rotate-0;
-
-      .date {
-        @apply text-sm
+    .wrapper {
+      @apply h-full
+          flex
+          justify-center
+          items-center
+          text-black
+          uppercase
           font-sans
-          font-normal
-          hidden
+          text-54
+          border-r
+          border-black
+          px-1
           
-          md:flex;
+          md:px-0
+          md:text-100
+          md:border-b
+          md:border-r-0;
+      writing-mode: vertical-rl;
+
+      @screen md {
+        writing-mode: horizontal-tb;
+        line-height: 5rem;
       }
 
-      &.active-work {
-        @apply relative
-          z-10
-          text-opacity-100;
+
+      .work-title {
+        @apply flex
+          gap-x-2
+          min-h-[56px]
+          text-center
+          transform
+          -rotate-180
+          
+          md:rotate-0;
+
+        .date {
+          @apply text-sm
+            font-sans
+            font-normal
+            hidden
+            
+            md:flex;
+        }
       }
-    }
 
-    &:last-of-type {
-      @apply border-none;
-    }
+      &:nth-child(3n + 2) {
+        @apply font-serif;
+      }
 
-    &:nth-child(3n + 2) {
-      @apply font-serif;
-    }
-
-    &:nth-child(3n + 3) {
-      @apply font-bold;
+      &:nth-child(3n + 3) {
+        @apply font-bold;
+      }
     }
   }
 
@@ -227,8 +281,7 @@ export default {
     }
 
     figure {
-      @apply absolute
-        overflow-hidden;
+      @apply absolute;
 
       img {
         @apply w-full
