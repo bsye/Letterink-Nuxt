@@ -3,13 +3,18 @@
     <div
       class="highlights"
       ref="container"
-      :style="currentWorkBackgroundColor"
+      :style="{
+        backgroundColor,
+        color,
+        borderColor
+        }"
     >
       <div
         :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
-        v-for="(work, index) of works"
+        v-for="work of works"
         :key="work.id"
         class="work"
+        :style="{borderColor}"
         :data-work="work.id"
       >
         <NuxtLink
@@ -24,8 +29,9 @@
       </div>
 
       <div
-        v-for="(work, index) of works"
-        :key="work.id"
+        v-for="work of works"
+        :key="work.id + '-clone'"
+        :style="{borderColor}"
         ref="clones"
         class="work"
         :data-work="work.id"
@@ -41,19 +47,21 @@
         </NuxtLink>
       </div>
 
-      <transition name="preview-images">
+      <template v-for="work in works">
         <div
           class="images"
-          :class="$get(currentWork, 'previewLayout')"
+          :key="work.id + '-image'"
+          v-show="currentWorkPreview(work.id)"
+          :class="$get(work, 'previewLayout')"
         >
           <figure
-            v-for="preview of currentWorkPreviews"
+            v-for="preview of $get(work, 'previewImages')"
             :key="preview.id"
           >
             <img :src="preview.url" />
           </figure>
         </div>
-      </transition>
+      </template>
     </div>
   </div>
 </template>
@@ -61,6 +69,8 @@
 <script>
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+const { v1: uuidv1 } = require("uuid");
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default {
@@ -98,6 +108,10 @@ export default {
       return (
         this.$refs.container.scrollLeft - this.$refs.container.clientLeft || 0
       );
+    },
+
+    currentWorkPreview(workId) {
+      return workId == this.currentWorkId;
     },
 
     setScrollPos(pos) {
@@ -165,22 +179,20 @@ export default {
       return currentWork;
     },
 
-    currentWorkPreviews() {
-      return this.$get(this.currentWork, "previewImages");
-    },
-
     currentWorkColor() {
       return this.$get(this.currentWork, "color[0].workColor[0]");
     },
 
-    currentWorkBackgroundColor() {
-      const color = this.$get(this.currentWorkColor, "backgroundColor");
-      return `background-color: ${color}; `;
+    backgroundColor() {
+      return this.$get(this.currentWorkColor, "backgroundColor");
     },
 
-    currentWorkTextColor() {
-      const color = this.$get(this.currentWorkColor, "textColor");
-      return `color: ${color}; border-color: ${color};`;
+    color() {
+      return this.$get(this.currentWorkColor, "textColor");
+    },
+
+    borderColor() {
+      return this.$get(this.currentWorkColor, "textColor");
     },
   },
 };
@@ -206,7 +218,7 @@ export default {
     &.active {
       @apply
         opacity-100
-        scale-105
+        scale-110
         z-50;
     }
 
@@ -215,18 +227,20 @@ export default {
           flex
           justify-center
           items-center
-          text-black
           uppercase
           font-sans
-          text-54
+          text-[40px]
           border-r
-          border-black
+          min-w-[90px]
           px-1
           
           md:px-0
           md:text-100
           md:border-b
           md:border-r-0;
+
+        border-color: inherit;
+
       writing-mode: vertical-rl;
 
       @screen md {
@@ -238,6 +252,7 @@ export default {
       .work-title {
         @apply flex
           gap-x-2
+          leading-none
           min-h-[56px]
           text-center
           transform
