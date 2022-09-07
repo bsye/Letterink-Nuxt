@@ -95,6 +95,7 @@ export default {
     this.reCalc();
     this.$refs.container.addEventListener("scroll", () => {
       self.setActive();
+      console.log("scroll");
       window.requestAnimationFrame(self.scrollUpdate);
     });
 
@@ -137,6 +138,7 @@ export default {
     scrollUpdate() {
       this.scrollPos = this.getScrollPos();
 
+      console.log(this.clonesWidth, this.scrollPos, this.scrollWidth);
       if (this.clonesWidth + this.scrollPos >= this.scrollWidth)
         this.setScrollPos(1);
       else if (this.scrollPos <= 0)
