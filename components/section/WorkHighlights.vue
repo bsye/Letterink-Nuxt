@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="slider">
     <div
-      class="highlights"
-      ref="container"
+      class="works"
+      ref="swiper"
       :style="{
         backgroundColor,
         color,
@@ -10,58 +10,47 @@
         }"
     >
       <div
-        :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
-        v-for="work of works"
-        :key="work.id"
-        class="work"
+        class="highlights swiper-wrapper"
+        ref="container"
         :style="{borderColor}"
-        :data-work="work.id"
       >
-        <NuxtLink
-          class="wrapper"
-          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
-        >
-          <div class="work-title">
-            {{ work.title }}
-            <span class="date">{{ work.date }} </span>
-          </div>
-        </NuxtLink>
-      </div>
-
-      <div
-        v-for="work of works"
-        :key="work.id + '-clone'"
-        :style="{borderColor}"
-        ref="clones"
-        class="work"
-        :data-work="work.id"
-      >
-        <NuxtLink
-          class="wrapper"
-          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
-        >
-          <div class="work-title">
-            {{ work.title }}
-            <span class="date">{{ work.date }} </span>
-          </div>
-        </NuxtLink>
-      </div>
-
-      <template v-for="work in works">
         <div
-          class="images"
-          :key="work.id + '-image'"
-          v-show="currentWorkPreview(work.id)"
-          :class="$get(work, 'previewLayout')"
+          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
+          v-for="work of works"
+          :key="work.id"
+          class="work swiper-slide"
+          :data-work="work.id"
         >
-          <figure
-            v-for="preview of $get(work, 'previewImages')"
-            :key="preview.id"
+          <NuxtLink
+            class="wrapper"
+            :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
           >
-            <img :src="preview.url" />
-          </figure>
+            <div class="work-title">
+              {{ work.title }}
+              <span class="date">{{ work.date }} </span>
+            </div>
+          </NuxtLink>
         </div>
-      </template>
+      </div>
+    </div>
+    <div class="previews">
+      <div
+        class="images"
+        :style="{
+            transform
+          }"
+        v-for="work in works"
+        :key="work.id + '-image'"
+        v-show="currentWorkPreview(work.id)"
+        :class="$get(work, 'previewLayout')"
+      >
+        <figure
+          v-for="preview of $get(work, 'previewImages')"
+          :key="preview.id"
+        >
+          <img :src="preview.url" />
+        </figure>
+      </div>
     </div>
   </div>
 </template>
@@ -69,7 +58,8 @@
 <script>
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-const { v1: uuidv1 } = require("uuid");
+import { Swiper, FreeMode } from "swiper";
+import "swiper/swiper-bundle.min.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -83,6 +73,7 @@ export default {
       currentWorkId: null,
       scrollWidth: 0,
       scrollPos: 0,
+      transform: null,
       clonesWidth: 0,
     };
   },
@@ -92,60 +83,27 @@ export default {
     if (!process.client) return;
     const self = this;
 
-    this.reCalc();
-    this.$refs.container.addEventListener("scroll", () => {
-      self.setActive();
-      console.log("scroll");
-      window.requestAnimationFrame(self.scrollUpdate);
+    const swiper = new Swiper(this.$refs.swiper, {
+      slidesPerView: 4,
+      loop: true,
+      sticky: false,
+      modules: [FreeMode],
+      freeModeMomentumBounce: false,
+      loopedSlides: 6,
+      freeModeSticky: true,
+      freeMode: true,
+      spaceBetween: 0,
     });
 
-    window.addEventListener("resize", () =>
-      window.requestAnimationFrame(self.reCalc)
-    );
+    window.requestAnimationFrame(self.setActive);
   },
 
   methods: {
-    getScrollPos() {
-      return (
-        this.$refs.container.scrollLeft - this.$refs.container.clientLeft || 0
-      );
-    },
-
     currentWorkPreview(workId) {
       return workId == this.currentWorkId;
     },
 
-    setScrollPos(pos) {
-      this.$refs.container.scrollLeft = pos;
-    },
-
-    getClonesWidth() {
-      this.$refs.clones.forEach((element) => {
-        console.log(element.offsetWidth);
-        this.clonesWidth = this.clonesWidth + element.offsetWidth;
-      });
-    },
-
-    reCalc() {
-      this.scrollPos = this.getScrollPos();
-      this.scrollWidth = this.$refs.container.scrollWidth;
-      this.getClonesWidth();
-      if (this.scrollPos <= 0) {
-        this.setScrollPos(1);
-      }
-    },
-
-    scrollUpdate() {
-      this.scrollPos = this.getScrollPos();
-
-      console.log(this.clonesWidth, this.scrollPos, this.scrollWidth);
-      if (this.clonesWidth + this.scrollPos >= this.scrollWidth)
-        this.setScrollPos(1);
-      else if (this.scrollPos <= 0)
-        this.setScrollPos(this.scrollWidth - this.clonesWidth);
-    },
-
-    setActive() {
+    setActive(displace) {
       const works = this.$refs.container.querySelectorAll(".work");
 
       works &&
@@ -153,6 +111,7 @@ export default {
           const width = window.innerWidth / 2;
           const left = Math.abs(work.getBoundingClientRect().left);
           const right = Math.abs(work.getBoundingClientRect().right);
+          console.log(left, right);
 
           if (
             width % left <= work.offsetWidth &&
@@ -165,6 +124,8 @@ export default {
             work.classList.remove("active");
           }
         });
+
+      window.requestAnimationFrame(this.setActive);
     },
   },
 
@@ -201,27 +162,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.highlights {
-  @apply w-full
-    h-full
-    flex
-    overflow-auto
-    transition-colors
-    
-    md:flex-col;
+.works {
+  @apply
+    overflow-x-hidden;
+}
 
-  width: auto !important;
-  max-width: unset !important;
+.slider {
+  @apply
+    relative;
+}
+
+.highlights {
+  @apply
+    w-screen;
 
   .work {
     @apply
+      opacity-30
       transition-all;
 
     &.active {
       @apply
-        opacity-100
-        scale-110
-        z-50;
+        opacity-100;
+
+      .work-title {
+        @apply
+          z-50;
+      }
     }
 
     .wrapper {
@@ -256,6 +223,7 @@ export default {
           gap-x-2
           leading-none
           min-h-[56px]
+          z-[60]
           text-center
           transform
           -rotate-180
@@ -282,13 +250,23 @@ export default {
     }
   }
 
+  .preview-images-enter-active,
+  .preview-images-leave-active {
+    transition: opacity 0.5s ease;
+  }
+  .preview-images-enter,
+  .preview-images-leave-to {
+    @apply opacity-0;
+  }
+}
+
+.previews {
   .images {
-    @apply fixed
+    @apply absolute
       pointer-events-none
-      w-full
-      left-1/2
-      transform
-      -translate-x-1/2;
+      inset-0
+      w-full;
+
     height: calc(100vh - 6.75rem);
     top: 3.375;
     max-width: 72rem;
@@ -310,6 +288,9 @@ export default {
     &.layout1 {
       figure {
         &:nth-child(1) {
+          @apply
+            z-10;
+
           padding-bottom: 64.5%;
           width: 90%;
 
@@ -321,6 +302,7 @@ export default {
 
         &:nth-child(2) {
           @apply bottom-0
+          z-50
           right-0;
           padding-bottom: 67%;
           width: 50%;
@@ -345,7 +327,8 @@ export default {
     &.layout2 {
       figure {
         &:nth-child(1) {
-          @apply right-0;
+          @apply right-0
+          z-10;
           top: 25%;
           width: 60%;
           padding-bottom: 112.16%;
@@ -369,6 +352,7 @@ export default {
         &:nth-child(3) {
           @apply top-full
             transform
+            z-50;
 
             md:-translate-y-1/2;
           transform: translateY(calc(-50% - 54px));
@@ -382,15 +366,6 @@ export default {
         }
       }
     }
-  }
-
-  .preview-images-enter-active,
-  .preview-images-leave-active {
-    transition: opacity 0.5s ease;
-  }
-  .preview-images-enter,
-  .preview-images-leave-to {
-    @apply opacity-0;
   }
 }
 </style>
