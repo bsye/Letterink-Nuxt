@@ -15,7 +15,6 @@
         :style="{borderColor}"
       >
         <div
-          :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
           v-for="work of works"
           :key="work.id"
           class="work swiper-slide"
@@ -30,26 +29,26 @@
               <span class="date">{{ work.date }} </span>
             </div>
           </NuxtLink>
+
         </div>
-      </div>
-    </div>
-    <div class="previews">
-      <div
-        class="images"
-        :style="{
-            transform
-          }"
-        v-for="work in works"
-        :key="work.id + '-image'"
-        v-show="currentWorkPreview(work.id)"
-        :class="$get(work, 'previewLayout')"
-      >
-        <figure
-          v-for="preview of $get(work, 'previewImages')"
-          :key="preview.id"
-        >
-          <img :src="preview.url" />
-        </figure>
+        <div class="previews">
+          <div
+            class="images"
+            :style="{
+              transform
+            }"
+            v-for="work in works"
+            :key="work.id + '-image'"
+            :class="[$get(work, 'previewLayout'), { active: currentWorkPreview(work.id)}]"
+          >
+            <figure
+              v-for="preview of $get(work, 'previewImages')"
+              :key="preview.id"
+            >
+              <img :src="preview.url" />
+            </figure>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -88,10 +87,12 @@ export default {
       loop: true,
       sticky: false,
       modules: [FreeMode],
-      freeModeMomentumBounce: false,
-      loopedSlides: 6,
-      freeModeSticky: true,
-      freeMode: true,
+      loopedSlidesLimit: false,
+      loopAdditionalSlides: 6,
+      freeMode: {
+        enabled: true,
+        momentum: false,
+      },
       spaceBetween: 0,
     });
 
@@ -103,15 +104,33 @@ export default {
       return workId == this.currentWorkId;
     },
 
+    getTransform(el) {
+      var transform = window
+        .getComputedStyle(el, null)
+        .getPropertyValue("-webkit-transform");
+      var results = transform.match(
+        /matrix(?:(3d)\(-{0,1}\d+(?:, -{0,1}\d+)*(?:, (-{0,1}\d+))(?:, (-{0,1}\d+))(?:, (-{0,1}\d+)), -{0,1}\d+\)|\(-{0,1}\d+(?:, -{0,1}\d+)*(?:, (-{0,1}.+))(?:, (-{0,1}.+))\))/
+      );
+
+      if (!results) return [0, 0, 0];
+      if (results[1] == "3d") return results.slice(2, 5);
+
+      results.push(0);
+      return results.slice(5, 8);
+    },
+
     setActive(displace) {
       const works = this.$refs.container.querySelectorAll(".work");
+      const previews = this.$refs.previews.querySelectorAll(".images");
+      let x = this.getTransform(this.$refs.container)[0];
+      let calculatedX = -x;
+      this.$refs.previews.style.transform = `translate3D(${calculatedX}px, 0, 0)`;
 
       works &&
         works.forEach((work) => {
           const width = window.innerWidth / 2;
           const left = Math.abs(work.getBoundingClientRect().left);
           const right = Math.abs(work.getBoundingClientRect().right);
-          console.log(left, right);
 
           if (
             width % left <= work.offsetWidth &&
@@ -174,12 +193,22 @@ export default {
 
 .highlights {
   @apply
+    static
     w-screen;
 
   .work {
     @apply
-      opacity-30
-      transition-all;
+      transition-transform
+      text-opacity-10
+      duration-500;
+
+    border-color: inherit;
+
+    .work-title {
+      @apply
+        text-opacity-30
+        transition-all;
+    }
 
     &.active {
       @apply
@@ -187,7 +216,24 @@ export default {
 
       .work-title {
         @apply
-          z-50;
+          z-50
+          scale-125;
+      }
+
+      &::after {
+        @apply
+          h-screen
+
+          
+          w-0
+          right-0
+          opacity-100
+          absolute
+          block
+          border-r;
+
+        content: "";
+        border-color: inherit;
       }
     }
 
@@ -197,18 +243,30 @@ export default {
           justify-center
           items-center
           uppercase
+          relative
           font-sans
           text-[40px]
-          border-r
           min-w-[90px]
           px-1
           
           md:px-0
-          md:text-100
-          md:border-b
-          md:border-r-0;
+          md:text-100;
 
         border-color: inherit;
+
+      &::after {
+        @apply
+          h-screen
+          w-0
+          right-0
+          absolute
+          opacity-20
+          block
+          border-r;
+
+        content: "";
+        border-color: inherit;
+      }
 
       writing-mode: vertical-rl;
 
@@ -223,7 +281,6 @@ export default {
           gap-x-2
           leading-none
           min-h-[56px]
-          z-[60]
           text-center
           transform
           -rotate-180
@@ -261,11 +318,34 @@ export default {
 }
 
 .previews {
+  @apply
+    w-screen
+    fixed
+    transition-none
+    z-10
+    h-screen;
+
   .images {
-    @apply absolute
+    @apply
+      opacity-0;
+
+    &.active {
+      @apply
+        opacity-100
+    }
+  }
+
+}
+
+  .images {
+    @apply 
+      absolute
+      z-50
       pointer-events-none
-      inset-0
-      w-full;
+      right-0
+      top-0
+      transition-opacity
+      w-screen;
 
     height: calc(100vh - 6.75rem);
     top: 3.375;
@@ -285,85 +365,64 @@ export default {
       }
     }
 
-    &.layout1 {
-      figure {
-        &:nth-child(1) {
-          @apply
-            z-10;
+  &.layout1 {
+    figure {
+      &:nth-child(1) {
+        @apply
+          pb-[64.5%]
+          w-[90%]
+          z-10
 
-          padding-bottom: 64.5%;
-          width: 90%;
+          md:w-[70%]
+          md:pb-[45%];
+      }
 
-          @screen md {
-            width: 70%;
-            padding-bottom: 45%;
-          }
-        }
+      &:nth-child(2) {
+        @apply bottom-0
+        z-10
+        right-0
+        pb-[67%]
+        w-1/2
+        md:right-[7.5rem]
+        md:w-[29%]
+        md:pb-[40%];
+      }
 
-        &:nth-child(2) {
-          @apply bottom-0
-          z-50
-          right-0;
-          padding-bottom: 67%;
-          width: 50%;
-
-          @screen md {
-            right: 7.5rem;
-            width: 29%;
-            padding-bottom: 40%;
-          }
-        }
-
-        &:nth-child(3) {
-          @apply bottom-0
-            left-0;
-
-          padding-bottom: 62%;
-          width: 50%;
-        }
+      &:nth-child(3) {
+        @apply bottom-0
+          left-0
+          pb-[62%]
+          w-1/2;
       }
     }
+  }
 
-    &.layout2 {
-      figure {
-        &:nth-child(1) {
-          @apply right-0
+  &.layout2 {
+    figure {
+      &:nth-child(1) {
+        @apply right-0
+        z-10
+        top-[25%]
+        w-[60%]
+        pb-[112.16%]
+
+        md:top-0
+        md:w-2/5;
+      }
+
+      &:nth-child(2) {
+        @apply
+          left-[10%]
+          pb-[86.8%]
+          w-[35%]
+
+          md:w-[30%]
+      }
+
+      &:nth-child(3) {
+        @apply top-full
+          transform
           z-10;
-          top: 25%;
-          width: 60%;
-          padding-bottom: 112.16%;
-
-          @screen md {
-            top: 0;
-            width: 40%;
-          }
-        }
-
-        &:nth-child(2) {
-          left: 10%;
-          padding-bottom: 86.8%;
-          width: 35%;
-
-          @screen md {
-            width: 30%;
-          }
-        }
-
-        &:nth-child(3) {
-          @apply top-full
-            transform
-            z-50;
-
-            md:-translate-y-1/2;
-          transform: translateY(calc(-50% - 54px));
-          padding-bottom: 75.5%;
-          width: 80%;
-
-          @screen md {
-            padding-bottom: 62%;
-            width: 50%;
-          }
-        }
       }
     }
   }
