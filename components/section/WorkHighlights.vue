@@ -17,6 +17,7 @@
         <div
           v-for="work of works"
           :key="work.id"
+          ref="work"
           class="work swiper-slide"
           :data-work="work.id"
           @mouseover="setWorkDesktop(work.id)"
@@ -33,25 +34,17 @@
 
         </div>
         <div
-          ref="previews"
           class="previews"
+          ref="previews"
         >
-          <div
-            class="images"
-            :style="{
-              transform
-            }"
+          <WorkPreviews
             v-for="work in works"
+            :previewType="$get(work, 'previewLayout')"
+            :style="{transform}"
+            :previews="$get(work, 'previewImages')"
+            :active="currentWorkPreview(work.id)"
             :key="work.id + '-image'"
-            :class="[$get(work, 'previewLayout'), { active: currentWorkPreview(work.id)}]"
-          >
-            <figure
-              v-for="preview of $get(work, 'previewImages')"
-              :key="preview.id"
-            >
-              <img :src="preview.url" />
-            </figure>
-          </div>
+          />
         </div>
       </div>
     </div>
@@ -86,9 +79,8 @@ export default {
     if (!process.client) return;
     const self = this;
 
-    if (window.innerWidth > 1024) return;
-
-    const swiper = new Swiper(this.$refs.swiper, {
+    let swiper = {};
+    swiper.options = {
       slidesPerView: 4,
       loop: true,
       sticky: false,
@@ -100,7 +92,24 @@ export default {
         momentum: false,
       },
       spaceBetween: 0,
+    };
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 1024) {
+        if (!this.$get(swiper, "init.destroyed")) {
+          swiper.init = new Swiper(this.$refs.swiper, swiper.options);
+        }
+
+        window.requestAnimationFrame(self.setActive);
+      } else {
+        if (swiper.init) swiper.init.destroy(true, false);
+        window.cancelAnimationFrame(self.setActive);
+      }
     });
+
+    if (window.innerWidth >= 1024) return;
+
+    swiper.init = new Swiper(this.$refs.swiper, swiper.options);
 
     window.requestAnimationFrame(self.setActive);
   },
@@ -111,43 +120,18 @@ export default {
     },
 
     setWorkDesktop(workId) {
-      console.log(workId);
       if (window.innerWidth > 1023) this.currentWorkId = workId;
       return;
     },
 
-    getTransform(el) {
-      var transform = window
-        .getComputedStyle(el, null)
-        .getPropertyValue("-webkit-transform");
-      var results = transform.match(
-        /matrix(?:(3d)\(-{0,1}\d+(?:, -{0,1}\d+)*(?:, (-{0,1}\d+))(?:, (-{0,1}\d+))(?:, (-{0,1}\d+)), -{0,1}\d+\)|\(-{0,1}\d+(?:, -{0,1}\d+)*(?:, (-{0,1}.+))(?:, (-{0,1}.+))\))/
-      );
-
-      if (!results) return [0, 0, 0];
-      if (results[1] == "3d") return results.slice(2, 5);
-
-      results.push(0);
-      return results.slice(5, 8);
-    },
-
     setActive() {
       const works = this.$refs.container.querySelectorAll(".work");
-      let x = this.getTransform(this.$refs.container)[0];
-      let calculatedX = -x;
-      this.$refs.previews.style.transform = `translate3D(${calculatedX}px, 0, 0)`;
+      let x = this.$getStyleTransformValues(this.$refs.container)[0];
+      this.$refs.previews.style.transform = `translate3D(${-x}px, 0, 0)`;
 
       works &&
         works.forEach((work) => {
-          const width = window.innerWidth / 2;
-          const left = Math.abs(work.getBoundingClientRect().left);
-          const right = Math.abs(work.getBoundingClientRect().right);
-
-          if (
-            width % left <= work.offsetWidth &&
-            width % right >= work.offsetWidth &&
-            left % right >= work.offsetWidth
-          ) {
+          if (this.$isElementCentered(work)) {
             this.currentWorkId = work.dataset.work;
             work.classList.add("active");
           } else {
@@ -203,6 +187,7 @@ export default {
 .slider {
   @apply
     grow
+    relative
     flex
     flex-col;
 }
@@ -218,6 +203,14 @@ export default {
       md:h-full
       md:justify-evenly
       md:flex-col;
+
+      @screen md {
+        transform: none !important;
+
+        .swiper-slide {
+          width: unset !important;
+        }
+      }
   }
 
   .work {
@@ -353,114 +346,11 @@ export default {
 .previews {
   @apply
     w-screen
-    fixed
+    absolute
     transition-none
     pointer-events-none
     z-10
     overflow-hidden
     h-full;
-
-  .images {
-    @apply
-      opacity-0;
-
-    &.active {
-      @apply
-        opacity-100
-    }
-  }
-
-}
-
-  .images {
-    @apply 
-      absolute
-      pointer-events-none
-      right-0
-      top-0
-      transition-opacity
-      w-screen;
-
-    height: calc(100vh - 6.75rem);
-    top: 3.375;
-    max-width: 72rem;
-
-    @screen md {
-      height: calc(100vh - 3.375rem);
-    }
-
-    figure {
-      @apply absolute;
-
-      img {
-        @apply w-full
-          object-cover
-          absolute;
-      }
-    }
-
-  &.layout1 {
-    figure {
-      &:nth-child(1) {
-        @apply
-          pb-[64.5%]
-          w-[90%]
-          z-10
-
-          md:w-[70%]
-          md:pb-[45%];
-      }
-
-      &:nth-child(2) {
-        @apply bottom-0
-        z-10
-        right-0
-        pb-[67%]
-        w-1/2
-
-        md:right-[7.5rem]
-        md:w-[29%]
-        md:pb-[40%];
-      }
-
-      &:nth-child(3) {
-        @apply bottom-0
-          left-0
-          pb-[62%]
-          w-1/2;
-      }
-    }
-  }
-
-  &.layout2 {
-    figure {
-      &:nth-child(1) {
-        @apply right-0
-        z-10
-        top-[25%]
-        w-[60%]
-        pb-[112.16%]
-
-        md:top-0
-        md:w-2/5;
-      }
-
-      &:nth-child(2) {
-        @apply
-          left-[10%]
-          pb-[86.8%]
-          w-[35%]
-          z-[100]
-
-          md:w-[30%]
-      }
-
-      &:nth-child(3) {
-        @apply top-full
-          transform
-          z-10;
-      }
-    }
-  }
 }
 </style>
