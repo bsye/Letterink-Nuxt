@@ -107,6 +107,13 @@ footer {
     md:font-normal
     md:px-5;
 
+  &.footer-highlights {
+    @apply
+      fixed
+      bottom-0
+      bg-transparent;
+  }
+
   .footer-left {
     @apply transition-colors;
 
