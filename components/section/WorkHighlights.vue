@@ -31,7 +31,10 @@
           </NuxtLink>
 
         </div>
-        <div class="previews">
+        <div
+          ref="previews"
+          class="previews"
+        >
           <div
             class="images"
             :style="{
@@ -119,9 +122,8 @@ export default {
       return results.slice(5, 8);
     },
 
-    setActive(displace) {
+    setActive() {
       const works = this.$refs.container.querySelectorAll(".work");
-      const previews = this.$refs.previews.querySelectorAll(".images");
       let x = this.getTransform(this.$refs.container)[0];
       let calculatedX = -x;
       this.$refs.previews.style.transform = `translate3D(${calculatedX}px, 0, 0)`;
@@ -186,11 +188,6 @@ export default {
     overflow-x-hidden;
 }
 
-.slider {
-  @apply
-    relative;
-}
-
 .highlights {
   @apply
     static
@@ -243,7 +240,6 @@ export default {
           justify-center
           items-center
           uppercase
-          relative
           font-sans
           text-[40px]
           min-w-[90px]
@@ -340,7 +336,6 @@ export default {
   .images {
     @apply 
       absolute
-      z-50
       pointer-events-none
       right-0
       top-0
@@ -415,6 +410,7 @@ export default {
           left-[10%]
           pb-[86.8%]
           w-[35%]
+          z-[100]
 
           md:w-[30%]
       }
