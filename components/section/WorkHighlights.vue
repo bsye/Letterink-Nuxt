@@ -85,6 +85,8 @@ export default {
     if (!process.client) return;
     const self = this;
 
+    if (window.innerWidth > 1024) return;
+
     const swiper = new Swiper(this.$refs.swiper, {
       slidesPerView: 4,
       loop: true,
@@ -192,6 +194,13 @@ export default {
   @apply
     static
     w-screen;
+
+  &.swiper-wrapper {
+    @apply
+      md:justify-between
+      md:h-full
+      md:flex-col;
+  }
 
   .work {
     @apply
