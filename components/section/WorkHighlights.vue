@@ -19,6 +19,7 @@
           :key="work.id"
           class="work swiper-slide"
           :data-work="work.id"
+          @mouseover="setWorkDesktop(work.id)"
         >
           <NuxtLink
             class="wrapper"
@@ -109,6 +110,12 @@ export default {
       return workId == this.currentWorkId;
     },
 
+    setWorkDesktop(workId) {
+      console.log(workId);
+      if (window.innerWidth > 1023) this.currentWorkId = workId;
+      return;
+    },
+
     getTransform(el) {
       var transform = window
         .getComputedStyle(el, null)
@@ -187,18 +194,29 @@ export default {
 <style lang="scss" scoped>
 .works {
   @apply
-    overflow-x-hidden;
+    overflow-x-hidden
+    grow
+    flex
+    flex-col;
+}
+
+.slider {
+  @apply
+    grow
+    flex
+    flex-col;
 }
 
 .highlights {
   @apply
     static
+    grow
     w-screen;
 
   &.swiper-wrapper {
     @apply
-      md:justify-between
       md:h-full
+      md:justify-evenly
       md:flex-col;
   }
 
@@ -206,7 +224,11 @@ export default {
     @apply
       transition-transform
       text-opacity-10
-      duration-500;
+      grow
+      duration-500
+
+      md:flex
+      md:items-center;
 
     border-color: inherit;
 
@@ -267,7 +289,13 @@ export default {
           absolute
           opacity-20
           block
-          border-r;
+          border-r
+
+          md:h-px
+          md:w-screen
+          md:right-0
+          md:bottom-0
+          md:border-b;
 
         content: "";
         border-color: inherit;
@@ -327,8 +355,10 @@ export default {
     w-screen
     fixed
     transition-none
+    pointer-events-none
     z-10
-    h-screen;
+    overflow-hidden
+    h-full;
 
   .images {
     @apply
@@ -387,6 +417,7 @@ export default {
         right-0
         pb-[67%]
         w-1/2
+
         md:right-[7.5rem]
         md:w-[29%]
         md:pb-[40%];

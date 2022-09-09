@@ -1,12 +1,6 @@
 <template>
-  <footer
-    :class="inHome && 'footer-highlights'"
-    :style="isDesktop && backgroundColor ? backgroundColor : ''"
-  >
-    <div
-      class="footer-left"
-      :style="textColor ? textColor : ''"
-    >
+  <footer :class="inHome && 'footer-highlights'">
+    <div class="footer-left">
       <div
         class="footer-copyright"
         v-if="copyright"
@@ -59,13 +53,11 @@
 
 <script>
 import query from "~/graphql/queries/contact";
-import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       socials: null,
-      isDesktop: false,
     };
   },
 
@@ -79,29 +71,7 @@ export default {
     }
   },
 
-  mounted() {
-    this.checkIfDesktop();
-
-    window.addEventListener("resize", () => {
-      this.checkIfDesktop();
-    });
-  },
-
-  destroyed() {
-    window.removeEventListener("resize", () => {
-      this.isDesktop = false;
-    });
-  },
-
-  methods: {
-    checkIfDesktop() {
-      this.isDesktop = window.innerWidth >= 768;
-    },
-  },
-
   computed: {
-    ...mapState(["textColor", "backgroundColor"]),
-
     instagramUrl() {
       if (this.socials && this.socials.instagramUrl)
         return this.socials.instagramUrl.url;
@@ -115,16 +85,6 @@ export default {
 
     inHome() {
       return this.$route.name.includes("index");
-    },
-  },
-
-  watch: {
-    $route: {
-      deep: true,
-      handler() {
-        this.$store.commit("updateTextColor", null);
-        this.$store.commit("updateBackgroundColor", null);
-      },
     },
   },
 };
@@ -146,11 +106,6 @@ footer {
     
     md:font-normal
     md:px-5;
-
-  &.footer-highlights {
-    @apply fixed
-      bottom-0;
-  }
 
   .footer-left {
     @apply transition-colors;
