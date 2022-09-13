@@ -72,6 +72,11 @@ export default {
   }
 }
 
+input[type=text],
+input[type=textarea] {
+  font-size: 16px !important;
+}
+
 html {
   * {
     @apply

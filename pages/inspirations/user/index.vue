@@ -4,10 +4,14 @@
       :back="localePath('inspirations')"
       :section="$t('User moodboards')"
     />
-    <div class="inspirations">
-      <TeaserAddUserMoodboard />
+    <div
+      ref="inspirations"
+      class="inspirations"
+    >
+      <TeaserAddUserMoodboard ref="addUser" />
       <template v-for="(moodboard) of getUserMoodboards">
         <TeaserUserMoodboard
+          ref="boards"
           :key="moodboard.id"
           :moodboard="moodboard"
         />
@@ -18,6 +22,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import dragula from "dragula";
 
 export default {
   head() {

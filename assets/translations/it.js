@@ -3,6 +3,7 @@ export default {
   moodboard: "Moodboard",
   board: {
     add: "Nuova moodboard",
+    addInspirations: "Aggiungi inspiration",
     share: "Condividi moodboard",
     removeInspiration: "Rimuovi inspiration",
     removeInspirationConfirm: "Sei sicur* di voler rimuovere l'inspiration?",
@@ -11,9 +12,9 @@ export default {
     renameButton: "Rinomina",
     renameConfirm: "Inserisci il nuovo nome della board",
     addInspiration: "Aggiungi inspiration",
-    create: "Crea",
+    create: "Crea moodboard",
     createConfirm: "Crea nuova board",
-    createNew: "Crea moodboard",
+    createNew: "Crea",
     confirm: "Conferma",
     continue: "Continua",
     duplicate: "Duplica moodboard",
@@ -48,5 +49,5 @@ export default {
   },
   header: {
     menu: "Menu",
-  }
+  },
 };

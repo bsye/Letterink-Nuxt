@@ -211,6 +211,9 @@ export default {
     w-[calc(100vw_-_2rem)]
     md:w-[calc(100vw_-_2.5rem)]
     max-w-[31rem]
+    max-h-[70vh]
+    overflow-y-auto
+    overflow-x-hidden
     min-h-[320px]
     md:min-h-[410px];
   }
@@ -233,7 +236,8 @@ export default {
             justify-between
             items-center
             py-16
-            px-20;
+            px-4
+            md:px-20;
         line-height: initial;
       }
   

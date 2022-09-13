@@ -28,6 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/directives.js',
     "~/plugins/utils.js",
     "~/plugins/craft.js",
     "~/plugins/vuex-persist.client.js",

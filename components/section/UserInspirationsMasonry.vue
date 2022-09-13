@@ -34,6 +34,11 @@
       class="inspirations-not-found"
     >
       {{ $t('board.notFound') }}
+      <NuxtLink :to="{path: localePath({ name: 'inspirations' })}">
+        <ElementButton class="button full white">
+          {{ $t('board.addInspirations') }}
+        </ElementButton>
+      </NuxtLink>
     </div>
   </transition>
 </template>
@@ -109,6 +114,7 @@ export default {
 .inspirations-not-found {
   @apply w-full
     flex
+    flex-col
     justify-center
     items-center
     absolute
@@ -117,6 +123,11 @@ export default {
     font-sans
     uppercase
     text-2xl;
+
+  .button {
+    @apply
+      mt-4;
+  }
 }
 
 .inspirations-masonry {

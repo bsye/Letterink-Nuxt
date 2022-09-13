@@ -20,6 +20,7 @@
           ref="work"
           class="work swiper-slide"
           :data-work="work.id"
+          :class="{'active': work.id == currentWorkId}"
           @mouseover="setWorkDesktop(work.id)"
         >
           <NuxtLink
@@ -96,7 +97,7 @@ export default {
     };
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth < 1024) {
+      if (window.innerWidth < 768) {
         if (!this.$get(swiper, "init.destroyed")) {
           swiper.init = new Swiper(this.$refs.swiper, swiper.options);
         }
@@ -108,7 +109,7 @@ export default {
       }
     });
 
-    if (window.innerWidth >= 1024) return;
+    if (window.innerWidth >= 768) return;
 
     swiper.init = new Swiper(this.$refs.swiper, swiper.options);
 
@@ -121,7 +122,7 @@ export default {
     },
 
     setWorkDesktop(workId) {
-      if (window.innerWidth > 1023) this.currentWorkId = workId;
+      if (window.innerWidth > 767) this.currentWorkId = workId;
       return;
     },
 
@@ -230,7 +231,9 @@ export default {
       duration-500
       odd:font-serif
 
+      first:pt-8
       md:flex
+      md:opacity-30
       md:items-center;
 
     border-color: inherit;
@@ -248,7 +251,8 @@ export default {
       .work-title {
         @apply
           z-50
-          scale-110;
+          scale-110
+          md:scale-[1.02];
       }
     }
 
@@ -263,7 +267,7 @@ export default {
           px-1
           
           md:px-0
-          md:text-100;
+          md:text-[8.5vh];
 
         border-color: inherit;
 
