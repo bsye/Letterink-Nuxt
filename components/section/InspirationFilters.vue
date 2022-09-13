@@ -1,6 +1,6 @@
 <template>
   <div class="filters">
-    <div class="label">Filters</div>
+    <div class="label">{{ $t('filters.filters') }}</div>
 
     <div class="inner">
       <div class="dropdown">
@@ -8,7 +8,7 @@
           @click="toggleDropdown('categories')"
           class="label"
         >
-          <span>Categories</span>
+          <span>{{ $t('filters.categories') }}</span>
           <img
             :class="openFilter === 'categories' && 'open'"
             src="~/assets/icons/dropdown-arrow.svg"
@@ -64,7 +64,7 @@
           @click="toggleDropdown('colors')"
           class="label"
         >
-          <span>Colors</span>
+          <span>{{ $t('filters.colors') }}</span>
           <img
             :class="openFilter === 'colors' && 'open'"
             src="~/assets/icons/dropdown-arrow.svg"
@@ -88,7 +88,7 @@
               class="category"
               :class="$route.query.color == null && 'selected-category'"
             >
-              ALL
+              {{ $t('filters.all') }}
             </NuxtLink>
 
             <NuxtLink

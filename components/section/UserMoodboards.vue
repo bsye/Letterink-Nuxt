@@ -1,7 +1,7 @@
 <template>
   <section class="moodboards">
     <div class="label">
-      <span> Your Moodboards </span>
+      <span> {{ $t('board.yourMoodboards') }} </span>
     </div>
 
     <div
@@ -95,9 +95,14 @@ export default {
       grid
       grid-flow-col-dense
       overflow-auto
-      px-2.5
+      px-4
+      gap-4
+      justify-start
       lg:justify-center
-      relative;
+      relative
+
+      md:px-6
+      md:gap-6;
 
     &::-webkit-scrollbar {
       @apply hidden;
@@ -105,11 +110,10 @@ export default {
 
     .moodboard {
       @apply
-        min-w-[200px]
+        w-[200px]
         lg:w-[250px]
         xl:min-w-[250px]
-        xl:w-[17vw]
-        px-2.5;
+        xl:w-[17vw];
     }
   }
 }

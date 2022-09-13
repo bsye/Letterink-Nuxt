@@ -18,6 +18,12 @@ export default {
     };
   },
 
+  watch: {
+    $route() {
+      document.querySelector("body").style.color = null;
+    },
+  },
+
   mounted() {
     if (this.$route.hash) {
       const el = document.querySelector(this.$route.hash);

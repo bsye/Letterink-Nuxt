@@ -1,0 +1,52 @@
+export default {
+  inspiration: "Inspiration",
+  moodboard: "Moodboard",
+  board: {
+    add: "Nuova moodboard",
+    share: "Condividi moodboard",
+    removeInspiration: "Rimuovi inspiration",
+    removeInspirationConfirm: "Sei sicur* di voler rimuovere l'inspiration?",
+    rename: "Rinomina moodboard",
+    renamed: "La moodboard è stata rinominata",
+    renameButton: "Rinomina",
+    renameConfirm: "Inserisci il nuovo nome della board",
+    addInspiration: "Aggiungi inspiration",
+    create: "Crea",
+    createConfirm: "Crea nuova board",
+    createNew: "Crea moodboard",
+    confirm: "Conferma",
+    continue: "Continua",
+    duplicate: "Duplica moodboard",
+    duplicated: "La moodboard è stata duplicata",
+    duplicateBoardConfirm: "Sei sicur* di voler duplicare la board?",
+    insertName: "Inserisci il nome della board",
+    images: "Immagini",
+    inspirationals: "Inspirational moodboards",
+    yourMoodboards: "Le tue moodboard",
+    notFound: "Nessuna inspiration trovata",
+    cancel: "Annulla",
+    share: "Condividi",
+    shareLink: "Copia Link",
+    shareWarning:
+      "(*) Stai condividendo la versione corrente della tua board, se effettuerai modifiche a {moodboard} in futuro non verranno visualizzate sul link generato.",
+    shareWarningInspirational:
+      "(*) Stai condividendo una moodboard editoriale che potrebbe essere soggetta a modifiche",
+    save: "Salva",
+    saved: "La moodboard è stata salvata",
+    saveConfirm: "Salvare la moodboard nella tua collezione?",
+    viewAll: "Vedi tutte",
+    viewYourMoodboards: "Vai alle tue moodboard",
+  },
+  filters: {
+    categories: "Categorie",
+    filters: "Filtri",
+    colors: "Colori",
+    all: "Tutti",
+  },
+  footer: {
+    credits: "Credits",
+  },
+  header: {
+    menu: "Menu",
+  }
+};

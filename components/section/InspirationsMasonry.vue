@@ -28,7 +28,7 @@
       key="no-inspirations"
       class="inspirations-not-found"
     >
-      No inspirations found
+      {{ $t('board.notFound') }}
     </div>
   </transition>
 </template>

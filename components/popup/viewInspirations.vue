@@ -16,7 +16,7 @@
             class="arrow-before"
             src="~/assets/icons/arrow.svg"
           />
-          <div class="form-moodboard-header-text">{{ `${$t('board.yourMoodboard')} (${moodboardsCount})` }}</div>
+          <div class="form-moodboard-header-text">{{ `${$t('board.yourMoodboards')} (${moodboardsCount})` }}</div>
           <img
             ref="arrowAfter"
             :class="{ 'disabled' : !moodboards}"
@@ -55,7 +55,7 @@
             class="button white full"
           >
             <NuxtLink :to="localePath('/inspirations')">
-              <span>{{ $t('board.viewYourMoodboard') }}</span>
+              <span>{{ $t('board.viewYourMoodboards') }}</span>
             </NuxtLink>
           </ElementButton>
         </div>
@@ -151,7 +151,9 @@ export default {
     max-w-[31rem]
     lg:w-[31rem]
     z-50
-    sm:min-h-[410px];
+
+    min-h-[320px]
+    md:min-h-[410px];
   }
 
   .popup-header {

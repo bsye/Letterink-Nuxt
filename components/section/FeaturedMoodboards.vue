@@ -7,10 +7,7 @@
       <span> Inspirational Moodboard </span>
     </div>
 
-    <div
-      class="moodboards-content"
-      :class="'in-your-moodboards'"
-    >
+    <div class="content">
       <div
         v-for="(moodboard, key, index) of getFeatured"
         :key="moodboard.id"
@@ -80,14 +77,19 @@ export default {
       mx-auto;
   }
 
-  .moodboards-content {
+  .content {
     @apply
       grid
       grid-flow-col-dense
       overflow-auto
-      px-2.5
+      justify-start
+      px-4
+      gap-4
       lg:justify-center
-      relative;
+      relative
+
+      md:px-6
+      md:gap-6;
 
     &::-webkit-scrollbar {
       @apply hidden;
@@ -95,11 +97,10 @@ export default {
 
     .moodboard {
       @apply
-        min-w-[200px]
+        w-[200px]
         lg:w-[250px]
         xl:min-w-[250px]
-        xl:w-[17vw]
-        px-2.5;
+        xl:w-[17vw];
     }
   }
 }

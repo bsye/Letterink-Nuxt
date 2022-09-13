@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      Inserisci il nuovo nome della board?
+      {{ $t('board.renameConfirm') }}
     </div>
 
     <form @submit.prevent="">
@@ -17,7 +17,7 @@
           type="submit"
         >
           <span>
-            Rinomina
+            {{ $t('board.renameButton') }}
           </span>
         </ElementButton>
       </div>

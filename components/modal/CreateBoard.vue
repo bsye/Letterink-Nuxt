@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      Inserisci il nuovo nome della board?
+      {{ $t('board.insertName') }}
     </div>
 
     <form @submit.prevent="">
@@ -15,7 +15,7 @@
           class="button white"
           @click.native="$root.$emit('modal-add-inspiration', true)"
         >
-          <span>Annulla</span>
+          <span>{{ $t('board.cancel') }}</span>
         </ElementButton>
         <ElementButton
           class="button white full"
@@ -24,7 +24,7 @@
           type="submit"
         >
           <span>
-            Crea
+            {{ $t('board.create') }}
           </span>
         </ElementButton>
       </div>

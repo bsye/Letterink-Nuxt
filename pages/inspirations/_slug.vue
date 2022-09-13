@@ -4,7 +4,7 @@
       <SectionPageHeader
         :title="moodboard.title"
         :back="localePath('inspirations')"
-        :section="$t('Inspirational moodboard')"
+        :section="$t('board.inspirationals')"
       />
 
       <SectionMoodboardActions :length="$get(moodboard,'inspirationItems.length')">

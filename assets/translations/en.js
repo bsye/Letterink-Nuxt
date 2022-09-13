@@ -1,2 +1,50 @@
-{
-}
+export default {
+  inspiration: "Inspiration",
+  moodboard: "Moodboard",
+  board: {
+    add: "Add new moodboard",
+    share: "Share moodboard",
+    removeInspiration: "Remove inspiration",
+    removeInspirationConfirm: "Are you sure you want to remove the inspiration?",
+    rename: "Rename moodboard",
+    renamed: "The moodboard has been renamed",
+    renameButton: "Rename",
+    renameConfirm: "Insert the board new name",
+    addInspiration: "Add inspiration",
+    create: "Create",
+    createConfirm: "Create new board",
+    createNew: "Create moodboard",
+    confirm: "Confirm",
+    continue: "Continue",
+    duplicate: "Duplicate moodboard",
+    duplicated: "The moodboard has been duplicated",
+    duplicateBoardConfirm: "Are you sure you want to duplicate the board?",
+    insertName: "Insert the new moodboard name",
+    images: "Images",
+    inspirationals: "Inspirational moodboards",
+    yourMoodboards: "Your moodboards",
+    notFound: "No inspirations found",
+    cancel: "Cancel",
+    share: "Share",
+    shareLink: "Copy Link",
+    shareWarning: "(*) You are sharing the current version of the board, any changes to {moodboard} will not be visible when navigating the generated link.",
+    shareWarningInspirational: "(*) Note that you are sharing an inspirational moodboard that could be subjected to changes",
+    save: "Save",
+    saved: "The moodboard has been saved",
+    saveConfirm: "Do you want to save the moodboard?",
+    viewAll: "View more",
+    viewYourMoodboards: "View your moodboards",
+  },
+  filters: {
+    categories: "Categories",
+    filters: "Filters",
+    colors: "Colors",
+    all: "All",
+  },
+  footer: {
+    credits: "Credits",
+  },
+  header: {
+    menu: "Menu",
+  }
+};

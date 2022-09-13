@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>Sei sicur* di voler rimuovere l'inspiration?</span>
+      <span>{{ $t('board.removeInspirationConfirm') }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -10,7 +10,7 @@
           class="button white"
           @click.native="$root.$emit('hide-overlay', true)"
         >
-          <span>Annulla</span>
+          <span>{{ $t('board.cancel') }}</span>
         </ElementButton>
         <ElementButton
           :focus="true"
@@ -19,7 +19,7 @@
           type="submit"
         >
           <span>
-            Conferma
+            {{ $t('board.confirm') }}
           </span>
         </ElementButton>
       </div>

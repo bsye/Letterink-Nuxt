@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       currentWorkId: null,
+      animation: false,
       scrollWidth: 0,
       scrollPos: 0,
       transform: null,
@@ -125,6 +126,7 @@ export default {
     },
 
     setActive() {
+      if (!this.$refs.container) return;
       const works = this.$refs.container.querySelectorAll(".work");
       let x = this.$getStyleTransformValues(this.$refs.container)[0];
       this.$refs.previews.style.transform = `translate3D(${-x}px, 0, 0)`;
@@ -140,6 +142,13 @@ export default {
         });
 
       window.requestAnimationFrame(this.setActive);
+    },
+  },
+
+  watch: {
+    color() {
+      if (!process.client) return;
+      document.querySelector("body").style.color = this.color;
     },
   },
 
@@ -219,6 +228,7 @@ export default {
       text-opacity-10
       grow
       duration-500
+      odd:font-serif
 
       md:flex
       md:items-center;
@@ -238,23 +248,7 @@ export default {
       .work-title {
         @apply
           z-50
-          scale-125;
-      }
-
-      &::after {
-        @apply
-          h-screen
-
-          
-          w-0
-          right-0
-          opacity-100
-          absolute
-          block
-          border-r;
-
-        content: "";
-        border-color: inherit;
+          scale-110;
       }
     }
 
@@ -264,7 +258,6 @@ export default {
           justify-center
           items-center
           uppercase
-          font-sans
           text-[40px]
           min-w-[90px]
           px-1

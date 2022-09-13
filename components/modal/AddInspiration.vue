@@ -52,7 +52,7 @@
             <div class="icon">
               <img src="~/assets/icons/cross-black.svg" />
             </div>
-            <span>Crea nuova board</span>
+            <span>{{ $t('board.createConfirm') }}</span>
           </div>
         </ElementButton>
         <ElementButton
@@ -61,7 +61,7 @@
           @click.native="$root.$emit('hide-overlay', true)"
           type="submit"
         >
-          <span>Salva</span>
+          <span>{{ $t('board.save') }}</span>
         </ElementButton>
       </div>
     </form>

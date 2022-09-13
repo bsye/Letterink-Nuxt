@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>Salvare la moodboard nella tua collezione?</span>
+      <span>{{ $t('board.saveConfirm') }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -19,7 +19,7 @@
           type="submit"
         >
           <span>
-            Conferma
+            {{ $t('board.confirm') }}
           </span>
         </ElementButton>
       </div>

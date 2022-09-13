@@ -6,7 +6,7 @@
           {{ $t('shared.moodboard') }}
         </span>
         <span class="inspirations-counter">
-          {{ moodboard.inspirationItems.length }} Images
+          {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
         </span>
       </div>
 
@@ -22,7 +22,7 @@
           class="inspirations-counter"
           v-if="moodboard.inspirationItems"
         >
-          {{ moodboard.inspirationItems.length }} Images
+          {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
         </div>
 
         <div class="single-moodboard-header-actions">

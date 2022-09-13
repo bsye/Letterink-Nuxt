@@ -39,7 +39,7 @@
       </div>
 
       <div class="counter">
-        {{ moodboard.inspirationItems.length }} Images
+        {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
       </div>
     </div>
   </NuxtLink>

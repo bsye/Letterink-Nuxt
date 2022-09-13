@@ -41,7 +41,7 @@
           class="menu-mobile-link"
           :to="localePath({ name: 'inspirations-your-moodboards' })"
         >
-          moodboard ({{ 0 }})
+          {{ $t('moodboard') }} ({{ 0 }})
         </NuxtLink>
       </div>
 

@@ -79,31 +79,31 @@ export default {
 
     this.$root.$on("modal-add-inspiration", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Aggiungi a moodboard");
+      this.title = this.$i18n.t("board.addInspiration");
       this.modals.addInspiration = state;
     });
 
     this.$root.$on("modal-remove-inspiration", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Rimuovere inspiration?");
+      this.title = this.$i18n.t("board.removeInspiration");
       this.modals.removeInspiration = state;
     });
 
     this.$root.$on("modal-duplicate-board", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Duplica");
+      this.title = this.$i18n.t("board.duplicate");
       this.modals.duplicateBoard = state;
     });
 
     this.$root.$on("modal-duplicate-board-only", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Duplica");
+      this.title = this.$i18n.t("board.duplicate");
       this.modals.duplicateBoardOnly = state;
     });
 
     this.$root.$on("modal-duplicate-board-confirmed", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Duplica");
+      this.title = this.$i18n.t("board.duplicate");
       this.modals.duplicateBoardConfirmed = state;
     });
 
@@ -115,48 +115,48 @@ export default {
 
     this.$root.$on("modal-save-board-confirmed", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Duplica");
+      this.title = this.$i18n.t("board.duplicate");
       this.modals.saveBoardConfirmed = state;
     });
 
     this.$root.$on("modal-create-board", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Crea moodboard");
+      this.title = this.$i18n.t("board.createNew");
       this.modals.createBoard = state;
     });
 
     this.$root.$on("modal-create-board-only", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Crea moodboard");
+      this.title = this.$i18n.t("board.createNew");
       this.modals.createBoardOnly = state;
     });
 
     this.$root.$on("modal-create-board-confirmed", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Crea moodboard");
+      this.title = this.$i18n.t("board.createNew");
       this.modals.createBoardConfirmed = state;
     });
 
     this.$root.$on("modal-rename-board", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Rinomina Board");
+      this.title = this.$i18n.t("board.rename");
       this.modals.renameBoard = state;
     });
 
     this.$root.$on("modal-rename-board-confirmed", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Rinomina Board");
+      this.title = this.$i18n.t("board.rename");
       this.modals.renameBoardConfirmed = state;
     });
 
     this.$root.$on("modal-share-board", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Condividi moodboard");
+      this.title = this.$i18n.t("board.share");
       this.modals.shareBoard = state;
     });
     this.$root.$on("modal-share-featured-board", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Condividi moodboard");
+      this.title = this.$i18n.t("board.share");
       this.modals.shareFeaturedBoard = state;
     });
   },

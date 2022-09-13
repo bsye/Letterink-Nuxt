@@ -1,13 +1,13 @@
 <template>
   <div
     class="header"
-    :class="{ 'seamless': addBorder}"
+    :class="{ 'seamless': addBorder, 'home': inHome}"
   >
     <NuxtLink
       class="logo"
       :to="localePath({ name: 'index' })"
     >
-      letterink
+      Letterink
     </NuxtLink>
 
     <div
@@ -52,7 +52,7 @@
       <button
         class="menu-open"
         @click="mobileMenuOpen = true"
-      >Menu</button>
+      >{{ $t('header.menu') }}</button>
     </div>
 
     <ContentMenuMobile
@@ -95,6 +95,10 @@ export default {
       );
     },
 
+    inHome() {
+      return this.$route.name.includes("index");
+    },
+
     moodboardsCount() {
       return this.$store.getters["moodboards/getMoodboardsCount"];
     },
@@ -116,6 +120,17 @@ export default {
     px-4
     
     md:font-normal;
+
+  &.home {
+    @apply
+      absolute
+      z-[50]
+      top-0
+      w-full
+      left-0
+      right-0
+      bg-transparent;
+  }
 
   &.seamless {
     @apply

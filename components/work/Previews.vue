@@ -38,13 +38,13 @@ export default {
     right-0
     md:left-0
     mx-auto
-    top-0
+    overflow-hidden
     opacity-0
     transition-opacity
     w-screen;
 
-  height: calc(100vh - 6.75rem);
-  top: 3.375;
+  top: 3.375rem;
+  bottom: 3.375rem;
   max-width: 72rem;
 
   &.active {
@@ -79,7 +79,7 @@ export default {
       }
 
       &:nth-child(2) {
-        @apply bottom-0
+        @apply bottom-[3.375rem]
         z-10
         right-0
         pb-[67%]

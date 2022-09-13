@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>Sei sicur* di voler duplicare la board?</span>
+      <span>{{ $t('board.duplicateBoardConfirm') }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -13,7 +13,7 @@
           type="submit"
         >
           <span>
-            Conferma
+            {{ $t('board.confirm') }}
           </span>
         </ElementButton>
       </div>

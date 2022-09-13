@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      Condividi
+      {{ $t('board.share') }}
       <span>
         {{ `'${getCurrentMoodboard.title}'` }}
       </span>
@@ -12,7 +12,7 @@
         @click.native="linkShare()"
         class="button white"
       >
-        Copia Link
+        {{ $t('board.shareLink') }}
       </ElementButton>
       <ElementButton class="button white">
         <ShareNetwork
@@ -56,7 +56,7 @@
       </ElementButton>
       <div class="warning">
         <span>
-          {{ `'(*) Stai condividendo una moodboard editoriale che potrebbe essere soggetta a modifiche'` }}
+          {{ $t('board.shareWarningInspirational') }}
 
         </span>
       </div>

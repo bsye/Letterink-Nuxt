@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
     <div class="counter">
-      {{ length }} {{ $t('images') }}
+      {{ length }} {{ $t('board.images') }}
     </div>
 
     <div class="wrapper">

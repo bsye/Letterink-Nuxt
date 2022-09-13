@@ -5,7 +5,7 @@
   >
     <div class="wrapper">
       <div class="placeholder">
-        {{ $t('add.moodboard') }}
+        {{ $t('board.add') }}
       </div>
       <div class="moodboard-items">
         <figure

@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>Sei sicur* di voler duplicare la board?</span>
+      <span>{{ $t('board.duplicateBoardConfirm') }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -10,7 +10,7 @@
           class="button white"
           @click.native="$root.$emit('modal-add-inspiration', true)"
         >
-          <span>Annulla</span>
+          <span>{{ $t('board.cancel') }}</span>
         </ElementButton>
         <ElementButton
           class="button white full"
@@ -19,7 +19,7 @@
           type="submit"
         >
           <span>
-            Conferma
+            {{ $t('board.confirm') }}
           </span>
         </ElementButton>
       </div>
