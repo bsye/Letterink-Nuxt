@@ -247,7 +247,9 @@ export default {
         items-center;
 
       .label {
-        @apply text-28
+        @apply 
+            text-2xl
+            md:text-28
             font-sans
             text-center
             flex-col
@@ -308,8 +310,18 @@ export default {
   
         .form-actions {
           @apply flex
+            md:flex-row
+            flex-col
             justify-between
-            gap-x-4;
+            -m-2
+            w-auto;
+
+          > * {
+            @apply
+              m-2
+              w-auto
+              md:w-full;
+          }
         }
       }
     }
@@ -320,6 +332,7 @@ export default {
       justify-center
       py-4
       md:py-5
+      text-sm
       relative
       border-b
       border-white;

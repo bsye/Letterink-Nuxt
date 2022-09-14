@@ -82,7 +82,7 @@ export default {
   .title {
     @apply text-42
         text-center
-        py-20
+        py-6
 
         md:py-0
         md:mt-5

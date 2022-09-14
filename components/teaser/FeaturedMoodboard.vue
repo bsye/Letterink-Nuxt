@@ -69,7 +69,7 @@ export default {
       @apply 
         grid
         grid-flow-row-dense
-        gap-y-4
+        gap-y-3
         md:gap-y-5;
 
       &:last-child {

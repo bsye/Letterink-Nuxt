@@ -19,7 +19,7 @@
       />
       <div class="form-actions">
         <ElementButton
-          class="button white"
+          class="button white desktop"
           @click.native="$root.$emit('modal-add-inspiration', true)"
         >
           <span>{{ $t('board.cancel') }}</span>

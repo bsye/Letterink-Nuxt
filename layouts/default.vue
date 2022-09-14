@@ -62,13 +62,13 @@ export default {
    --app-height: 100%;
 }
 
-.mobile {
+*.mobile {
   @apply
     block
     md:hidden;
 }
 
-.desktop {
+*.desktop {
   @apply
     hidden
     md:block;

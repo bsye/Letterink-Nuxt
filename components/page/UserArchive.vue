@@ -43,9 +43,10 @@ export default {
   .inspirations {
     @apply
       mt-5
-      px-5
+      px-4
+      md:px-5
       grid
-      grid-cols-1
+      grid-cols-2
       sm:grid-cols-2
       md:grid-cols-2
       justify-start
@@ -53,7 +54,8 @@ export default {
       lg:grid-cols-4
       xl:grid-cols-5
       2xl:grid-cols-6
-      gap-5;
+      gap-4
+      md:gap-5;
 
     .moodboard {
       @apply

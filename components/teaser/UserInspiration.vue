@@ -1,6 +1,9 @@
 <template>
   <div class="inspiration">
-    <button @click="removeInspiration()">
+    <button
+      class="remove"
+      @click="removeInspiration()"
+    >
       <figure>
         <img
           v-if="inspiration.image.length"
@@ -16,9 +19,9 @@
       </figure>
     </button>
 
-    <div class="inspiration-info">
+    <div class="info">
       <div
-        class="inspiration-title"
+        class="title"
         v-if="inspiration.title"
       >
         {{ inspiration.title }}
@@ -27,7 +30,7 @@
       <a
         :href="inspiration.buttonLink.url"
         :target="inspiration.buttonLink.target"
-        class="inspiration-url"
+        class="url"
         v-if="inspiration.buttonLink"
       >
         {{ inspiration.buttonLink.url }}
@@ -64,22 +67,20 @@ export default {
 
   break-inside: avoid;
 
-  button {
-    @apply w-full;
+  .remove {
+    @apply w-full flex;
 
     figure {
       @apply w-full
         relative
         cursor-pointer;
 
-      &:hover {
-        .inspiration-veil {
-          @apply opacity-100;
-        }
-
-        .icon {
-          @apply
-            opacity-100;
+      @screen md {
+        &:hover {
+          .icon {
+            @apply
+              opacity-100;
+          }
         }
       }
 
@@ -103,7 +104,7 @@ export default {
     }
   }
 
-  .inspiration-info {
+  .info {
     @apply flex
         flex-col
         justify-center
@@ -111,11 +112,12 @@ export default {
         w-full
         uppercase
         font-sans
-        text-sm
-        py-5
-        gap-y-2;
+        text-xs
+        md:text-sm
+        pt-2.5
+        md:py-5;
 
-    .inspiration-url {
+    .url {
       @apply text-gray-primary;
     }
   }

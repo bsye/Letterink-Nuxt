@@ -1,6 +1,9 @@
 <template>
   <div class="inspiration">
-    <button @click="addToMoodboard()">
+    <button
+      class="add"
+      @click="addToMoodboard()"
+    >
       <figure draggable="false">
         <img
           v-if="inspiration.image.length"
@@ -65,23 +68,22 @@ export default {
 
   break-inside: avoid;
 
-  button {
-    @apply w-full;
+  .add {
+    @apply w-full flex;
 
     figure {
-      @apply w-full
+      @apply 
+        w-full
         relative
         select-none
         cursor-pointer;
 
-      &:hover {
-        .inspiration-veil {
-          @apply opacity-100;
-        }
-
-        .icon {
-          @apply
-            opacity-100;
+      @screen md {
+        &:hover {
+          .icon {
+            @apply
+              opacity-100;
+          }
         }
       }
 
@@ -126,8 +128,7 @@ export default {
         font-sans
         text-xs
         md:text-sm
-        pt-0.5
-        md:pt-2
+        pt-2.5
         md:py-5;
   }
 }

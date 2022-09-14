@@ -39,7 +39,7 @@
         </template>
         <template v-else>
           <div class="empty">
-            {{ $t('board.notFound') }}
+            {{ $t('board.noMoodboard') }}
           </div>
         </template>
       </div>
@@ -144,6 +144,7 @@ export default {
     @apply
       flex
       flex-col
+      text-sm
       grow
       justify-between;
 
@@ -152,7 +153,8 @@ export default {
         flex
         grow
         overflow-auto
-        max-h-[240px]
+        max-h-full
+        md:max-h-[240px]
         flex-col;
 
       .empty {
