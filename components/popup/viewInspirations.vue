@@ -43,10 +43,15 @@
           </ElementSlider>
         </div>
         <div
+          class="popup-content"
           v-else
-          class="empty"
         >
-          {{ $t('board.notFound') }}
+          <ElementSlider>
+            <TeaserAddUserMoodboard
+              class="swiper-slide"
+              @click.native="$root.$emit('hide-popup', true)"
+            />
+          </ElementSlider>
         </div>
 
         <div class="popup-footer">

@@ -1,6 +1,7 @@
 export default {
   inspiration: "Inspiration",
   moodboard: "Moodboard",
+  moodboards: "Moodboard",
   board: {
     add: "Nuova moodboard",
     addInspirations: "Aggiungi inspiration",

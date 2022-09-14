@@ -4,7 +4,7 @@
     v-if="getFeatured"
   >
     <div class="label">
-      <span> Inspirational Moodboard </span>
+      <span> {{ $t('board.inspirationals') }} </span>
     </div>
 
     <div class="content">

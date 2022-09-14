@@ -95,13 +95,16 @@ export default {
       .icon {
         @apply rounded-full
             bg-black
-            w-6
-            h-6
+            h-5
+            w-5
+            md:w-6
+            md:h-6
             absolute
             top-2
             right-2
             p-1
-            opacity-0
+            opacity-100
+            md:opacity-50
             transition-opacity;
       }
     }

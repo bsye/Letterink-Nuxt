@@ -27,7 +27,7 @@
     <div class="header-right">
       <div class="moodboards">
         <button @click="$root.$emit('show-popup', true)">
-          {{ $t('inspiration') }}
+          {{ $t('moodboards') }}
           <div>
             <div class="counter">
               {{ moodboardsCount }}

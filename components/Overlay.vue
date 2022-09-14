@@ -198,6 +198,7 @@ export default {
     flex
     justify-center
     items-start
+    z-[9999]
 
     md:items-center;
 
