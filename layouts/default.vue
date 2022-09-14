@@ -58,6 +58,22 @@ export default {
 </script>
 
 <style lang="scss">
+:root {
+   --app-height: 100%;
+}
+
+.mobile {
+  @apply
+    block
+    md:hidden;
+}
+
+.desktop {
+  @apply
+    hidden
+    md:block;
+}
+
 .layout {
   @apply
     flex

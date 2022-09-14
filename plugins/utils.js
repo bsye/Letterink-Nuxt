@@ -31,8 +31,20 @@ function isElementCentered(element) {
   }
 }
 
+function mobileFullScreen() {
+  const appHeight = () => {
+    if(window.innerWidth >= 768) return
+    const doc = document.documentElement;
+    doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+  };
+  appHeight()
+  window.addEventListener("resize", appHeight);
+}
+
+
 export default({ app }, inject) => {
   inject('get', get);
   inject("getStyleTransformValues", getStyleTransformValues);
   inject("isElementCentered", isElementCentered);
+  inject("mobileFullScreen", mobileFullScreen);
 }

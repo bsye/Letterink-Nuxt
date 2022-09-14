@@ -2,12 +2,19 @@
   <div class="modal">
     <div class="label">
       {{ $t('board.insertName') }}
+      <input
+        type="text"
+        maxlength="28"
+        class="mobile"
+        v-model="moodboardName"
+      />
     </div>
 
     <form @submit.prevent="">
       <input
         type="text"
         maxlength="28"
+        class="desktop"
         v-model="moodboardName"
       />
       <div class="form-actions">

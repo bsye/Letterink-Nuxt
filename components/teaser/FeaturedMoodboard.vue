@@ -119,7 +119,8 @@ export default {
             items-center
             gap-y-1
             uppercase
-            text-sm
+            text-xs
+            md:text-sm
             font-sans;
 
         .moodboard-title {

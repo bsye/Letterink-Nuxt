@@ -159,6 +159,8 @@ export default {
       this.title = this.$i18n.t("board.share");
       this.modals.shareFeaturedBoard = state;
     });
+
+    if (process.client) this.$mobileFullScreen();
   },
 
   methods: {
@@ -187,6 +189,7 @@ export default {
   @apply fixed
     top-0
     left-0
+    bottom-0
     w-full
     bg-black
     border-none
@@ -194,28 +197,45 @@ export default {
     bg-opacity-70
     flex
     justify-center
-    items-center;
+    items-start
+
+    md:items-center;
 
   .overlay-content {
-    @apply bg-black
+    @apply
+    bg-black
     text-white
-    uppercase
+
     flex
     flex-col
+
+    uppercase
     font-sans
     text-xs
+    transition-all
     md:text-sm
+
     mx-auto
+
     border
     border-white
+
     w-[calc(100vw_-_2rem)]
-    md:w-[calc(100vw_-_2.5rem)]
     max-w-[31rem]
-    max-h-[70vh]
+
     overflow-y-auto
     overflow-x-hidden
-    min-h-[320px]
-    md:min-h-[410px];
+
+    mt-5
+
+    md:w-[calc(100vw_-_2.5rem)];
+
+    min-height: calc(var(--app-height) - 2.3rem);
+
+    @screen md {
+      @apply
+        min-h-[410px];
+    }
   }
 
   &::v-deep {
@@ -231,14 +251,28 @@ export default {
             font-sans
             text-center
             flex-col
-            grow
             flex
-            justify-between
+            grow
+            justify-center
             items-center
             py-16
             px-4
             md:px-20;
         line-height: initial;
+
+        input {
+          @apply border
+            border-white
+            text-sm
+            text-white
+            bg-black
+            mt-6
+            w-full
+            rounded-none
+            outline-none
+            p-4
+            uppercase;
+        }
       }
   
       form {
@@ -251,13 +285,16 @@ export default {
             md:pb-5
             gap-y-4
             md:gap-y-5;
-  
+
         input {
           @apply border
             border-white
             text-sm
             text-white
             bg-black
+            mt-6
+            w-full
+            rounded-none
             outline-none
             p-4
             uppercase;

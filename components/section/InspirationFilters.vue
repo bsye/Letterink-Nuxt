@@ -208,11 +208,6 @@ export default {
             gap-x-2
             uppercase;
 
-          span {
-            @apply underline;
-            text-underline-position: under;
-          }
-
           img {
             @apply transition-transform;
 
