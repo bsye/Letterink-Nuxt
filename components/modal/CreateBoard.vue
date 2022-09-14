@@ -59,4 +59,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+div.overlay {
+  div.modal {
+    div.form-actions {
+      @apply
+        flex-col-reverse
+        md:flex-row;
+    }
+  }
+}
 </style>

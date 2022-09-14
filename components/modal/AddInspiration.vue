@@ -154,7 +154,7 @@ export default {
         grow
         overflow-auto
         max-h-full
-        md:max-h-[240px]
+        md:max-h-[280px]
         flex-col;
 
       .empty {

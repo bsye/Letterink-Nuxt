@@ -25,7 +25,9 @@ export default {
   .actions {
     @apply
         p-4
+        pb-6
         md:p-5
+        md:pb-5
         text-sm
         w-full
         flex

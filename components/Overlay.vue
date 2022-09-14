@@ -216,7 +216,6 @@ export default {
     md:text-sm
 
     mx-auto
-
     border
     border-white
 
@@ -230,11 +229,12 @@ export default {
 
     md:w-[calc(100vw_-_2.5rem)];
 
-    min-height: calc(var(--app-height) - 2.3rem);
+    height: calc(var(--app-height) - 2.3rem);
 
     @screen md {
       @apply
-        min-h-[410px];
+        h-auto
+        min-h-[440px];
     }
   }
 
@@ -243,6 +243,7 @@ export default {
       @apply flex
         flex-col
         grow
+        overflow-y-auto
         justify-between
         items-center;
 
