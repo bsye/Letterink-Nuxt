@@ -15,7 +15,7 @@
           type="submit"
         >
           <NuxtLink :to="localePath('/inspirations/user')">
-            <span>{{ $t('board.viewMoodboards') }}</span>
+            <span>{{ $t('board.goToMoodboards') }}</span>
           </NuxtLink>
         </ElementButton>
         <ElementButton
@@ -41,6 +41,11 @@ export default {};
       @apply
         justify-center;
     }
+  }
+
+  .check {
+    @apply
+      mb-6;
   }
 }
 </style>

@@ -27,4 +27,8 @@
 </script>
 
 <style lang="scss" scoped>
+  .check {
+    @apply
+      mb-6;
+  }
 </style>

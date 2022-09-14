@@ -6,7 +6,8 @@ export default {
     addInspirations: "Add inspirations",
     share: "Share moodboard",
     removeInspiration: "Remove inspiration",
-    removeInspirationConfirm: "Are you sure you want to remove the inspiration?",
+    removeInspirationConfirm:
+      "Are you sure you want to remove the inspiration?",
     rename: "Rename moodboard",
     renamed: "The moodboard has been renamed",
     renameButton: "Rename",
@@ -20,21 +21,28 @@ export default {
     duplicate: "Duplicate moodboard",
     duplicated: "The moodboard has been duplicated",
     duplicateBoardConfirm: "Are you sure you want to duplicate the board?",
+    goTo: "Go to your moodboards",
     insertName: "Insert the new moodboard name",
     images: "Images",
     inspirationals: "Inspirational moodboards",
     yourMoodboards: "Your moodboards",
     notFound: "No inspirations found",
+    notFoundBoard: "Not found",
     cancel: "Cancel",
     share: "Share",
+    shared: "Shared moodboard",
+    sharedNotFound: "The shared moodboard is not correctly formatted. We suggest you ask for a new URL",
     shareLink: "Copy Link",
-    shareWarning: "(*) You are sharing the current version of the board, any changes to {moodboard} will not be visible when navigating the generated link.",
-    shareWarningInspirational: "(*) Note that you are sharing an inspirational moodboard that could be subjected to changes",
+    shareWarning:
+      "(*) You are sharing the current version of the board, any changes to {moodboard} will not be visible when navigating the generated link.",
+    shareWarningInspirational:
+      "(*) Note that you are sharing an inspirational moodboard that could be subjected to changes",
     save: "Save",
     saved: "The moodboard has been saved",
     saveConfirm: "Do you want to save the moodboard?",
     viewAll: "View more",
     viewYourMoodboards: "View your moodboards",
+    goToMoodboards: "Go to moodboards",
   },
   filters: {
     categories: "Categories",
@@ -47,5 +55,5 @@ export default {
   },
   header: {
     menu: "Menu",
-  }
+  },
 };

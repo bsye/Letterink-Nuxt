@@ -2,8 +2,8 @@
   <NuxtLink
     class="moodboard"
     :to="localePath({
-        name: 'inspirations-user-id',
-        params: { id: moodboard.id },
+        name: 'inspirations-user',
+        query: { id: moodboard.id },
       })"
   >
     <div class="wrapper">
@@ -38,7 +38,7 @@
         {{ moodboard.title }}
       </div>
 
-      <div class="counter">
+      <div class="inspirations-counter">
         {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
       </div>
     </div>
@@ -123,7 +123,7 @@ export default {
             text-center;
         }
 
-        .counter {
+        .inspirations-counter {
           @apply text-gray-primary;
         }
       }

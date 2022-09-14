@@ -35,5 +35,10 @@ export default {};
         justify-center;
     }
   }
+
+  .check {
+    @apply
+      mb-6;
+  }
 }
 </style>

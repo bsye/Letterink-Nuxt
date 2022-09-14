@@ -102,7 +102,7 @@ html.dark {
     }
 
     .header-right {
-      .inspirations-counter {
+      .moodboards {
         div.counter {
           @apply
             bg-white

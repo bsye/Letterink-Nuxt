@@ -103,7 +103,7 @@ export const actions = {
     const currentMoodboard = JSON.stringify(context.state.currentMoodboard);
     const encoded = encodeURIComponent(Base64.encode(currentMoodboard));
     const url = new URL(
-      `/inspirations/share/${encoded}`,
+      `/inspirations/share?hash=${encoded}`,
       window.location.origin
     );
     return url.href;

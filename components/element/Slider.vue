@@ -44,7 +44,6 @@ export default {
 
   async mounted() {
     await this.$nextTick();
-    console.log(this.arrowBefore, this.arrowAfter);
     new Swiper(this.$refs.swiper, {
       slidesPerView: this.slidesPerView,
       autoplay: this.autoplay,

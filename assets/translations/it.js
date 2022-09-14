@@ -20,13 +20,18 @@ export default {
     duplicate: "Duplica moodboard",
     duplicated: "La moodboard è stata duplicata",
     duplicateBoardConfirm: "Sei sicur* di voler duplicare la board?",
+    goTo: "Vai alle tue moodboards",
     insertName: "Inserisci il nome della board",
     images: "Immagini",
     inspirationals: "Inspirational moodboards",
     yourMoodboards: "Le tue moodboard",
     notFound: "Nessuna inspiration trovata",
+    notFoundBoard: "Not found",
     cancel: "Annulla",
     share: "Condividi",
+    shared: "Moodboard condivisa",
+    sharedNotFound:
+      "La moodboard condivisa non è formattata correttamente. Ti consigliamo di richiedere un nuovo URL",
     shareLink: "Copia Link",
     shareWarning:
       "(*) Stai condividendo la versione corrente della tua board, se effettuerai modifiche a {moodboard} in futuro non verranno visualizzate sul link generato.",
@@ -37,6 +42,7 @@ export default {
     saveConfirm: "Salvare la moodboard nella tua collezione?",
     viewAll: "Vedi tutte",
     viewYourMoodboards: "Vai alle tue moodboard",
+    goToMoodboards: "Vedi moodboards",
   },
   filters: {
     categories: "Categorie",

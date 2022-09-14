@@ -6,7 +6,7 @@
     <div class="wrapper">
       <div class="moodboard-items">
         <div class="placeholder">
-          {{ `${$t('view.all')} (${placeholderLength})` }}
+          {{ `${$t('board.viewAll')} (${placeholderLength})` }}
         </div>
         <template v-if="moodboard.inspirationItems">
           <template v-for="(item, index) of moodboard.inspirationItems">

@@ -1,65 +1,37 @@
 <template>
-  <div class="user">
-    <SectionPageHeader
-      :back="localePath('inspirations')"
-      :section="$t('User moodboards')"
-    />
-    <div
-      ref="inspirations"
-      class="inspirations"
-    >
-      <TeaserAddUserMoodboard ref="addUser" />
-      <template v-for="(moodboard) of getUserMoodboards">
-        <TeaserUserMoodboard
-          ref="boards"
-          :key="moodboard.id"
-          :moodboard="moodboard"
-        />
-      </template>
-    </div>
-  </div>
+  <PageUserArchive v-if="isArchive" />
+  <PageUserSingle v-else />
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import dragula from "dragula";
-
 export default {
-  head() {
+  data() {
     return {
-      htmlAttrs: {
-        class: `dark`,
-      },
+      isArchive: true,
     };
   },
 
-  computed: {
-    ...mapGetters("moodboards", ["getUserMoodboards"]),
+  watch: {
+    deep: true,
+    immediate: true,
+    $route() {
+      const userMoodboard = this.$store.getters[
+        "moodboards/getUserMoodboardById"
+      ](this.$route.query.id);
+      if (userMoodboard) this.isArchive = false;
+      else this.isArchive = true;
+    },
+  },
+
+  mounted() {
+    const userMoodboard = this.$store.getters[
+      "moodboards/getUserMoodboardById"
+    ](this.$route.query.id);
+    if (userMoodboard) this.isArchive = false;
+    else this.isArchive = true;
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.user {
-  .inspirations {
-    @apply
-      mt-5
-      px-5
-      grid
-      grid-cols-1
-      sm:grid-cols-2
-      md:grid-cols-2
-      justify-start
-      w-full
-      lg:grid-cols-4
-      xl:grid-cols-5
-      2xl:grid-cols-6
-      gap-5;
-
-    .moodboard {
-      @apply
-        w-full;
-    }
-  }
-}
+<style>
 </style>
