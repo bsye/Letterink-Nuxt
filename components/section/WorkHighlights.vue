@@ -40,8 +40,7 @@
         >
           <WorkPreviews
             v-for="work in works"
-            :previewType="$get(work, 'previewLayout')"
-            :style="{transform}"
+            previewType="layout2"
             :previews="$get(work, 'previewImages')"
             :active="currentWorkPreview(work.id)"
             :key="work.id + '-image'"
@@ -71,7 +70,6 @@ export default {
       animation: false,
       scrollWidth: 0,
       scrollPos: 0,
-      transform: null,
       clonesWidth: 0,
     };
   },
@@ -85,13 +83,16 @@ export default {
     swiper.options = {
       slidesPerView: 4,
       loop: true,
-      sticky: false,
       modules: [FreeMode],
       loopedSlidesLimit: false,
-      loopAdditionalSlides: 6,
+      loopAdditionalSlides: 16,
       freeMode: {
         enabled: true,
-        momentum: false,
+        momentumBounce: false,
+        minimumVelocity: 0.07,
+        momentumVelocityRatio: 2.3,
+        momentum: true,
+        sticky: false,
       },
       spaceBetween: 0,
     };
@@ -111,9 +112,8 @@ export default {
 
     if (window.innerWidth >= 768) return;
 
-    swiper.init = new Swiper(this.$refs.swiper, swiper.options);
-
     window.requestAnimationFrame(self.setActive);
+    swiper.init = new Swiper(this.$refs.swiper, swiper.options);
   },
 
   methods: {
@@ -127,22 +127,20 @@ export default {
     },
 
     setActive() {
-      if (!this.$refs.container) return;
-      const works = this.$refs.container.querySelectorAll(".work");
+      window.requestAnimationFrame(this.setActive);
+
       let x = this.$getStyleTransformValues(this.$refs.container)[0];
       this.$refs.previews.style.transform = `translate3D(${-x}px, 0, 0)`;
 
-      works &&
-        works.forEach((work) => {
-          if (this.$isElementCentered(work)) {
-            this.currentWorkId = work.dataset.work;
-            work.classList.add("active");
-          } else {
-            work.classList.remove("active");
-          }
-        });
-
-      window.requestAnimationFrame(this.setActive);
+      const works = this.$refs.container.querySelectorAll(".work");
+      works.forEach((work) => {
+        if (this.$isElementCentered(work)) {
+          this.currentWorkId = work.dataset.work;
+          work.classList.add("active");
+        } else {
+          work.classList.remove("active");
+        }
+      });
     },
   },
 
@@ -194,6 +192,13 @@ export default {
     flex-col;
 }
 
+*,
+.swiper-slide {
+  @apply
+    will-change-auto
+    transform-gpu;
+}
+
 .slider {
   @apply
     grow
@@ -225,7 +230,6 @@ export default {
 
   .work {
     @apply
-      transition-transform
       text-opacity-10
       grow
       duration-500
@@ -238,6 +242,11 @@ export default {
 
     border-color: inherit;
 
+    .wrapper {
+      @apply
+        pointer-events-none;
+    }
+
     .work-title {
       @apply
         text-opacity-30
@@ -246,12 +255,16 @@ export default {
 
     &.active {
       @apply
+        z-50
         opacity-100;
+
+      .wrapper {
+        @apply
+          pointer-events-auto;
+      }
 
       .work-title {
         @apply
-          z-50
-          scale-110
           md:scale-[1.02];
       }
     }
@@ -329,20 +342,12 @@ export default {
       }
     }
   }
-
-  .preview-images-enter-active,
-  .preview-images-leave-active {
-    transition: opacity 0.5s ease;
-  }
-  .preview-images-enter,
-  .preview-images-leave-to {
-    @apply opacity-0;
-  }
 }
 
 .previews {
   @apply
-    w-screen
+    w-full
+    will-change-auto
     absolute
     transition-none
     pointer-events-none

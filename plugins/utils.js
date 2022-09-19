@@ -17,12 +17,12 @@ function getStyleTransformValues(el) {
 
 function isElementCentered(element) {
   const width = window.innerWidth / 2;
-  const left = Math.abs(element.getBoundingClientRect().left);
-  const right = Math.abs(element.getBoundingClientRect().right);
+  const left = element.getBoundingClientRect().left;
+  const right = element.getBoundingClientRect().right;
 
   if (
-    width % left <= element.offsetWidth &&
-    width % right >= element.offsetWidth &&
+    width % right >= element.offsetWidth &
+    width % left <= element.offsetWidth &
     left % right >= element.offsetWidth
   ) {
     return true

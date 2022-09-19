@@ -31,16 +31,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+* {
+  @apply
+    will-change-transform
+    transform-gpu;
+}
+
 .images {
   @apply 
-    absolute
+    fixed
     pointer-events-none
     right-0
     md:left-0
     mx-auto
     overflow-hidden
     opacity-0
-    transition-opacity
+    duration-500
+    transition-all
     w-screen;
 
   top: 3.375rem;
@@ -124,7 +131,6 @@ export default {
 
       &:nth-child(3) {
         @apply top-full
-          transform
           z-10;
       }
     }
