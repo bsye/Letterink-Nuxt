@@ -91,19 +91,6 @@ export default {
     },
   },
 
-  router: {
-    async scrollBehavior(to) {
-      if (to.hash) {
-        let el = await findEl(to.hash)
-        if ('scrollBehavior' in document.documentElement.style) {
-          return window.scrollTo({ top: el.getBoundingClientRect().top+window.scrollY, behavior: 'smooth' })
-        } else {
-          return window.scrollTo(0, el.getBoundingClientRect().top+window.scrollY)
-        }
-      }
-    }
-  },
-
   privateRuntimeConfig: {
     craftApiUrl: process.env.BASE_API,
     craftAuthToken: process.env.CRAFT_AUTH_TOKEN,

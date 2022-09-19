@@ -3,44 +3,44 @@
     class="single-work"
     v-if="work"
   >
-    <div class="single-work-hero">
-      <div class="single-work-cover">
+    <div class="hero">
+      <div class="cover">
         <figure>
           <img :src="workCoverImage || 'https://picsum.photos/id/1022/500/'" />
         </figure>
-        <div class="single-work-title">{{ work.title }}</div>
+        <div class="title">{{ work.title }}</div>
       </div>
 
-      <div class="single-work-hero-content">
-        <div class="single-work-about">
-          <div class="single-work-about-label">About</div>
+      <div class="hero-content">
+        <div class="about">
+          <div class="about-label">About</div>
           <div
             v-if="work.description"
             v-html="work.description"
           ></div>
         </div>
 
-        <div class="single-work-info">
+        <div class="info">
           <div
-            class="single-work-more-info"
-            v-if="workCategories || work.text"
+            class="more-info"
+            v-if="$get(work, 'workCategories') || work.text"
           >
             <div
-              class="single-work-categories"
-              v-if="workCategories"
+              class="categories"
+              v-if="$get(work, 'workCategories')"
             >
-              <div class="single-work-categories-label">Categories:</div>
-              <div class="single-work-categories-container">
+              <div class="categories-label">Categories:</div>
+              <div class="categories-container">
                 <NuxtLink
+                  v-for="category of $get(work, 'workCategories')"
+                  :key="category.id"
                   :to="
                     localePath({
                       name: 'works',
                       query: { category: category.slug },
                     })
                   "
-                  class="single-work-category"
-                  v-for="category of workCategories"
-                  :key="category.id"
+                  class="category"
                 >
                   {{ category.title }}
                 </NuxtLink>
@@ -48,23 +48,23 @@
             </div>
 
             <div
-              class="single-work-date"
+              class="date"
               v-if="work.text"
             >
-              <div class="single-work-date-label">Year:</div>
-              <div class="single-work-year">{{ work.text }}</div>
+              <div class="date-label">Year:</div>
+              <div class="year">{{ work.text }}</div>
             </div>
           </div>
 
-          <div class="single-work-collaborators">
-            <div class="single-work-collaborators-label">Collaborator:</div>
+          <div class="collaborators">
+            <div class="collaborators-label">Collaborator:</div>
             <div
-              class="single-work-collaborators-container"
-              v-if="workCollaborators"
+              class="collaborators-container"
+              v-if="$get(work, 'table')"
             >
               <a
-                class="single-work-collaborator"
-                v-for="collaborator of workCollaborators"
+                class="collaborator"
+                v-for="collaborator of $get(work, 'table')"
                 :key="collaborator.id"
                 :href="collaborator.urlCollaborator"
                 target="_blank"
@@ -80,11 +80,11 @@
 
     <div
       class="single-work-content"
-      v-if="workContents"
+      v-if="$get(work, 'workContent')"
     >
       <ContentImageRow
-        :row="workContent"
-        v-for="(workContent, index) of workContents"
+        :content="workContent"
+        v-for="(workContent, index) of $get(work, 'workContent')"
         :key="index"
       />
     </div>
@@ -107,6 +107,12 @@ export default {
         slug: params.slug,
       });
 
+      console.log(
+        $graphql.default.request(query, {
+          slug: params.slug,
+        })
+      );
+
       return { work };
     } catch (error) {
       console.log("ERROR: ", error);
@@ -115,42 +121,7 @@ export default {
 
   computed: {
     workCoverImage() {
-      if (this.work && this.work.image.length) {
-        return this.work.image[0].url;
-      }
-      return null;
-    },
-
-    workCategories() {
-      if (
-        this.work &&
-        this.work.workCategories &&
-        this.work.workCategories.length
-      ) {
-        return this.work.workCategories;
-      }
-
-      return null;
-    },
-
-    workCollaborators() {
-      if (this.work && this.work.table && this.work.table.length) {
-        return this.work.table;
-      }
-
-      return null;
-    },
-
-    workContents() {
-      if (
-        this.work &&
-        this.work.projectBlocks &&
-        this.work.projectBlocks.length
-      ) {
-        return this.work.projectBlocks;
-      }
-
-      return null;
+      return this.$get(this.work, "image[0].url");
     },
   },
 };
@@ -158,8 +129,8 @@ export default {
 
 <style lang="scss" scoped>
 .single-work {
-  .single-work-hero {
-    .single-work-cover {
+  .hero {
+    .cover {
       @apply h-screen
         relative;
 
@@ -174,7 +145,7 @@ export default {
         }
       }
 
-      .single-work-title {
+      .title {
         @apply absolute
         top-1/2
         left-1/2
@@ -194,7 +165,7 @@ export default {
       }
     }
 
-    .single-work-hero-content {
+    .hero-content {
       @apply p-5
         flex
         flex-col
@@ -207,26 +178,26 @@ export default {
         md:justify-between
         md:pb-40;
 
-      .single-work-about {
+      .about {
         @apply flex
             flex-col
             gap-y-4;
 
         max-width: 20.875rem;
 
-        .single-work-about-label {
+        .about-label {
           @apply font-bold;
         }
       }
 
-      .single-work-info {
+      .info {
         @apply flex
             flex-col
             gap-y-10
             
             md:flex-row;
 
-        .single-work-more-info {
+        .more-info {
           @apply flex
             flex-col
             gap-y-10
@@ -237,21 +208,21 @@ export default {
             width: 20.875rem;
           }
 
-          .single-work-categories {
+          .categories {
             @apply flex
                 flex-col
                 gap-y-5;
 
-            .single-work-categories-label {
+            .categories-label {
               @apply font-bold;
             }
 
-            .single-work-categories-container {
+            .categories-container {
               @apply flex
                 gap-x-2
                 gap-y-5;
 
-              .single-work-category {
+              .category {
                 @apply underline
                     relative;
                 text-underline-position: under;
@@ -265,18 +236,18 @@ export default {
             }
           }
 
-          .single-work-date {
+          .date {
             @apply flex
                 flex-col
                 gap-y-5;
 
-            .single-work-date-label {
+            .date-label {
               @apply font-bold;
             }
           }
         }
 
-        .single-work-collaborators {
+        .collaborators {
           @apply flex
             flex-col
             gap-y-5
@@ -287,15 +258,15 @@ export default {
             width: 20.875rem;
           }
 
-          .single-work-collaborators-label {
+          .collaborators-label {
             @apply font-bold;
           }
 
-          .single-work-collaborators-container {
+          .collaborators-container {
             @apply flex
                 flex-col;
 
-            .single-work-collaborator {
+            .collaborator {
               @apply flex
                 gap-x-1;
 
@@ -309,12 +280,12 @@ export default {
     }
   }
 
-  .single-work-content {
+  .content {
     @apply px-5
       flex
       flex-col;
 
-    .single-work-row {
+    .row {
       @apply flex
         flex-col
         gap-y-4

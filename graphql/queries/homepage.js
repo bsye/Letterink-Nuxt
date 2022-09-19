@@ -10,7 +10,7 @@ const query = gql`
           slug
           ... on works_default_Entry {
             date: text
-            previewImages: imagesLimited {
+            previewImages: workPreviewImages {
               id
               url
             }

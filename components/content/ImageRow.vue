@@ -2,35 +2,46 @@
   <div class="image-row">
     <div
       class="image-row-images"
-      v-if="typeImage && row.images && row.images.length"
+      v-if="isMedia"
     >
-      <figure
-        :class="`horizontal-alignment-${image.horizontalAlignment}`"
-        v-for="image of row.images"
-        :key="image.id"
-      >
-        <img
-          :class="[
-            `width-${image.width}`,
-            `vertical-alignment-${image.verticalAlignment}`,
+      <template v-for="media in content.workMedia">
+        <figure
+          :class="$get(media, 'horizontalAlignment')"
+          v-if="media.typeHandle == 'image'"
+          :key="media.id"
+        >
+          <img
+            :class="[
+            $get(media, 'width'),
+            $get(media, 'verticalAlignment'),
           ]"
-          v-if="image.image[0]"
-          :src="image.image[0].url"
+            :src="$get(media,'image[0].url')"
+          />
+        </figure>
+        <TeaserInspiration
+          :class="[
+            $get(media, 'width'),
+            $get(media, 'verticalAlignment'),
+            $get(media, 'horizontalAlignment')
+          ]"
+          :key="media.id"
+          :inspiration="$get(media, 'inspiration[0]')"
+          v-else
         />
-      </figure>
+      </template>
     </div>
 
     <div
-      class="image-row-text"
-      :class="row.maxWidth"
-      v-if="typeText && row.textContent"
-      v-html="row.textContent"
+      class="text"
+      :class="content.maxWidth"
+      v-if="isText"
+      v-html="content.textContent"
     ></div>
 
     <div
-      class="image-row-spacer"
-      :class="row.spacer"
-      v-if="typeSpacer && row.spacer"
+      class="spacer"
+      :class="content.spacerValue"
+      v-if="isSpacer"
     ></div>
   </div>
 </template>
@@ -38,22 +49,20 @@
 <script>
 export default {
   props: {
-    row: Object,
+    content: Object,
   },
 
-//   asyncData({ params }) {},
-
   computed: {
-    typeText() {
-      return this.row.__typename === "projectBlocks_text_BlockType";
+    isText() {
+      return this.content.typeHandle === "textContent";
     },
 
-    typeSpacer() {
-      return this.row.__typename === "projectBlocks_spacer_BlockType";
+    isSpacer() {
+      return this.content.typeHandle === "spacer";
     },
 
-    typeImage() {
-      return this.row.__typename === "projectBlocks_imageColumns_BlockType";
+    isMedia() {
+      return this.content.typeHandle === "mediaContent";
     },
   },
 };
@@ -61,25 +70,59 @@ export default {
 
 <style lang="scss" scoped>
 .image-row {
+  @apply
+    mx-4
+    md:mb-10
+    md:mx-2.5;
+
   .image-row-images {
     @apply flex
         flex-col
-        gap-y-4
         
-        md:flex-row
-        md:gap-x-5;
+        md:flex-row;
 
-    figure {
+    > * {
+      @apply
+        md:mx-2.5
+        md:my-0
+        inline-block
+        my-2.5
+    }
+
+    .inspiration {
+      &.width-small {
+        @apply md:w-2/3;
+      }
+    }
+
+    figure,
+    .inspiration {
       @apply w-full
         flex
         justify-center;
 
-      &.horizontal-alignment-left {
+      &.horizontal-left {
         @apply justify-start;
       }
 
-      &.horizontal-alignment-right {
+      &.horizontal-center {
+        @apply justify-center mx-auto;
+      }
+
+      &.horizontal-right {
         @apply justify-end;
+      }
+
+      &.vertical-top {
+        @apply self-start;
+      }
+
+      &.vertical-center {
+        @apply self-center;
+      }
+
+      &.vertical-bottom {
+        @apply self-end;
       }
 
       img {
@@ -91,18 +134,42 @@ export default {
           @apply md:w-2/3;
         }
 
-        &.vertical-alignment-top {
+        &.vertical-top {
           @apply self-start;
         }
 
-        &.vertical-alignment-bottom {
+        &.vertical-center {
+          @apply self-center;
+        }
+
+        &.vertical-bottom {
           @apply self-end;
         }
       }
     }
   }
 
-  .image-row-spacer {
+  .text {
+    @apply
+      md:mx-2.5
+      my-3
+      text-sm
+      md:text-base
+      inline-block
+      uppercase;
+
+    &.width-medium {
+      @apply
+        max-w-4xl;
+    }
+
+    &.width-small {
+      @apply
+        max-w-xl;
+    }
+  }
+
+  .spacer {
     @apply w-full;
 
     &.small {

@@ -7,11 +7,12 @@ const query = gql`
         title
         slug
         description
+        text
         image {
           id
           url
         }
-        imagesLimited {
+        workPreviewImages {
           id
           url
         }
@@ -30,31 +31,50 @@ const query = gql`
             slug
           }
         }
-        projectBlocks {
-          __typename
-          ... on projectBlocks_text_BlockType {
-            textContent
-            maxWidth
-          }
-          ... on projectBlocks_spacer_BlockType {
-            spacer
-          }
-          ... on projectBlocks_imageColumns_BlockType {
-            images {
-              ... on images_BlockType {
+        workContent {
+          ... on workContent_mediaContent_BlockType {
+            id
+            typeHandle
+            workMedia {
+              ... on workMedia_inspiration_BlockType {
                 id
-                image {
-                  id
-                  url
-                }
-                width
+                typeHandle
                 horizontalAlignment
                 verticalAlignment
+                width
+                inspiration {
+                  ... on inspirationItems_default_Entry {
+                    id
+                    image {
+                      url
+                    }
+                  }
+                }
+              }
+              ... on workMedia_image_BlockType {
+                id
+                typeHandle
+                horizontalAlignment
+                verticalAlignment
+                width
+                image {
+                  url
+                }
               }
             }
           }
+          ... on workContent_spacer_BlockType {
+            id
+            typeHandle
+            spacerValue
+          }
+          ... on workContent_textContent_BlockType {
+            id
+            typeHandle
+            maxWidth
+            textContent
+          }
         }
-        text
       }
     }
   }

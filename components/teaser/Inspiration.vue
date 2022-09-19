@@ -19,7 +19,10 @@
       </figure>
     </button>
 
-    <div class="info">
+    <div
+      class="info"
+      v-if="inspiration.title"
+    >
       <div
         class="title"
         v-if="inspiration.title"
