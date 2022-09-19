@@ -108,7 +108,7 @@ export default {
       });
 
       console.log(
-        $graphql.default.request(query, {
+        await $graphql.default.request(query, {
           slug: params.slug,
         })
       );
