@@ -40,7 +40,7 @@
         >
           <WorkPreviews
             v-for="work in works"
-            previewType="layout2"
+            :previewType="$get(work, 'previewLayout')"
             :previews="$get(work, 'previewImages')"
             :active="currentWorkPreview(work.id)"
             :key="work.id + '-image'"
