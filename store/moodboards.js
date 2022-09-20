@@ -67,7 +67,8 @@ export const getters = {
   },
 
   getUserMoodboardById: (state) => (id) => {
-    return state.userMoodboards.elements[id]
+    if (!state.userMoodboards.elements) return null
+      return state.userMoodboards.elements[id];
   },
 
   getCurrentMoodboard(state) {
@@ -137,6 +138,16 @@ export const actions = {
       id: inspiration.id,
       image: inspiration.image,
       title: inspiration.title,
+    });
+  },
+
+  saveSharedBoard(context) {
+    const currentMoodboard = context.state.currentMoodboard;
+    context.commit("NEW_MOODBOARD", {
+      title: currentMoodboard.title,
+      originalId: currentMoodboard.id,
+      id: uuidv4(),
+      inspirationItems: currentMoodboard.inspirationItems,
     });
   },
 

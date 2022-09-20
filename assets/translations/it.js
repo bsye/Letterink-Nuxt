@@ -45,6 +45,7 @@ export default {
     saveConfirm: "Salvare la moodboard nella tua collezione?",
     viewAll: "Vedi tutte",
     viewYourMoodboards: "Vai alle tue moodboard",
+    viewMoodboards: "Vai alle moodboards",
     goToMoodboards: "Vedi moodboards",
   },
   filters: {

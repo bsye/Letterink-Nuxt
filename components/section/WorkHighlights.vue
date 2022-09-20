@@ -68,9 +68,6 @@ export default {
     return {
       currentWorkId: null,
       animation: false,
-      scrollWidth: 0,
-      scrollPos: 0,
-      clonesWidth: 0,
     };
   },
 

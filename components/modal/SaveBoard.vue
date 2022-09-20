@@ -15,7 +15,7 @@
         <ElementButton
           :focus="true"
           class="button white full"
-          @click.native="duplicateBoard()"
+          @click.native="saveBoard()"
           type="submit"
         >
           <span>
@@ -30,9 +30,9 @@
 <script>
 export default {
   methods: {
-    duplicateBoard() {
+    saveBoard() {
       this.$root.$emit("modal-save-board-confirmed", true);
-      this.$store.dispatch("moodboards/duplicateBoard");
+      this.$store.dispatch("moodboards/saveSharedBoard");
     },
   },
 };

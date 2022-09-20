@@ -3,35 +3,16 @@
     v-if="moodboard"
     class="single-moodboard"
   >
-    <div class="header">
-      <div class="header-label-container">
-        <span class="header-label">
-          {{ $t('board.shared') }}
-        </span>
-        <span class="inspirations-counter">
-          {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
-        </span>
-      </div>
+    <div>
+      <SectionPageHeader
+        :title="moodboard.title"
+        :back="route"
+        :section="$t('User moodboards')"
+      />
 
-      <div
-        class="header-title"
-        v-if="moodboard.title"
-      >
-        {{ moodboard.title }}
-      </div>
-
-      <div class="header-footer">
-        <div
-          class="inspirations-counter"
-          v-if="moodboard.inspirationItems"
-        >
-          {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
-        </div>
-
-        <div class="header-actions">
-          <ElementButton @click.native="$root.$emit('show-overlay','modal-save-board')">Salva</ElementButton>
-        </div>
-      </div>
+      <SectionMoodboardActions :length="$get(moodboard,'inspirationItems.length')">
+        <ElementButton @click.native="$root.$emit('show-overlay','modal-save-board')">Salva</ElementButton>
+      </SectionMoodboardActions>
     </div>
 
     <div class="content">
@@ -82,10 +63,19 @@ export default {
       const parsed = JSON.parse(Base64.decode(moodboardHash));
       if (this.$get(parsed, "title")) {
         this.moodboard = parsed;
+        this.$store.dispatch("moodboards/setCurrentMoodboard", this.moodboard);
       }
     } catch (error) {
       return false;
     }
+  },
+
+  computed: {
+    route() {
+      if (this.$nuxt.context.from.name !== this.$nuxt.context.route.name)
+        return this.localePath(this.$nuxt.context.from);
+      return this.localePath("inspirations");
+    },
   },
 
   head() {
@@ -101,7 +91,6 @@ export default {
 <style lang="scss" scoped>
 .single-moodboard {
   @apply
-    md:pt-5
     flex
     flex-grow
     flex-col;
@@ -110,102 +99,6 @@ export default {
     @apply
       grow
       relative;
-
-    &.not-found {
-      @apply
-        w-full
-        flex
-        uppercase
-        text-xl
-        flex-col
-        max-w-md
-        mx-auto
-        text-center
-        justify-center
-        items-center;
-
-      button {
-        @apply
-          mt-4;
-      }
-    }
-  }
-
-  .header {
-    @apply font-sans
-      uppercase
-      flex
-      flex-col
-      items-center
-      
-      md:px-5;
-
-    .header-label-container {
-      @apply py-5
-        px-4
-        text-sm
-        
-        md:px-0;
-
-      .header-label {
-        @apply hidden
-
-          md:flex;
-      }
-
-      .inspirations-counter {
-        @apply text-gray-primary
-        
-          md:hidden;
-      }
-    }
-
-    .header-title {
-      @apply text-42
-        text-center
-        pt-14
-        pb-28
-
-        md:py-0
-        md:text-100;
-      line-height: initial;
-    }
-
-    .header-footer {
-      @apply py-5
-        text-sm
-        w-full
-        flex
-        justify-center
-        border-t
-        border-black
-
-        md:border-none
-        md:justify-between;
-
-      .inspirations-counter {
-        @apply text-gray-primary
-          hidden
-          
-          md:flex;
-      }
-
-      .header-actions {
-        @apply flex
-          gap-x-5;
-
-        button {
-          @apply uppercase
-            font-sans
-            underline;
-          text-underline-position: under;
-
-          &:hover {
-            @apply md:no-underline;
-          }
-        }
-      }
-    }
   }
 }
 </style>

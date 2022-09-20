@@ -46,6 +46,7 @@ export default {
     saveConfirm: "Do you want to save the moodboard?",
     viewAll: "View more",
     viewYourMoodboards: "View your moodboards",
+    viewMoodboards: "View moodboards",
     goToMoodboards: "Go to moodboards",
   },
   filters: {

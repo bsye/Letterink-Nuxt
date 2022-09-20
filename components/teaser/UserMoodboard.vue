@@ -39,7 +39,7 @@
       </div>
 
       <div class="inspirations-counter">
-        {{ moodboard.inspirationItems.length }} {{ $t('board.images') }}
+        {{ $get(moodboard, 'inspirationItems.length') }} {{ $t('board.images') }}
       </div>
     </div>
   </NuxtLink>
@@ -56,9 +56,9 @@ export default {
 
   computed: {
     renderPlaceholders() {
-      if (!this.moodboard.inspirationItems.length) return 4;
-      if (this.moodboard.inspirationItems.length > 3) return 0;
-      return 4 - this.moodboard.inspirationItems.length;
+      if (!this.$get(this.moodboard, "inspirationItems.length")) return 4;
+      if (this.$get(this.moodboard, "inspirationItems.length") > 3) return 0;
+      return 4 - this.$get(this.moodboard, "inspirationItems.length");
     },
   },
 };
