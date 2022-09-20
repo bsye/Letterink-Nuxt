@@ -22,6 +22,8 @@ export default {
     duplicate: "Duplica moodboard",
     duplicated: "La moodboard è stata duplicata",
     duplicateBoardConfirm: "Sei sicur* di voler duplicare la moodboard?",
+    error: "Errore",
+    genericError: "Ups, c'è stato un problema. Contattaci in caso dovesse persistere",
     goTo: "Vai alle tue moodboards",
     insertName: "Inserisci il nome della moodboard",
     images: "Immagini",
@@ -35,6 +37,7 @@ export default {
     shared: "Moodboard condivisa",
     sharedNotFound:
       "La moodboard condivisa non è formattata correttamente. Ti consigliamo di richiedere un nuovo URL",
+    shareConfirmed: "Link copiato",
     shareLink: "Copia Link",
     shareWarning:
       "(*) Stai condividendo la versione corrente della tua board, se effettuerai modifiche a {moodboard} in futuro non verranno visualizzate sul link generato.",

@@ -21,10 +21,12 @@
         <ModalCreateBoard v-if="modals.createBoard" />
         <ModalCreateBoardOnly v-if="modals.createBoardOnly" />
         <ModalCreateBoardConfirmed v-if="modals.createBoardConfirmed" />
+        <ModalGenericError v-if="modals.genericError" />
         <ModalRenameBoard v-if="modals.renameBoard" />
         <ModalRenameBoardConfirmed v-if="modals.renameBoardConfirmed" />
         <ModalShareBoard v-if="modals.shareBoard" />
         <ModalShareFeaturedBoard v-if="modals.shareFeaturedBoard" />
+        <ModalShareBoardConfirmed v-if="modals.shareBoardConfirmed" />
         <ModalDuplicateBoard v-if="modals.duplicateBoard" />
         <ModalDuplicateBoardOnly v-if="modals.duplicateBoardOnly" />
         <ModalDuplicateBoardConfirmed v-if="modals.duplicateBoardConfirmed" />
@@ -47,9 +49,11 @@ export default {
         createBoard: false,
         createBoardOnly: false,
         createBoardConfirmed: false,
+        genericError: false,
         renameBoard: false,
         renameBoardConfirmed: false,
         shareBoard: false,
+        shareBoardConfirmed: false,
         shareFeaturedBoard: false,
         duplicateBoard: false,
         duplicateBoardOnly: false,
@@ -107,9 +111,15 @@ export default {
       this.modals.duplicateBoardConfirmed = state;
     });
 
+    this.$root.$on("modal-generic-error", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("board.error");
+      this.modals.genericError = state;
+    });
+
     this.$root.$on("modal-save-board", (state) => {
       this.closeModals();
-      this.title = this.$i18n.t("Salva");
+      this.title = this.$i18n.t("board.save");
       this.modals.saveBoard = state;
     });
 
@@ -154,6 +164,13 @@ export default {
       this.title = this.$i18n.t("board.share");
       this.modals.shareBoard = state;
     });
+
+    this.$root.$on("modal-share-board-confirmed", (state) => {
+      this.closeModals();
+      this.title = this.$i18n.t("board.share");
+      this.modals.shareBoardConfirmed = state;
+    });
+
     this.$root.$on("modal-share-featured-board", (state) => {
       this.closeModals();
       this.title = this.$i18n.t("board.share");

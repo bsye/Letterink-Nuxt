@@ -14,7 +14,10 @@
       >
         {{ $t('board.shareLink') }}
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="facebook"
@@ -24,7 +27,10 @@
           Facebook
         </ShareNetwork>
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="linkedin"
@@ -34,7 +40,10 @@
           Linkedin
         </ShareNetwork>
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="pinterest"
@@ -44,7 +53,10 @@
           Pinterest
         </ShareNetwork>
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="whatsapp"
@@ -87,10 +99,16 @@ export default {
     linkShare() {
       if (!process.client) return;
       const generated = location.href;
-      navigator.clipboard.writeText(generated).then(
-        () => console.log("Async: Copying to clipboard was successful!"),
-        () => console.log("error")
-      );
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(generated).then(
+          () => console.log("Async: Copying to clipboard was successful!"),
+          () => console.log("error")
+        );
+
+        this.$root.$emit("show-overlay", "modal-share-board-confirmed");
+      } else {
+        this.$root.$emit("show-overlay", "modal-generic-error");
+      }
     },
   },
 };

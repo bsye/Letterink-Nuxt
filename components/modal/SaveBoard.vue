@@ -31,7 +31,7 @@
 export default {
   methods: {
     saveBoard() {
-      this.$root.$emit("modal-save-board-confirmed", true);
+      this.$root.$emit("show-overlay", "modal-save-board-confirmed");
       this.$store.dispatch("moodboards/saveSharedBoard");
     },
   },

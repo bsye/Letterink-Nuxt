@@ -14,17 +14,22 @@
       >
         {{ $t('board.shareLink') }}
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="facebook"
           :url="shareUrl"
-          :title="getCurrentMoodboard.title"
         >
           Facebook
         </ShareNetwork>
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="linkedin"
@@ -34,7 +39,10 @@
           Linkedin
         </ShareNetwork>
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="pinterest"
@@ -44,7 +52,10 @@
           Pinterest
         </ShareNetwork>
       </ElementButton>
-      <ElementButton class="button white">
+      <ElementButton
+        @click.native="$root.$emit('hide-overlay', true)"
+        class="button white"
+      >
         <ShareNetwork
           v-if="shareUrl"
           network="whatsapp"
@@ -86,11 +97,17 @@ export default {
   methods: {
     async linkShare() {
       if (!process.client) return;
-      const generated = await this.$store.dispatch("moodboards/generateShare");
-      navigator.clipboard.writeText(generated).then(
-        () => console.log("Async: Copying to clipboard was successful!"),
-        () => console.log("error")
-      );
+      const generated = this.shareUrl;
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(generated).then(
+          () => console.log("Async: Copying to clipboard was successful!"),
+          () => console.log("error")
+        );
+
+        this.$root.$emit("show-overlay", "modal-share-board-confirmed");
+      } else {
+        this.$root.$emit("show-overlay", "modal-generic-error");
+      }
     },
   },
 };

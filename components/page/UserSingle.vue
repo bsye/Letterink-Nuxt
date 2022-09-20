@@ -40,14 +40,6 @@ export default {
       return this.localePath("inspirations");
     },
   },
-
-  head() {
-    return {
-      htmlAttrs: {
-        class: `dark`,
-      },
-    };
-  },
 };
 </script>
 

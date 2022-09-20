@@ -57,7 +57,7 @@ export default {
     };
   },
 
-  mounted() {
+  created() {
     const moodboardHash = this.$route.query.hash;
     try {
       const parsed = JSON.parse(Base64.decode(moodboardHash));
