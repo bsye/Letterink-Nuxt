@@ -21,7 +21,6 @@
           class="work swiper-slide"
           :data-work="work.id"
           :class="{ active: work.id == currentWorkId }"
-          @mouseover="setWorkDesktop(work.id)"
         >
           <NuxtLink
             class="wrapper"
@@ -29,7 +28,11 @@
               localePath({ name: 'works-slug', params: { slug: work.slug } })
             "
           >
-            <div class="work-title">
+            <div
+              class="work-title"
+              @mouseover="setWorkDesktop(work.id)"
+              @mouseleave="resetsetWorkDesktop"
+            >
               {{ work.title }}
               <span class="date">{{ work.date }} </span>
             </div>
@@ -121,6 +124,11 @@ export default {
       return;
     },
 
+    resetsetWorkDesktop() {
+      if (window.innerWidth > 767) this.currentWorkId = null;
+      return;
+    },
+
     setActive() {
       window.requestAnimationFrame(this.setActive);
 
@@ -140,10 +148,10 @@ export default {
   },
 
   watch: {
-    color() {
-      if (!process.client) return;
-      document.querySelector("body").style.color = this.color;
-    },
+    // color() {
+    //   if (!process.client) return;
+    //   document.querySelector("body").style.color = this.color;
+    // },
   },
 
   computed: {
@@ -235,11 +243,6 @@ export default {
       md:items-center;
 
     border-color: inherit;
-
-    .wrapper {
-      @apply
-        pointer-events-none;
-    }
 
     .work-title {
       @apply
