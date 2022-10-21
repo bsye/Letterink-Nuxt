@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      {{ $t('board.insertName') }}
+      {{ $t("board.insertName") }}
       <input
         type="text"
         maxlength="28"
@@ -10,7 +10,7 @@
       />
     </div>
 
-    <form @submit.prevent="">
+    <form @submit.prevent="createMoodboard">
       <input
         type="text"
         maxlength="28"
@@ -22,16 +22,11 @@
           class="button white desktop"
           @click.native="$root.$emit('modal-add-inspiration', true)"
         >
-          <span>{{ $t('board.cancel') }}</span>
+          <span>{{ $t("board.cancel") }}</span>
         </ElementButton>
-        <ElementButton
-          class="button white full"
-          :focus="true"
-          @click.native="createMoodboard()"
-          type="submit"
-        >
+        <ElementButton class="button white full" :focus="true" type="submit">
           <span>
-            {{ $t('board.create') }}
+            {{ $t("board.create") }}
           </span>
         </ElementButton>
       </div>

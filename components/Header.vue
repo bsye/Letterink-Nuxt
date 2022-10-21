@@ -1,19 +1,10 @@
 <template>
-  <div
-    class="header"
-    :class="{ 'seamless': addBorder, 'home': inHome}"
-  >
-    <NuxtLink
-      class="logo"
-      :to="localePath({ name: 'index' })"
-    >
+  <div class="header" :class="{ seamless: addBorder, home: inHome }">
+    <NuxtLink class="logo" :to="localePath({ name: 'index' })">
       Letterink
     </NuxtLink>
 
-    <div
-      class="links"
-      v-if="menu && menu.menuItems"
-    >
+    <div class="links" v-if="menu && menu.menuItems">
       <LinkHandler
         class="link"
         :link="item"
@@ -27,7 +18,7 @@
     <div class="header-right">
       <div class="moodboards">
         <button @click="$root.$emit('show-popup', true)">
-          {{ $t('moodboards') }}
+          {{ $t("moodboards") }}
           <div>
             <div class="counter">
               {{ moodboardsCount }}
@@ -49,10 +40,9 @@
         </a>
       </div>
 
-      <button
-        class="menu-open"
-        @click="mobileMenuOpen = true"
-      >{{ $t('header.menu') }}</button>
+      <button class="menu-open" @click="mobileMenuOpen = true">
+        {{ $t("header.menu") }}
+      </button>
     </div>
 
     <ContentMenuMobile
@@ -96,7 +86,9 @@ export default {
     },
 
     inHome() {
-      return this.$route.name.includes("index");
+      if (this.$route.name) {
+        return this.$route.name.includes("index");
+      }
     },
 
     moodboardsCount() {

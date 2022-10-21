@@ -6,13 +6,13 @@
       :style="{
         backgroundColor,
         color,
-        borderColor
-        }"
+        borderColor,
+      }"
     >
       <div
         class="highlights swiper-wrapper"
         ref="container"
-        :style="{borderColor}"
+        :style="{ borderColor }"
       >
         <div
           v-for="work of works"
@@ -20,24 +20,22 @@
           ref="work"
           class="work swiper-slide"
           :data-work="work.id"
-          :class="{'active': work.id == currentWorkId}"
+          :class="{ active: work.id == currentWorkId }"
           @mouseover="setWorkDesktop(work.id)"
         >
           <NuxtLink
             class="wrapper"
-            :to="localePath({ name: 'works-slug', params: { slug: work.slug } })"
+            :to="
+              localePath({ name: 'works-slug', params: { slug: work.slug } })
+            "
           >
             <div class="work-title">
               {{ work.title }}
               <span class="date">{{ work.date }} </span>
             </div>
           </NuxtLink>
-
         </div>
-        <div
-          class="previews"
-          ref="previews"
-        >
+        <div class="previews" ref="previews">
           <WorkPreviews
             v-for="work in works"
             :previewType="$get(work, 'previewLayout')"
@@ -234,7 +232,6 @@ export default {
 
       first:pt-8
       md:flex
-      md:opacity-30
       md:items-center;
 
     border-color: inherit;

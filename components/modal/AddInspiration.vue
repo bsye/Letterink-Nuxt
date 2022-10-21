@@ -39,7 +39,7 @@
         </template>
         <template v-else>
           <div class="empty">
-            {{ $t('board.noMoodboard') }}
+            {{ $t("board.noMoodboard") }}
           </div>
         </template>
       </div>
@@ -52,16 +52,15 @@
             <div class="icon">
               <img src="~/assets/icons/cross-black.svg" />
             </div>
-            <span>{{ $t('board.createConfirm') }}</span>
+            <span>{{ $t("board.createConfirm") }}</span>
           </div>
         </ElementButton>
         <ElementButton
           class="button white full"
-          :focus="true"
           @click.native="$root.$emit('hide-overlay', true)"
           type="submit"
         >
-          <span>{{ $t('board.save') }}</span>
+          <span>{{ $t("board.save") }}</span>
         </ElementButton>
       </div>
     </form>

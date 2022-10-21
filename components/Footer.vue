@@ -1,28 +1,21 @@
 <template>
   <footer :class="inHome && 'home'">
     <div class="footer-left">
-      <div
-        class="footer-copyright"
-        v-if="copyright"
-      >
+      <div class="footer-copyright" v-if="copyright">
         {{ copyright }} | {{ currentYear }}
       </div>
 
       <div class="mobile-footer-left">
         <div class="mobile-footer-copyright">© {{ currentYear }}</div>
-        <a
-          href="#credits"
-          class="mobile-footer-credits"
-        >{{ $t('footer.credits') }}</a>
+        <a href="#credits" class="mobile-footer-credits">{{
+          $t("footer.credits")
+        }}</a>
       </div>
     </div>
 
     <div class="footer-right">
       <div class="footer-links">
-        <a
-          href="#credits"
-          class="footer-credits"
-        >{{ $t('footer.credits') }}</a>
+        <a href="#credits" class="footer-credits">{{ $t("footer.credits") }}</a>
         <a
           v-if="instagramUrl"
           target="_blank"
@@ -81,7 +74,9 @@ export default {
     },
 
     inHome() {
-      return this.$route.name.includes("index");
+      if (this.$route.name) {
+        return this.$route.name.includes("index");
+      }
     },
 
     currentYear() {
