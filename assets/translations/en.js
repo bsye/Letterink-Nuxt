@@ -64,4 +64,8 @@ export default {
   header: {
     menu: "Menu",
   },
+  notFound: "Page not found",
+  notFoundDescription:
+    "Sorry, we couldn't find that page",
+  toHomepage: "Back to Home",
 };
