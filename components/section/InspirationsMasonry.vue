@@ -1,7 +1,7 @@
 <template>
   <transition
     name="inspirations-masonry"
-    style="padding-left: 1rem;padding-right: 1rem;"
+    style="padding-left: 1rem; padding-right: 1rem"
     mode="out-in"
   >
     <MasonryWall
@@ -23,12 +23,8 @@
       </template>
     </MasonryWall>
 
-    <div
-      v-else
-      key="no-inspirations"
-      class="inspirations-not-found"
-    >
-      {{ $t('board.notFound') }}
+    <div v-else key="no-inspirations" class="inspirations-not-found">
+      {{ $t("board.notFound") }}
     </div>
   </transition>
 </template>

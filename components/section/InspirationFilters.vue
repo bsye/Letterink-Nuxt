@@ -1,14 +1,11 @@
 <template>
   <div class="filters">
-    <div class="label">{{ $t('filters.filters') }}</div>
+    <div class="label">{{ $t("filters.filters") }}</div>
 
     <div class="inner">
       <div class="dropdown">
-        <button
-          @click="toggleDropdown('categories')"
-          class="label"
-        >
-          <span>{{ $t('filters.categories') }}</span>
+        <button @click="toggleDropdown('categories')" class="label">
+          <span>{{ $t("filters.categories") }}</span>
           <img
             :class="openFilter === 'categories' && 'open'"
             src="~/assets/icons/dropdown-arrow.svg"
@@ -22,13 +19,13 @@
           >
             <NuxtLink
               :to="
-                    localePath({
-                      name: 'inspirations',
-                      query: {
-                        color: $route.query.color,
-                      },
-                    })
-                  "
+                localePath({
+                  name: 'inspirations',
+                  query: {
+                    color: $route.query.color,
+                  },
+                })
+              "
               class="category"
               :class="$route.query.category == null && 'selected-category'"
             >
@@ -37,19 +34,18 @@
 
             <NuxtLink
               :to="
-                    localePath({
-                      name: 'inspirations',
-                      query: {
-                        category: category.slug,
-                        color: $route.query.color,
-                      },
-                    })
-                  "
+                localePath({
+                  name: 'inspirations',
+                  query: {
+                    category: category.slug,
+                    color: $route.query.color,
+                  },
+                })
+              "
               class="category"
               :class="
-                    $route.query.category == category.slug &&
-                    'selected-category'
-                  "
+                $route.query.category == category.slug && 'selected-category'
+              "
               v-for="category of categories"
               :key="category.id"
             >
@@ -60,11 +56,8 @@
       </div>
 
       <div class="dropdown">
-        <button
-          @click="toggleDropdown('colors')"
-          class="label"
-        >
-          <span>{{ $t('filters.colors') }}</span>
+        <button @click="toggleDropdown('colors')" class="label">
+          <span>{{ $t("filters.colors") }}</span>
           <img
             :class="openFilter === 'colors' && 'open'"
             src="~/assets/icons/dropdown-arrow.svg"
@@ -78,33 +71,31 @@
           >
             <NuxtLink
               :to="
-                    localePath({
-                      name: 'inspirations',
-                      query: {
-                        category: $route.query.category,
-                      },
-                    })
-                  "
+                localePath({
+                  name: 'inspirations',
+                  query: {
+                    category: $route.query.category,
+                  },
+                })
+              "
               class="category"
               :class="$route.query.color == null && 'selected-category'"
             >
-              {{ $t('filters.all') }}
+              {{ $t("filters.all") }}
             </NuxtLink>
 
             <NuxtLink
               :to="
-                    localePath({
-                      name: 'inspirations',
-                      query: {
-                        color: color.slug,
-                        category: $route.query.category,
-                      },
-                    })
-                  "
+                localePath({
+                  name: 'inspirations',
+                  query: {
+                    color: color.slug,
+                    category: $route.query.category,
+                  },
+                })
+              "
               class="category"
-              :class="
-                    $route.query.color == color.slug && 'selected-category'
-                  "
+              :class="$route.query.color == color.slug && 'selected-category'"
               v-for="color of colors"
               :key="color.id"
             >
@@ -142,37 +133,6 @@ export default {
       } else {
         this.openFilter = filter;
       }
-    },
-
-    async fetchInspirations() {
-      const category = this.$route.query.category;
-      const color = this.$route.query.color;
-
-      if (!category && !color) {
-        const { inspirations } = await this.$graphql.default.request(query);
-
-        this.inspirations = inspirations;
-        return;
-      }
-
-      const { inspirationsByCategories } = await this.$graphql.default.request(
-        query,
-        {
-          category: category,
-          color: color,
-        }
-      );
-
-      this.inspirations = inspirationsByCategories;
-    },
-  },
-
-  watch: {
-    "$route.query": {
-      deep: true,
-      handler() {
-        this.fetchInspirations();
-      },
     },
   },
 };

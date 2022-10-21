@@ -9,7 +9,6 @@
     />
 
     <div class="inspirations-container">
-
       <SectionInspirationsMasonry
         v-if="inspirations"
         :inspirations="inspirations"
@@ -31,9 +30,42 @@ export default {
     };
   },
 
+  watch: {
+    "$route.query": {
+      deep: true,
+      handler() {
+        this.fetchInspirations();
+      },
+    },
+  },
+
+  methods: {
+    async fetchInspirations() {
+      const category = this.$route.query.category;
+      const color = this.$route.query.color;
+
+      if (!category && !color) {
+        const { inspirations } = await this.$graphql.default.request(query);
+
+        this.inspirations = inspirations;
+      }
+
+      if (category || color) {
+        const { inspirationsByCategories } =
+          await this.$graphql.default.request(query, {
+            category: category,
+            color: color,
+          });
+
+        this.inspirations = inspirationsByCategories;
+      }
+    },
+  },
+
   async asyncData({ $graphql, route, store }) {
     try {
       // If with any filter
+      console.log(route.query.category);
       if (route.query.category || route.query.color) {
         const {
           inspirationsByCategories,
@@ -56,6 +88,8 @@ export default {
       // Without filters
       const { inspirations, inspirationsCategories, inspirationsColors } =
         await $graphql.default.request(query);
+
+      console.log(inspirationsCategories);
 
       return {
         inspirations,
