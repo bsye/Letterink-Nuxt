@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>{{ $t('board.duplicateBoardConfirm') }}</span>
+      <span>{{ $t("board.duplicateBoardConfirm") }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -13,7 +13,7 @@
           type="submit"
         >
           <span>
-            {{ $t('board.confirm') }}
+            {{ $t("board.confirm") }}
           </span>
         </ElementButton>
       </div>
@@ -25,8 +25,11 @@
 export default {
   methods: {
     duplicateBoard() {
-      this.$root.$emit("modal-duplicate-board-confirmed", true);
       this.$store.dispatch("moodboards/duplicateBoard");
+      this.$store.commit(
+        "moodboards/SET_ACTIVE_OVERLAY",
+        "duplicateBoardConfirmed"
+      );
     },
   },
 };

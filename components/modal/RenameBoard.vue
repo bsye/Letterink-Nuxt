@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      {{ $t('board.renameConfirm') }}
+      {{ $t("board.renameConfirm") }}
       <input
         type="text"
         maxlength="28"
@@ -24,7 +24,7 @@
           type="submit"
         >
           <span>
-            {{ $t('board.renameButton') }}
+            {{ $t("board.renameButton") }}
           </span>
         </ElementButton>
       </div>
@@ -44,7 +44,10 @@ export default {
     renameMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/renameMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-rename-board-confirmed");
+        this.$store.commit(
+          "moodboards/SET_ACTIVE_OVERLAY",
+          "renameBoardConfirmed"
+        );
       }
     },
   },

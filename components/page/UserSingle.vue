@@ -7,10 +7,27 @@
         :section="$t('User moodboards')"
       />
 
-      <SectionMoodboardActions :length="$get(moodboard,'inspirationItems.length')">
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board-only')">Duplica</ElementButton>
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-rename-board')">Rinomina</ElementButton>
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-share-board')">Condividi</ElementButton>
+      <SectionMoodboardActions
+        :length="$get(moodboard, 'inspirationItems.length')"
+      >
+        <ElementButton
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'duplicateBoardOnly')
+          "
+          >Duplica</ElementButton
+        >
+        <ElementButton
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'renameBoard')
+          "
+          >Rinomina</ElementButton
+        >
+        <ElementButton
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'shareBoard')
+          "
+          >Condividi</ElementButton
+        >
       </SectionMoodboardActions>
     </div>
 

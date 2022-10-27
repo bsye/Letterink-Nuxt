@@ -1,28 +1,21 @@
 <template>
   <div class="modal">
     <div class="label">
-      {{ $t('board.share') }}
+      {{ $t("board.share") }}
       <span>
         {{ `'${getCurrentMoodboard.title}'` }}
       </span>
     </div>
 
     <div class="buttons">
-      <ElementButton
-        @click.native="linkShare()"
-        class="button white"
-      >
-        {{ $t('board.shareLink') }}
+      <ElementButton @click.native="linkShare()" class="button white">
+        {{ $t("board.shareLink") }}
       </ElementButton>
       <ElementButton
         @click.native="$root.$emit('hide-overlay', true)"
         class="button white"
       >
-        <ShareNetwork
-          v-if="shareUrl"
-          network="facebook"
-          :url="shareUrl"
-        >
+        <ShareNetwork v-if="shareUrl" network="facebook" :url="shareUrl">
           Facebook
         </ShareNetwork>
       </ElementButton>
@@ -67,8 +60,9 @@
       </ElementButton>
       <div class="warning">
         <span>
-          {{ $t('board.shareWarning', { moodboard: getCurrentMoodboard.title }) }}
-
+          {{
+            $t("board.shareWarning", { moodboard: getCurrentMoodboard.title })
+          }}
         </span>
       </div>
     </div>
@@ -104,9 +98,12 @@ export default {
           () => console.log("error")
         );
 
-        this.$root.$emit("show-overlay", "modal-share-board-confirmed");
+        this.$store.commit(
+          "moodboards/SET_ACTIVE_OVERLAY",
+          "shareBoardConfirmed"
+        );
       } else {
-        this.$root.$emit("show-overlay", "modal-generic-error");
+        this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "genericError");
       }
     },
   },

@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="moodboard"
-    class="single-moodboard"
-  >
+  <div v-if="moodboard" class="single-moodboard">
     <div>
       <SectionPageHeader
         :title="moodboard.title"
@@ -10,8 +7,15 @@
         :section="$t('User moodboards')"
       />
 
-      <SectionMoodboardActions :length="$get(moodboard,'inspirationItems.length')">
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-save-board')">Salva</ElementButton>
+      <SectionMoodboardActions
+        :length="$get(moodboard, 'inspirationItems.length')"
+      >
+        <ElementButton
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'saveBoard')
+          "
+          >Salva</ElementButton
+        >
       </SectionMoodboardActions>
     </div>
 
@@ -22,25 +26,22 @@
       />
     </div>
   </div>
-  <div
-    v-else
-    class="single-moodboard"
-  >
+  <div v-else class="single-moodboard">
     <div class="header">
       <div class="header-label-container">
         <span class="header-label">
-          {{ $t('board.shared') }}
+          {{ $t("board.shared") }}
         </span>
       </div>
       <div class="header-title">
-        {{ $t('board.notFoundBoard') }}
+        {{ $t("board.notFoundBoard") }}
       </div>
     </div>
     <div class="content not-found">
-      {{ $t('board.sharedNotFound') }}
-      <NuxtLink :to="localePath({name: 'inspirations'})">
+      {{ $t("board.sharedNotFound") }}
+      <NuxtLink :to="localePath({ name: 'inspirations' })">
         <ElementButton class="button full white">
-          {{ $t('board.goTo') }}
+          {{ $t("board.goTo") }}
         </ElementButton>
       </NuxtLink>
     </div>

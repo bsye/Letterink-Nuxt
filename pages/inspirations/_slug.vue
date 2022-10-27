@@ -7,9 +7,21 @@
         :section="$t('board.inspirationals')"
       />
 
-      <SectionMoodboardActions :length="$get(moodboard,'inspirationItems.length')">
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-duplicate-board-only')">Duplica</ElementButton>
-        <ElementButton @click.native="$root.$emit('show-overlay','modal-share-featured-board')">Condividi</ElementButton>
+      <SectionMoodboardActions
+        :length="$get(moodboard, 'inspirationItems.length')"
+      >
+        <ElementButton
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'duplicateBoardOnly')
+          "
+          >Duplica</ElementButton
+        >
+        <ElementButton
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'shareFeaturedBoard')
+          "
+          >Condividi</ElementButton
+        >
       </SectionMoodboardActions>
     </div>
 

@@ -1,21 +1,16 @@
 <template>
   <button
-    @click="$root.$emit('show-overlay', 'modal-create-board-only')"
+    @click="$store.commit('moodboards/SET_ACTIVE_OVERLAY', 'createBoardOnly')"
     class="moodboard inactive"
   >
     <div class="wrapper">
       <div class="placeholder">
-        {{ $t('board.add') }}
+        {{ $t("board.add") }}
       </div>
       <div class="moodboard-items">
-        <figure
-          v-for="n in 4"
-          :key="n"
-          class="moodboard-item empty"
-        ></figure>
+        <figure v-for="n in 4" :key="n" class="moodboard-item empty"></figure>
       </div>
     </div>
-
   </button>
 </template>
 

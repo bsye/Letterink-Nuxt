@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      {{ $t('board.insertName') }}
+      {{ $t("board.insertName") }}
       <input
         type="text"
         class="mobile"
@@ -24,7 +24,7 @@
           type="submit"
         >
           <span>
-            {{ $t('board.create') }}
+            {{ $t("board.create") }}
           </span>
         </ElementButton>
       </div>
@@ -44,7 +44,10 @@ export default {
     createMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
+        this.$store.commit(
+          "moodboards/SET_ACTIVE_OVERLAY",
+          "createBoardConfirmed"
+        );
       }
     },
   },

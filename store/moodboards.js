@@ -8,7 +8,7 @@ export const state = () => ({
     featured: null,
     elements: null,
   },
-
+  activeOverlay: false,
   currentInspiration: false,
   currentMoodboard: false,
 });
@@ -21,15 +21,19 @@ export const mutations = {
     };
   },
 
-  RENAME_INSPIRATION(state, {moodboard, moodboardName}) {
+  SET_ACTIVE_OVERLAY(state, type) {
+    state.activeOverlay = type;
+  },
+
+  RENAME_INSPIRATION(state, { moodboard, moodboardName }) {
     state.userMoodboards.elements[moodboard.id].title = moodboardName;
   },
 
-  ORDER_INSPIRATIONS(state, {inspirations, moodboard}) {
+  ORDER_INSPIRATIONS(state, { inspirations, moodboard }) {
     state.userMoodboards.elements[moodboard.id].inspirationItems = inspirations
   },
 
-  DELETE_INSPIRATION(state, {inspiration, moodboard}) {
+  DELETE_INSPIRATION(state, { inspiration, moodboard }) {
     const remaining = state.userMoodboards.elements[moodboard.id].inspirationItems.filter((item) => item.id != inspiration.id);
     state.userMoodboards.elements[moodboard.id].inspirationItems = remaining
   },
@@ -49,7 +53,7 @@ export const mutations = {
     };
   },
 
-  ADD_TO_MOODBOARD(state, {moodboardId, inspiration}) {
+  ADD_TO_MOODBOARD(state, { moodboardId, inspiration }) {
     state.userMoodboards.elements[moodboardId].inspirationItems = [
       inspiration,
       ...state.userMoodboards.elements[moodboardId].inspirationItems,
@@ -68,7 +72,7 @@ export const getters = {
 
   getUserMoodboardById: (state) => (id) => {
     if (!state.userMoodboards.elements) return null
-      return state.userMoodboards.elements[id];
+    return state.userMoodboards.elements[id];
   },
 
   getCurrentMoodboard(state) {
@@ -79,9 +83,13 @@ export const getters = {
     return state.currentInspiration
   },
 
+  getActiveOverlay(state) {
+    return state.activeOverlay
+  },
+
   getMoodboardsCount(state) {
     if (!process.client) return 0;
-    if(!state.userMoodboards.elements) return 0
+    if (!state.userMoodboards.elements) return 0
     return Object.keys(state.userMoodboards.elements).length;
   },
 
@@ -89,7 +97,7 @@ export const getters = {
     return state.userMoodboards.elements
   },
 }
-  
+
 export const actions = {
   createMoodboard(context, name) {
     context.commit("NEW_MOODBOARD", {
@@ -112,7 +120,7 @@ export const actions = {
 
   addToMoodboards(context, moodboards) {
     const currentInspiration = context.state.currentInspiration;
-    if(!currentInspiration) return false
+    if (!currentInspiration) return false
     moodboards.forEach((moodboard) => {
       context.commit("ADD_TO_MOODBOARD", {
         moodboardId: moodboard,
@@ -170,7 +178,7 @@ export const actions = {
     });
   },
 
-  removeInspiration(context, {moodboards}) {
+  removeInspiration(context, { moodboards }) {
     const currentInspiration = context.state.currentInspiration;
     moodboards.forEach(moodboard => {
       context.commit("DELETE_INSPIRATION", {
@@ -182,7 +190,7 @@ export const actions = {
     })
   },
 
-  orderInspirations(context, {order}) {
+  orderInspirations(context, { order }) {
     const currentBoard = context.state.currentMoodboard;
     let currentBoardInspirations = currentBoard.inspirationItems;
 

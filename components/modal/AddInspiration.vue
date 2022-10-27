@@ -49,7 +49,9 @@
       <div class="form-footer">
         <ElementButton
           class="button white"
-          @click.native="$root.$emit('modal-create-board', true)"
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'createBoard')
+          "
         >
           <div>
             <div class="icon">
@@ -71,6 +73,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -81,28 +85,15 @@ export default {
     };
   },
 
-  props: {
-    inspirationImage: {
-      type: String,
-    },
-  },
-
   async mounted() {
-    const userMoodboards = await this.$store.getters[
-      "moodboards/getUserMoodboards"
-    ];
-    const currentInspiration = await this.$store.getters[
-      "moodboards/getCurrentInspiration"
-    ];
-
     this.alreadyInMoodboard = [];
 
-    if (!userMoodboards || !currentInspiration)
+    if (!this.userMoodboards || !this.currentInspiration)
       return (this.moodboards = false);
-    this.moodboards = Object.values(userMoodboards).filter((moodboard) => {
+    this.moodboards = Object.values(this.userMoodboards).filter((moodboard) => {
       if (
         moodboard.inspirationItems.find(
-          (element) => element.id == currentInspiration.id
+          (element) => element.id == this.currentInspiration.id
         )
       ) {
         this.alreadyInMoodboard.push(moodboard);
@@ -110,6 +101,21 @@ export default {
       }
       return moodboard;
     });
+  },
+
+  computed: {
+    ...mapGetters({
+      currentInspiration: "moodboards/getCurrentInspiration",
+      userMoodboards: "moodboards/getUserMoodboards",
+    }),
+
+    inspirationImage: function () {
+      try {
+        return this.currentInspiration.image[0].url;
+      } catch (error) {
+        return false;
+      }
+    },
   },
 
   methods: {
