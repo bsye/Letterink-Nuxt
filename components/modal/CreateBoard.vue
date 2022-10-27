@@ -46,7 +46,10 @@ export default {
     createMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$root.$emit("show-overlay", "modal-create-board-confirmed");
+        this.$store.commit(
+          "moodboards/SET_ACTIVE_OVERLAY",
+          "createBoardConfirmed"
+        );
       }
     },
   },

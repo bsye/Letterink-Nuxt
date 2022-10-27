@@ -38,12 +38,11 @@ export default {
 
   methods: {
     addToMoodboard() {
-      this.$root.$emit("show-overlay", "modal-add-inspiration");
       this.$store.dispatch(
         "moodboards/setCurrentInspiration",
         this.inspiration
       );
-      this.$root.$emit("inspiration-image", this.inspiration.image[0].url);
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "addInspiration");
     },
   },
 };

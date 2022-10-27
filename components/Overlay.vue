@@ -8,58 +8,39 @@
             <img src="~/assets/icons/cross.svg" />
           </button>
         </div>
-        <ModalAddInspiration
-          v-if="modals.addInspiration"
-          :inspirationImage="inspirationImage"
+        <ModalAddInspiration v-if="activeOverlay === 'addInspiration'" />
+        <ModalRemoveInspiration v-if="activeOverlay == 'removeInspiration'" />
+        <ModalCreateBoard v-if="activeOverlay == 'createBoard'" />
+        <ModalCreateBoardOnly v-if="activeOverlay == 'createBoardOnly'" />
+        <ModalCreateBoardConfirmed
+          v-if="activeOverlay == 'createBoardConfirmed'"
         />
-        <ModalRemoveInspiration v-if="modals.removeInspiration" />
-        <ModalCreateBoard v-if="modals.createBoard" />
-        <ModalCreateBoardOnly v-if="modals.createBoardOnly" />
-        <ModalCreateBoardConfirmed v-if="modals.createBoardConfirmed" />
-        <ModalGenericError v-if="modals.genericError" />
-        <ModalRenameBoard v-if="modals.renameBoard" />
-        <ModalRenameBoardConfirmed v-if="modals.renameBoardConfirmed" />
-        <ModalShareBoard v-if="modals.shareBoard" />
-        <ModalShareFeaturedBoard v-if="modals.shareFeaturedBoard" />
-        <ModalShareBoardConfirmed v-if="modals.shareBoardConfirmed" />
-        <ModalDuplicateBoard v-if="modals.duplicateBoard" />
-        <ModalDuplicateBoardOnly v-if="modals.duplicateBoardOnly" />
-        <ModalDuplicateBoardConfirmed v-if="modals.duplicateBoardConfirmed" />
-        <ModalSaveBoard v-if="modals.saveBoard" />
-        <ModalSaveBoardConfirmed v-if="modals.saveBoardConfirmed" />
+        <ModalGenericError v-if="activeOverlay == 'genericError'" />
+        <ModalRenameBoard v-if="activeOverlay == 'renameBoard'" />
+        <ModalRenameBoardConfirmed
+          v-if="activeOverlay == 'renameBoardConfirmed'"
+        />
+        <ModalShareBoard v-if="activeOverlay == 'shareBoard'" />
+        <ModalShareFeaturedBoard v-if="activeOverlay == 'shareFeaturedBoard'" />
+        <ModalShareBoardConfirmed
+          v-if="activeOverlay == 'shareBoardConfirmed'"
+        />
+        <ModalDuplicateBoard v-if="activeOverlay == 'duplicateBoard'" />
+        <ModalDuplicateBoardOnly v-if="activeOverlay == 'duplicateBoardOnly'" />
+        <ModalDuplicateBoardConfirmed
+          v-if="activeOverlay == 'duplicateBoardConfirmed'"
+        />
+        <ModalSaveBoard v-if="activeOverlay == 'saveBoard'" />
+        <ModalSaveBoardConfirmed v-if="activeOverlay == 'saveBoardConfirmed'" />
       </div>
     </div>
   </transition>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      overlayOpen: false,
-      title: false,
-      modals: {
-        addInspiration: false,
-        removeInspiration: false,
-        createBoard: false,
-        createBoardOnly: false,
-        createBoardConfirmed: false,
-        genericError: false,
-        renameBoard: false,
-        renameBoardConfirmed: false,
-        shareBoard: false,
-        shareBoardConfirmed: false,
-        shareFeaturedBoard: false,
-        duplicateBoard: false,
-        duplicateBoardOnly: false,
-        duplicateBoardConfirmed: false,
-        saveBoard: false,
-        saveBoardConfirmed: false,
-        inspirationImage: "",
-      },
-    };
-  },
+import { mapGetters } from "vuex";
 
+export default {
   watch: {
     $route() {
       this.$root.$emit("hide-overlay", true);
@@ -67,117 +48,64 @@ export default {
   },
 
   mounted() {
-    this.$root.$on("show-overlay", (state) => {
-      if (state) this.overlayOpen = state;
-      this.$root.$emit(state, true);
-    });
+    // this.$root.$on("show-overlay", (state) => {
+    //   if (state) this.overlayOpen = state;
+    //   this.$root.$emit(state, true);
+    // });
 
-    this.$root.$on("hide-overlay", (state) => {
-      this.overlayOpen = false;
-      this.closeModals();
-    });
-
-    this.$root.$on("inspiration-image", (image) => {
-      this.inspirationImage = image;
-    });
-
-    this.$root.$on("modal-add-inspiration", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.addInspiration");
-      this.modals.addInspiration = state;
-    });
-
-    this.$root.$on("modal-remove-inspiration", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.removeInspiration");
-      this.modals.removeInspiration = state;
-    });
-
-    this.$root.$on("modal-duplicate-board", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.duplicate");
-      this.modals.duplicateBoard = state;
-    });
-
-    this.$root.$on("modal-duplicate-board-only", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.duplicate");
-      this.modals.duplicateBoardOnly = state;
-    });
-
-    this.$root.$on("modal-duplicate-board-confirmed", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.duplicate");
-      this.modals.duplicateBoardConfirmed = state;
-    });
-
-    this.$root.$on("modal-generic-error", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.error");
-      this.modals.genericError = state;
-    });
-
-    this.$root.$on("modal-save-board", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.save");
-      this.modals.saveBoard = state;
-    });
-
-    this.$root.$on("modal-save-board-confirmed", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.duplicate");
-      this.modals.saveBoardConfirmed = state;
-    });
-
-    this.$root.$on("modal-create-board", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.createNew");
-      this.modals.createBoard = state;
-    });
-
-    this.$root.$on("modal-create-board-only", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.createNew");
-      this.modals.createBoardOnly = state;
-    });
-
-    this.$root.$on("modal-create-board-confirmed", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.createNew");
-      this.modals.createBoardConfirmed = state;
-    });
-
-    this.$root.$on("modal-rename-board", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.rename");
-      this.modals.renameBoard = state;
-    });
-
-    this.$root.$on("modal-rename-board-confirmed", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.rename");
-      this.modals.renameBoardConfirmed = state;
-    });
-
-    this.$root.$on("modal-share-board", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.share");
-      this.modals.shareBoard = state;
-    });
-
-    this.$root.$on("modal-share-board-confirmed", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.share");
-      this.modals.shareBoardConfirmed = state;
-    });
-
-    this.$root.$on("modal-share-featured-board", (state) => {
-      this.closeModals();
-      this.title = this.$i18n.t("board.share");
-      this.modals.shareFeaturedBoard = state;
-    });
+    // this.$root.$on("hide-overlay", (state) => {
+    //   this.overlayOpen = false;
+    // });
 
     if (process.client) this.$mobileFullScreen();
+  },
+
+  computed: {
+    ...mapGetters({
+      activeOverlay: "moodboards/getActiveOverlay",
+    }),
+    overlayOpen: function () {
+      return this.activeOverlay != false;
+    },
+
+    title: function () {
+      switch (this.activeOverlay) {
+        case "addInspiration":
+          return this.$i18n.t("board.addInspiration");
+        case "createBoard":
+          return this.$i18n.t("board.createNew");
+        case "removeInspiration":
+          return this.$i18n.t("board.removeInspiration");
+        case "createBoardOnly":
+          return this.$i18n.t("board.createNew");
+        case "createBoardConfirmed":
+          return this.$i18n.t("board.createNew");
+        case "genericError":
+          return this.$i18n.t("board.error");
+        case "renameBoard":
+          return this.$i18n.t("board.rename");
+        case "renameBoardConfirmed":
+          return this.$i18n.t("board.rename");
+        case "shareBoard":
+          return this.$i18n.t("board.share");
+        case "shareBoardConfirmed":
+          return this.$i18n.t("board.share");
+        case "shareFeaturedBoard":
+          return this.$i18n.t("board.share");
+        case "duplicateBoard":
+          return this.$i18n.t("board.duplicate");
+        case "duplicateBoardOnly":
+          return this.$i18n.t("board.duplicate");
+        case "duplicateBoardConfirmed":
+          return this.$i18n.t("board.duplicate");
+        case "saveBoard":
+          return this.$i18n.t("board.save");
+        case "saveBoardConfirmed":
+          return this.$i18n.t("board.save");
+        default:
+          break;
+      }
+    },
   },
 
   methods: {
@@ -186,15 +114,8 @@ export default {
       return false;
     },
 
-    closeModals() {
-      Object.keys(this.modals).forEach((key) => {
-        this.modals[key] = false;
-      });
-    },
-
     handleClose(e) {
-      this.closeModals();
-      this.overlayOpen = false;
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", false);
     },
   },
 };

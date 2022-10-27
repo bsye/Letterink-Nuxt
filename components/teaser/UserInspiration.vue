@@ -1,29 +1,17 @@
 <template>
   <div class="inspiration">
-    <button
-      class="remove"
-      @click="removeInspiration()"
-    >
+    <button class="remove" @click="removeInspiration()">
       <figure>
-        <img
-          v-if="inspiration.image.length"
-          :src="inspiration.image[0].url"
-        />
+        <img v-if="inspiration.image.length" :src="inspiration.image[0].url" />
 
         <div class="icon">
-          <img
-            class="cross"
-            src="~/assets/icons/minus.svg"
-          />
+          <img class="cross" src="~/assets/icons/minus.svg" />
         </div>
       </figure>
     </button>
 
     <div class="info">
-      <div
-        class="title"
-        v-if="inspiration.title"
-      >
+      <div class="title" v-if="inspiration.title">
         {{ inspiration.title }}
       </div>
 
@@ -54,7 +42,7 @@ export default {
         "moodboards/setCurrentInspiration",
         this.inspiration
       );
-      this.$root.$emit("show-overlay", "modal-remove-inspiration");
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "removeInspiration");
     },
   },
 };

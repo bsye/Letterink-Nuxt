@@ -1,7 +1,7 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>{{ $t('board.saveConfirm') }}</span>
+      <span>{{ $t("board.saveConfirm") }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -19,7 +19,7 @@
           type="submit"
         >
           <span>
-            {{ $t('board.confirm') }}
+            {{ $t("board.confirm") }}
           </span>
         </ElementButton>
       </div>
@@ -31,8 +31,8 @@
 export default {
   methods: {
     saveBoard() {
-      this.$root.$emit("show-overlay", "modal-save-board-confirmed");
       this.$store.dispatch("moodboards/saveSharedBoard");
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "saveBoard");
     },
   },
 };
