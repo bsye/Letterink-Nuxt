@@ -1,32 +1,17 @@
 <template>
   <div class="inspiration">
-    <button
-      class="add"
-      @click="addToMoodboard()"
-    >
+    <button class="add" @click="addToMoodboard()">
       <figure draggable="false">
-        <img
-          v-if="inspiration.image.length"
-          :src="inspiration.image[0].url"
-        />
+        <img v-if="inspiration.image.length" :src="inspiration.image[0].url" />
 
         <div class="icon">
-          <img
-            class="cross"
-            src="~/assets/icons/cross.svg"
-          />
+          <img class="cross" src="~/assets/icons/cross.svg" />
         </div>
       </figure>
     </button>
 
-    <div
-      class="info"
-      v-if="inspiration.title"
-    >
-      <div
-        class="title"
-        v-if="inspiration.title"
-      >
+    <div class="info" v-if="inspiration.title">
+      <div class="title" v-if="inspiration.title">
         {{ inspiration.title }}
       </div>
 
@@ -58,6 +43,7 @@ export default {
         "moodboards/setCurrentInspiration",
         this.inspiration
       );
+      this.$root.$emit("inspiration-image", this.inspiration.image[0].url);
     },
   },
 };

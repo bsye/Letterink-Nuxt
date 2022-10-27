@@ -1,22 +1,17 @@
 <template>
   <transition name="overlay">
-    <div
-      class="overlay"
-      v-if="overlayOpen"
-      @click="clickOutside($event)"
-    >
+    <div class="overlay" v-if="overlayOpen" @click="clickOutside($event)">
       <div class="overlay-content">
         <div class="overlay-header">
           <div class="form-moodboard-header-text">{{ title }}</div>
-          <button
-            class="close"
-            @click="handleClose()"
-          >
+          <button class="close" @click="handleClose()">
             <img src="~/assets/icons/cross.svg" />
           </button>
         </div>
-
-        <ModalAddInspiration v-if="modals.addInspiration" />
+        <ModalAddInspiration
+          v-if="modals.addInspiration"
+          :inspirationImage="inspirationImage"
+        />
         <ModalRemoveInspiration v-if="modals.removeInspiration" />
         <ModalCreateBoard v-if="modals.createBoard" />
         <ModalCreateBoardOnly v-if="modals.createBoardOnly" />
@@ -60,6 +55,7 @@ export default {
         duplicateBoardConfirmed: false,
         saveBoard: false,
         saveBoardConfirmed: false,
+        inspirationImage: "",
       },
     };
   },
@@ -79,6 +75,10 @@ export default {
     this.$root.$on("hide-overlay", (state) => {
       this.overlayOpen = false;
       this.closeModals();
+    });
+
+    this.$root.$on("inspiration-image", (image) => {
+      this.inspirationImage = image;
     });
 
     this.$root.$on("modal-add-inspiration", (state) => {
@@ -249,7 +249,7 @@ export default {
 
     height: calc(var(--app-height) - 2.3rem);
 
-    @screen md {
+    @screen 2xl {
       @apply
         h-auto
         min-h-[440px];

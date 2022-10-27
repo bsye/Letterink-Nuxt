@@ -1,5 +1,8 @@
 <template>
   <div class="add">
+    <picture class="inspiration-image">
+      <img :src="inspirationImage" alt="" />
+    </picture>
     <form @submit.prevent="addInspiration">
       <div class="fields">
         <template v-if="moodboards">
@@ -78,6 +81,12 @@ export default {
     };
   },
 
+  props: {
+    inspirationImage: {
+      type: String,
+    },
+  },
+
   async mounted() {
     const userMoodboards = await this.$store.getters[
       "moodboards/getUserMoodboards"
@@ -130,6 +139,26 @@ export default {
     flex-col
     grow;
 
+  .inspiration-image {
+    @apply
+      w-[15vw]
+      h-[15vw]
+      min-w-[296px]
+      min-h-[296px]
+      relative
+      overflow-hidden
+      mx-auto
+      my-5;
+
+    img {
+      @apply
+        w-full
+        h-full
+        object-cover
+        object-center;
+    }
+  }
+
   .warning {
     @apply
       text-[10px]
@@ -173,6 +202,11 @@ export default {
           gap-x-3
           relative
           cursor-pointer;
+
+        &:first-child {
+          @apply
+            border-t;
+        }
 
         .title {
           @apply
