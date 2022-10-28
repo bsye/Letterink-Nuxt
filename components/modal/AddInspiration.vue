@@ -3,7 +3,7 @@
     <picture class="inspiration-image">
       <img :src="inspirationImage" alt="" />
     </picture>
-    <form @submit.prevent="addInspiration">
+    <form @submit.prevent="addInspiration()">
       <div class="fields">
         <template v-if="moodboards">
           <div
@@ -62,7 +62,7 @@
         </ElementButton>
         <ElementButton
           class="button white full"
-          @click.native="$root.$emit('hide-overlay', true)"
+          @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
           type="submit"
         >
           <span>{{ $t("board.save") }}</span>
@@ -107,7 +107,12 @@ export default {
     ...mapGetters({
       currentInspiration: "moodboards/getCurrentInspiration",
       userMoodboards: "moodboards/getUserMoodboards",
+      activeOverlay: "moodboards/getActiveOverlay",
     }),
+
+    overlayOpen: function () {
+      return this.activeOverlay != false;
+    },
 
     inspirationImage: function () {
       try {
@@ -133,6 +138,10 @@ export default {
         this.$store.dispatch("moodboards/removeInspiration", {
           moodboards: toRemove,
         });
+    },
+
+    handleClose(e) {
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", false);
     },
   },
 };

@@ -1,16 +1,16 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>{{ $t('board.removeInspirationConfirm') }}</span>
+      <span>{{ $t("board.removeInspirationConfirm") }}</span>
     </div>
 
     <form @submit.prevent="">
       <div class="form-actions">
         <ElementButton
           class="button white"
-          @click.native="$root.$emit('hide-overlay', true)"
+          @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         >
-          <span>{{ $t('board.cancel') }}</span>
+          <span>{{ $t("board.cancel") }}</span>
         </ElementButton>
         <ElementButton
           :focus="true"
@@ -19,7 +19,7 @@
           type="submit"
         >
           <span>
-            {{ $t('board.confirm') }}
+            {{ $t("board.confirm") }}
           </span>
         </ElementButton>
       </div>
@@ -32,7 +32,7 @@ export default {
   methods: {
     removeInspirationFromCurrentBoard() {
       this.$store.dispatch("moodboards/removeInspirationFromCurrentBoard");
-      this.$root.$emit("hide-overlay", true);
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", false);
     },
   },
 };

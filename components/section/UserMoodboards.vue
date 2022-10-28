@@ -1,22 +1,17 @@
 <template>
   <section class="moodboards">
     <div class="label">
-      <span> {{ $t('board.yourMoodboards') }} </span>
+      <span> {{ $t("board.yourMoodboards") }} </span>
     </div>
 
-    <div
-      class="content"
-      :class="'in-your-moodboards'"
-    >
+    <div class="content" :class="'in-your-moodboards'">
       <template v-if="getUserMoodboards">
         <div
           v-for="(moodboard, key, index) of getUserMoodboards"
           :key="moodboard.id"
+          class="teaser-moodboard"
         >
-          <TeaserUserMoodboard
-            v-if="index < 3"
-            :moodboard="moodboard"
-          />
+          <TeaserUserMoodboard v-if="index < 3" :moodboard="moodboard" />
 
           <TeaserViewUserMoodboard
             v-else-if="index == 3"
@@ -106,6 +101,11 @@ export default {
 
     &::-webkit-scrollbar {
       @apply hidden;
+    }
+
+    .teaser-moodboard:nth-child(n + 5) {
+      @apply
+        hidden;
     }
 
     .moodboard {

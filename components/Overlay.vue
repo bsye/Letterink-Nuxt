@@ -43,20 +43,11 @@ import { mapGetters } from "vuex";
 export default {
   watch: {
     $route() {
-      this.$root.$emit("hide-overlay", true);
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", false);
     },
   },
 
   mounted() {
-    // this.$root.$on("show-overlay", (state) => {
-    //   if (state) this.overlayOpen = state;
-    //   this.$root.$emit(state, true);
-    // });
-
-    // this.$root.$on("hide-overlay", (state) => {
-    //   this.overlayOpen = false;
-    // });
-
     if (process.client) this.$mobileFullScreen();
   },
 

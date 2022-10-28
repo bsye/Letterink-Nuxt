@@ -1,16 +1,16 @@
 <template>
   <div class="modal">
     <div class="label">
-      <span>{{ $t('board.genericError') }}</span>
+      <span>{{ $t("board.genericError") }}</span>
     </div>
 
     <form @submit.prevent="">
       <div class="form-actions">
         <ElementButton
           class="w-2/5 button white"
-          @click.native="$root.$emit('hide-overlay', true)"
+          @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         >
-          <span>{{ $t('board.continue') }}</span>
+          <span>{{ $t("board.continue") }}</span>
         </ElementButton>
       </div>
     </form>

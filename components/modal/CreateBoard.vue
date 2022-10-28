@@ -20,7 +20,9 @@
       <div class="form-actions">
         <ElementButton
           class="button white desktop"
-          @click.native="$root.$emit('modal-add-inspiration', true)"
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'addInspiration')
+          "
         >
           <span>{{ $t("board.cancel") }}</span>
         </ElementButton>
@@ -35,6 +37,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -42,10 +46,20 @@ export default {
     };
   },
 
+  computed: {
+    ...mapGetters({
+      currentMoodboard: "moodboards/getCurrentMoodboard",
+    }),
+  },
+
   methods: {
     createMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
+        this.$store.dispatch(
+          "moodboards/addToMoodboards",
+          this.currentMoodboard
+        );
         this.$store.commit(
           "moodboards/SET_ACTIVE_OVERLAY",
           "createBoardConfirmed"

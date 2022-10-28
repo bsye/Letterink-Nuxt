@@ -65,7 +65,6 @@ export default {
   async asyncData({ $graphql, route, store }) {
     try {
       // If with any filter
-      console.log(route.query.category);
       if (route.query.category || route.query.color) {
         const {
           inspirationsByCategories,
@@ -88,8 +87,6 @@ export default {
       // Without filters
       const { inspirations, inspirationsCategories, inspirationsColors } =
         await $graphql.default.request(query);
-
-      console.log(inspirationsCategories);
 
       return {
         inspirations,

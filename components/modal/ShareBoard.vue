@@ -12,7 +12,7 @@
         {{ $t("board.shareLink") }}
       </ElementButton>
       <ElementButton
-        @click.native="$root.$emit('hide-overlay', true)"
+        @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         class="button white"
       >
         <ShareNetwork v-if="shareUrl" network="facebook" :url="shareUrl">
@@ -20,7 +20,7 @@
         </ShareNetwork>
       </ElementButton>
       <ElementButton
-        @click.native="$root.$emit('hide-overlay', true)"
+        @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         class="button white"
       >
         <ShareNetwork
@@ -33,7 +33,7 @@
         </ShareNetwork>
       </ElementButton>
       <ElementButton
-        @click.native="$root.$emit('hide-overlay', true)"
+        @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         class="button white"
       >
         <ShareNetwork
@@ -46,7 +46,7 @@
         </ShareNetwork>
       </ElementButton>
       <ElementButton
-        @click.native="$root.$emit('hide-overlay', true)"
+        @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         class="button white"
       >
         <ShareNetwork

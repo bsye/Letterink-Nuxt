@@ -121,12 +121,25 @@ export const actions = {
   addToMoodboards(context, moodboards) {
     const currentInspiration = context.state.currentInspiration;
     if (!currentInspiration) return false
-    moodboards.forEach((moodboard) => {
+    // moodboards.forEach((moodboard) => {
+    //   // context.commit("ADD_TO_MOODBOARD", {
+    //   //   moodboardId: moodboard,
+    //   //   inspiration: currentInspiration,
+    //   // });
+    // })
+    if (Array.isArray(moodboards)) {
+      moodboards.forEach((moodboard) => {
+        context.commit("ADD_TO_MOODBOARD", {
+          moodboardId: moodboard,
+          inspiration: currentInspiration,
+        });
+      })
+    } else {
       context.commit("ADD_TO_MOODBOARD", {
-        moodboardId: moodboard,
+        moodboardId: moodboards,
         inspiration: currentInspiration,
       });
-    })
+    }
   },
 
   renameMoodboard(context, moodboardName) {

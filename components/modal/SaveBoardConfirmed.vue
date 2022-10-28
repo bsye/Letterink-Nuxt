@@ -1,28 +1,21 @@
 <template>
   <div class="modal">
     <div class="label">
-      <img
-        class="check"
-        src="~/assets/icons/check.svg"
-      />
-      <span>{{ $t('board.saved') }}</span>
+      <img class="check" src="~/assets/icons/check.svg" />
+      <span>{{ $t("board.saved") }}</span>
     </div>
 
     <form @submit.prevent="">
       <div class="form-actions">
         <ElementButton
           class="w-2/5 button white"
-          @click.native="$root.$emit('hide-overlay', true)"
+          @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         >
-          <span>{{ $t('board.continue') }}</span>
+          <span>{{ $t("board.continue") }}</span>
         </ElementButton>
-        <ElementButton
-          :focus="true"
-          class="button white full"
-          type="submit"
-        >
+        <ElementButton :focus="true" class="button white full" type="submit">
           <NuxtLink :to="localePath('/inspirations/user')">
-            <span>{{ $t('board.viewMoodboards') }}</span>
+            <span>{{ $t("board.viewMoodboards") }}</span>
           </NuxtLink>
         </ElementButton>
       </div>

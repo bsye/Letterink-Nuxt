@@ -1,11 +1,8 @@
 <template>
   <div class="modal">
     <div class="label">
-      <img
-        class="check"
-        src="~/assets/icons/check.svg"
-      />
-      <span>{{ $t('board.shareConfirmed') }}</span>
+      <img class="check" src="~/assets/icons/check.svg" />
+      <span>{{ $t("board.shareConfirmed") }}</span>
     </div>
 
     <form @submit.prevent="">
@@ -13,9 +10,9 @@
         <ElementButton
           class="button white full"
           :focus="true"
-          @click.native="$root.$emit('hide-overlay', true)"
+          @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         >
-          <span>{{ $t('board.continue') }}</span>
+          <span>{{ $t("board.continue") }}</span>
         </ElementButton>
       </div>
     </form>

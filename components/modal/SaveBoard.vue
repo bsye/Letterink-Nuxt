@@ -8,7 +8,9 @@
       <div class="form-actions">
         <ElementButton
           class="button white"
-          @click.native="$root.$emit('modal-add-inspiration', true)"
+          @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'addInspiration')
+          "
         >
           <span>Annulla</span>
         </ElementButton>
