@@ -54,11 +54,8 @@
 
 <script>
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Swiper, FreeMode } from "swiper";
 import "swiper/swiper-bundle.min.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default {
   props: {
