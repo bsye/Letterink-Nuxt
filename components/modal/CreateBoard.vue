@@ -10,7 +10,10 @@
       />
     </div>
 
-    <form @submit.prevent="createMoodboard">
+    <form
+      @submit.prevent="createMoodboard"
+      @keydown.enter.prevent="createMoodboard"
+    >
       <input
         type="text"
         maxlength="28"
@@ -56,10 +59,10 @@ export default {
     createMoodboard() {
       if (this.moodboardName) {
         this.$store.dispatch("moodboards/createMoodboard", this.moodboardName);
-        this.$store.dispatch(
-          "moodboards/addToMoodboards",
-          this.currentMoodboard
-        );
+        // this.$store.dispatch(
+        //   "moodboards/addToMoodboards",
+        //   this.currentMoodboard
+        // );
         this.$store.commit(
           "moodboards/SET_ACTIVE_OVERLAY",
           "createBoardConfirmed"
