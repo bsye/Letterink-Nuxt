@@ -20,6 +20,8 @@
           ref="work"
           class="work swiper-slide"
           :data-work="work.id"
+          @mouseover="setWorkDesktop(work.id)"
+          @mouseleave="resetsetWorkDesktop"
           :class="{ active: work.id == currentWorkId }"
         >
           <NuxtLink
@@ -28,11 +30,7 @@
               localePath({ name: 'works-slug', params: { slug: work.slug } })
             "
           >
-            <div
-              class="work-title"
-              @mouseover="setWorkDesktop(work.id)"
-              @mouseleave="resetsetWorkDesktop"
-            >
+            <div class="work-title">
               {{ work.title }}
               <span class="date">{{ work.date }} </span>
             </div>
@@ -185,8 +183,7 @@ export default {
 
 <style lang="scss" scoped>
 .works {
-  @apply
-    overflow-x-hidden
+  @apply overflow-x-hidden
     grow
     flex
     flex-col;
@@ -194,43 +191,38 @@ export default {
 
 *,
 .swiper-slide {
-  @apply
-    will-change-auto
+  @apply will-change-auto
     transform-gpu;
 }
 
 .slider {
-  @apply
-    grow
+  @apply grow
     relative
     flex
     flex-col;
 }
 
 .highlights {
-  @apply
-    static
+  @apply static
     grow
     w-screen;
 
   &.swiper-wrapper {
-    @apply
-      md:h-full
+    @apply md:h-full
       md:justify-evenly
       md:flex-col;
 
-      @screen md {
-        transform: none !important;
+    @screen md {
+      transform: none !important;
 
-        .swiper-slide {
-          width: unset !important;
-        }
+      .swiper-slide {
+        width: unset !important;
       }
+    }
   }
 
   .work {
-    @apply
-      text-opacity-10
+    @apply text-opacity-10
       grow
       duration-500
       odd:font-serif
@@ -242,24 +234,20 @@ export default {
     border-color: inherit;
 
     .work-title {
-      @apply
-        text-opacity-30
+      @apply text-opacity-30
         transition-all;
     }
 
     &.active {
-      @apply
-        z-50
+      @apply z-50
         opacity-100;
 
       .wrapper {
-        @apply
-          pointer-events-auto;
+        @apply pointer-events-auto;
       }
 
       .work-title {
-        @apply
-          md:scale-[1.02];
+        @apply md:scale-[1.02];
       }
     }
 
@@ -276,11 +264,10 @@ export default {
           md:px-0
           md:text-[8.5vh];
 
-        border-color: inherit;
+      border-color: inherit;
 
       &::after {
-        @apply
-          h-screen
+        @apply h-screen
           w-0
           right-0
           absolute
@@ -304,7 +291,6 @@ export default {
         writing-mode: horizontal-tb;
         line-height: 5rem;
       }
-
 
       .work-title {
         @apply flex
@@ -339,8 +325,7 @@ export default {
 }
 
 .previews {
-  @apply
-    w-full
+  @apply w-full
     will-change-auto
     absolute
     transition-none
