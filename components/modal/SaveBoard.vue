@@ -34,7 +34,7 @@ export default {
   methods: {
     saveBoard() {
       this.$store.dispatch("moodboards/saveSharedBoard");
-      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "saveBoard");
+      this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "saveBoardConfirmed");
     },
   },
 };

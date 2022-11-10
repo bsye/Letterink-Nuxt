@@ -8,14 +8,19 @@
     </div>
 
     <div class="buttons">
-      <ElementButton @click.native="linkShare()" class="button white">
+      <ElementButton @click.native="linkShare" class="button white">
         {{ $t("board.shareLink") }}
       </ElementButton>
       <ElementButton
         @click.native="$store.commit('moodboards/SET_ACTIVE_OVERLAY', false)"
         class="button white"
       >
-        <ShareNetwork v-if="shareUrl" network="facebook" :url="shareUrl">
+        <ShareNetwork
+          v-if="shareUrl"
+          network="facebook"
+          :url="shareUrl"
+          :title="getCurrentMoodboard.title"
+        >
           Facebook
         </ShareNetwork>
       </ElementButton>
@@ -92,18 +97,16 @@ export default {
     async linkShare() {
       if (!process.client) return;
       const generated = this.shareUrl;
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(generated).then(
-          () => console.log("Async: Copying to clipboard was successful!"),
-          () => console.log("error")
-        );
 
+      try {
+        await this.$copyText(generated);
+        this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", false);
+        alert("Copied");
+      } catch (e) {
         this.$store.commit(
           "moodboards/SET_ACTIVE_OVERLAY",
           "shareBoardConfirmed"
         );
-      } else {
-        this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", "genericError");
       }
     },
   },
@@ -113,8 +116,7 @@ export default {
 <style lang="scss" scoped>
 .modal {
   .warning {
-    @apply
-      text-[10px]
+    @apply text-[10px]
       leading-snug
       py-8
       text-center;

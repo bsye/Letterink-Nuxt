@@ -23,6 +23,7 @@
     "lodash.isequal": "^4.5.0",
     "node-sass": "^7.0.1",
     "nuxt": "^2.15.8",
+    "nuxt-clipboard": "^0.0.7",
     "sass-loader": "^6",
     "swiper": "^8.3.2",
     "uuid": "^8.3.2",
