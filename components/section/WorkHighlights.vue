@@ -20,8 +20,6 @@
           ref="work"
           class="work swiper-slide"
           :data-work="work.id"
-          @mouseover="setWorkDesktop(work.id)"
-          @mouseleave="resetsetWorkDesktop"
           :class="{ active: work.id == currentWorkId }"
         >
           <NuxtLink
@@ -30,7 +28,11 @@
               localePath({ name: 'works-slug', params: { slug: work.slug } })
             "
           >
-            <div class="work-title">
+            <div
+              class="work-title"
+              @mouseover="setWorkDesktop(work.id)"
+              @mouseleave="resetsetWorkDesktop"
+            >
               {{ work.title }}
               <span class="date">{{ work.date }} </span>
             </div>
@@ -270,7 +272,8 @@ export default {
       @screen md {
         @apply
           absolute
-          inset-0;
+          top-0
+          bottom-0;
       }
 
       &::after {
@@ -314,7 +317,9 @@ export default {
         @screen md {
           @apply
             w-full
-            justify-center;
+            h-full
+            justify-center
+            items-center;
         }
 
         .date {
