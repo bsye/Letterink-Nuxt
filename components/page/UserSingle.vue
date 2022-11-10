@@ -24,6 +24,12 @@
         >
         <ElementButton
           @click.native="
+            $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'deleteBoard')
+          "
+          >Elimina
+        </ElementButton>
+        <ElementButton
+          @click.native="
             $store.commit('moodboards/SET_ACTIVE_OVERLAY', 'shareBoard')
           "
           >Condividi</ElementButton

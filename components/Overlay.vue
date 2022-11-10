@@ -16,6 +16,7 @@
           v-if="activeOverlay == 'createBoardConfirmed'"
         />
         <ModalGenericError v-if="activeOverlay == 'genericError'" />
+        <ModalDeleteBoard v-if="activeOverlay == 'deleteBoard'" />
         <ModalRenameBoard v-if="activeOverlay == 'renameBoard'" />
         <ModalRenameBoardConfirmed
           v-if="activeOverlay == 'renameBoardConfirmed'"
@@ -75,6 +76,8 @@ export default {
           return this.$i18n.t("board.error");
         case "renameBoard":
           return this.$i18n.t("board.rename");
+        case "deleteBoard":
+          return this.$i18n.t("board.delete");
         case "renameBoardConfirmed":
           return this.$i18n.t("board.rename");
         case "shareBoard":
@@ -208,7 +211,8 @@ export default {
         }
       }
   
-      form {
+      form,
+      div {
         @apply flex
             flex-col
             w-full

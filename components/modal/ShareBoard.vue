@@ -101,7 +101,12 @@ export default {
       try {
         await this.$copyText(generated);
         this.$store.commit("moodboards/SET_ACTIVE_OVERLAY", false);
-        alert("Copied");
+        // let toastCopy = $t("board.shareConfirmed");
+        let toast = this.$toasted.show("Copied", {
+          theme: "toasted-primary",
+          position: "bottom-right",
+          duration: 5000,
+        });
       } catch (e) {
         this.$store.commit(
           "moodboards/SET_ACTIVE_OVERLAY",

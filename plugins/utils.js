@@ -1,4 +1,8 @@
+import Vue from "vue";
 import get from 'lodash.get';
+import Toasted from 'vue-toasted';
+
+Vue.use(Toasted);
 
 function getStyleTransformValues(el) {
   var transform = window
@@ -33,7 +37,7 @@ function isElementCentered(element) {
 
 function mobileFullScreen() {
   const appHeight = () => {
-    if(window.innerWidth >= 768) return
+    if (window.innerWidth >= 768) return
     const doc = document.documentElement;
     doc.style.setProperty("--app-height", `${window.innerHeight}px`);
   };
@@ -42,7 +46,7 @@ function mobileFullScreen() {
 }
 
 
-export default({ app }, inject) => {
+export default ({ app }, inject) => {
   inject('get', get);
   inject("getStyleTransformValues", getStyleTransformValues);
   inject("isElementCentered", isElementCentered);

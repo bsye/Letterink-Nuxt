@@ -10,6 +10,7 @@ export default {
     removeInspirationConfirm:
       "Are you sure you want to remove the inspiration?",
     rename: "Rename moodboard",
+    delete: "Delete moodboard",
     renamed: "The moodboard has been renamed",
     renameButton: "Rename",
     renameConfirm: "Insert the moodboard new name",
@@ -23,6 +24,7 @@ export default {
     duplicate: "Duplicate moodboard",
     duplicated: "The moodboard has been duplicated",
     duplicateBoardConfirm: "Are you sure you want to duplicate the moodboard?",
+    deleteBoard: "Are you sure you want to delete the moodboard?",
     error: "Error",
     genericError: "Oopsie, there was a problem. Contact us if it persists",
     goTo: "Go to your moodboards",

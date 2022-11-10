@@ -33,6 +33,13 @@ export const mutations = {
     state.userMoodboards.elements[moodboard.id].inspirationItems = inspirations
   },
 
+  DELETE_MOODBOARD(state, { moodboard }) {
+    const currentMoodboard = moodboard.id
+    const userMoodboards = state.userMoodboards.elements;
+    delete userMoodboards[currentMoodboard];
+    state.userMoodboards.elements = userMoodboards;
+  },
+
   DELETE_INSPIRATION(state, { inspiration, moodboard }) {
     const remaining = state.userMoodboards.elements[moodboard.id].inspirationItems.filter((item) => item.id != inspiration.id);
     state.userMoodboards.elements[moodboard.id].inspirationItems = remaining
@@ -104,6 +111,15 @@ export const actions = {
       title: name,
       id: uuidv4(),
       inspirationItems: [],
+    });
+  },
+
+  deleteMoodboard(context) {
+    const currentMoodboard = context.state.currentMoodboard;
+    context.commit("DELETE_MOODBOARD", {
+      moodboard: {
+        id: currentMoodboard.id,
+      },
     });
   },
 
