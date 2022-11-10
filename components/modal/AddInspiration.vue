@@ -3,7 +3,7 @@
     <picture class="inspiration-image">
       <img :src="inspirationImage" alt="" />
     </picture>
-    <form @submit.prevent="addInspiration()">
+    <div class="add-inspiration">
       <div class="fields">
         <template v-if="moodboards">
           <div
@@ -13,6 +13,7 @@
           >
             <label>
               <input
+                @click="addInspiration()"
                 type="checkbox"
                 checked
                 :name="moodboard.id"
@@ -30,6 +31,7 @@
           >
             <label>
               <input
+                @click="addInspiration()"
                 type="checkbox"
                 :name="moodboard.id"
                 ref="moodboard"
@@ -68,7 +70,7 @@
           <span>{{ $t("board.save") }}</span>
         </ElementButton>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -125,6 +127,7 @@ export default {
 
   methods: {
     addInspiration() {
+      console.log("ciaoooo");
       let toRemove = Object.keys(this.unselectedMoodboard).filter(
         (item) => this.unselectedMoodboard[item] == false
       );
@@ -183,7 +186,7 @@ export default {
       text-center;
   }
 
-  form {
+  .add-inspiration {
     @apply
       flex
       flex-col
