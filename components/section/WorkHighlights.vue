@@ -227,7 +227,7 @@ export default {
       duration-500
       odd:font-serif
 
-      first:pt-8
+      first:mt-8
       md:flex
       md:items-center;
 
@@ -252,7 +252,8 @@ export default {
     }
 
     .wrapper {
-      @apply h-full
+      @apply
+          h-full
           flex
           justify-center
           items-center
@@ -265,6 +266,12 @@ export default {
           md:text-[8.5vh];
 
       border-color: inherit;
+
+      @screen md {
+        @apply
+          absolute
+          inset-0;
+      }
 
       &::after {
         @apply h-screen
@@ -293,7 +300,8 @@ export default {
       }
 
       .work-title {
-        @apply flex
+        @apply
+          flex
           gap-x-2
           leading-none
           min-h-[56px]
@@ -302,6 +310,12 @@ export default {
           -rotate-180
           
           md:rotate-0;
+
+        @screen md {
+          @apply
+            w-full
+            justify-center;
+        }
 
         .date {
           @apply text-sm
